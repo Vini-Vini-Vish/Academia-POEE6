@@ -1,13 +1,13 @@
 package com.academia.view;
 
-import java.awt.BorderLayout;
+import java.awt.BorderLayout; 
 import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import com.academia.estrutura.util.VariaveisProjeto;
 import com.academia.model.models.Usuario;
 import com.academia.model.service.UsuarioService;
-
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
@@ -19,6 +19,8 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JComboBox;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 
 public class UsuarioGUI extends JFrame {
 
@@ -98,16 +100,38 @@ public class UsuarioGUI extends JFrame {
 		});
 		
 		//-----------------------------------------------------------------//		
+		
 		btnAlterar = new JButton("Alterar");
+		btnAlterar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				AlterarUsuario();
+			}
+		});
+		
+		//-----------------------------------------------------------------//	
 		
 		btnExcluir = new JButton("Excluir");
+		btnExcluir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ExcluirUsuario();
+			}
+		});
 		
 		btnSair = new JButton("Sair");
+		
+		//-----------------------------------------------------------------//		
 		
 		JLabel lblCodigo = new JLabel("Codigo");
 		
 		textFieldCodigo = new JTextField();
+		textFieldCodigo.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusLost(FocusEvent e) {
+				BuscarUsuario();	
+			}
+		});
 		textFieldCodigo.setColumns(10);
+		 
 		//-----------------------------------------------------------------//	
 				
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
@@ -209,9 +233,57 @@ public class UsuarioGUI extends JFrame {
 		});
 	}
 	
+	private void BuscarUsuario(){
+		Usuario usuario = new Usuario();
+		UsuarioService usuarioservice = new UsuarioService();
+		
+		if(VariaveisProjeto.digitacaoCampo(textFieldCodigo.getText())) {
+			textFieldCodigo.requestFocus();
+			return;
+		}
+		
+		Integer id = Integer.valueOf(textFieldCodigo.getText()); 
+		
+		usuario = usuarioservice.findById(id);		
+		
+		textFieldName.setText(usuario.getUsername());
+		textFieldEmail.setText(usuario.getEmail());
+		passwordFieldPassword.setText(usuario.getPassword()); 
+		
+		if(usuario.isAdmin()) {
+			rdbtnAdmin.setSelected(true);
+		}
+		
+		if(usuario.isAtivo()) {
+			rdbtnAtivo.setSelected(true);
+		} 
+		
+	}
+	
+	protected void AlterarUsuario() {
+		Usuario usuario = PegarDadosUsuario();
+		UsuarioService usuarioservice = new UsuarioService();
+		
+		usuarioservice.update(usuario);		
+	}	
+	
+	protected void ExcluirUsuario() {
+		Usuario usuario = PegarDadosUsuario();
+		
+		UsuarioService usuarioservice = new UsuarioService();
+		
+		usuarioservice.save(usuario);
+		
+		usuarioservice.delete(usuario);
+	}	
+	
 	@SuppressWarnings("deprecation")
 	public Usuario PegarDadosUsuario() {
+		
 		Usuario usuario = new Usuario();
+		if(!"".equals(textFieldCodigo.getText())) {
+			usuario.setId(Integer.valueOf(textFieldCodigo.getText()));
+		}
 		
 		usuario.setId(Integer.valueOf(textFieldCodigo.getText()));
 		usuario.setUsername(textFieldName.getText());
