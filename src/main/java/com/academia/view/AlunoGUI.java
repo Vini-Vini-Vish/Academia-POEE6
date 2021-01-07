@@ -1,11 +1,13 @@
 package com.academia.view;
 
-import java.awt.BorderLayout;
+import java.awt.BorderLayout; 
 import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import com.academia.estrutura.util.VariaveisProjeto;
 import com.academia.model.models.Aluno;
+import com.academia.model.service.AlunoService;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
@@ -15,6 +17,8 @@ import javax.swing.JRadioButton;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 
 public class AlunoGUI extends JFrame {
 
@@ -43,6 +47,8 @@ public class AlunoGUI extends JFrame {
 	
 	private JRadioButton rdbtnActivity;
 	private JButton btnSair;
+	private JLabel lblCodigo;
+	private JTextField textFieldCodigo;
 
 	/**
 	 * Launch the application.
@@ -64,6 +70,7 @@ public class AlunoGUI extends JFrame {
 	 * Create the frame.
 	 */
 	public AlunoGUI() {
+		setTitle("Cadastro Aluno");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 779, 445);
 		contentPane = new JPanel();
@@ -125,12 +132,50 @@ public class AlunoGUI extends JFrame {
 		
 		//-----------------------------------------------------------------//		
 		btnIncluir = new JButton("Incluir");
+		btnIncluir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				IncluirAluno();
+			}
+		});
+		
+		//-----------------------------------------------------------------//	
 		
 		btnAlterar = new JButton("Alterar");
+		btnAlterar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				AlterarAluno();
+			}
+		});
+		
+		//-----------------------------------------------------------------//
 		
 		btnExcluir = new JButton("Excluir");
+		btnExcluir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ExcluirAluno();
+			}
+		});
+		
+		//-----------------------------------------------------------------//
 		
 		btnSair = new JButton("Sair");		
+		
+		//-----------------------------------------------------------------//
+		
+		lblCodigo = new JLabel("Codigo");
+		
+		textFieldCodigo = new JTextField();
+		textFieldCodigo.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusLost(FocusEvent e) {
+				BuscarAluno();
+			}
+		});
+		
+		//-----------------------------------------------------------------//
+		
+		textFieldCodigo.setText("");
+		textFieldCodigo.setColumns(10);
 		//-----------------------------------------------------------------//	
 		
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
@@ -141,37 +186,41 @@ public class AlunoGUI extends JFrame {
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-								.addComponent(lblName)
-								.addComponent(lblGender)
 								.addComponent(lblAdress)
-								.addComponent(lblNeighborhood))
+								.addComponent(lblNeighborhood)
+								.addComponent(lblGender)
+								.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
+									.addComponent(lblCodigo)
+									.addComponent(lblName)))
 							.addGap(29)
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-								.addComponent(textFieldNome, GroupLayout.PREFERRED_SIZE, 590, GroupLayout.PREFERRED_SIZE)
-								.addGroup(gl_contentPane.createSequentialGroup()
-									.addComponent(textFieldNeighborhood, GroupLayout.PREFERRED_SIZE, 272, GroupLayout.PREFERRED_SIZE)
-									.addGap(40)
-									.addComponent(lblCity)
-									.addGap(18)
-									.addComponent(textFieldCity, 223, 223, 223))
-								.addGroup(gl_contentPane.createSequentialGroup()
-									.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-										.addComponent(textFieldAdress, GroupLayout.PREFERRED_SIZE, 422, GroupLayout.PREFERRED_SIZE)
-										.addGroup(gl_contentPane.createSequentialGroup()
-											.addComponent(textFieldGender, GroupLayout.PREFERRED_SIZE, 143, GroupLayout.PREFERRED_SIZE)
-											.addGap(43)
-											.addComponent(lblIdade)
-											.addGap(27)
-											.addComponent(textFieldAge, GroupLayout.PREFERRED_SIZE, 73, GroupLayout.PREFERRED_SIZE)
-											.addGap(52)
-											.addComponent(lblTelephone)))
-									.addGap(18)
-									.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-										.addComponent(textFieldTelephone, GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
-										.addGroup(gl_contentPane.createSequentialGroup()
-											.addComponent(lblNumber)
-											.addGap(18)
-											.addComponent(textFieldNumber, GroupLayout.DEFAULT_SIZE, 91, Short.MAX_VALUE))))))
+								.addComponent(textFieldCodigo, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+									.addComponent(textFieldNome, GroupLayout.PREFERRED_SIZE, 590, GroupLayout.PREFERRED_SIZE)
+									.addGroup(gl_contentPane.createSequentialGroup()
+										.addComponent(textFieldNeighborhood, GroupLayout.PREFERRED_SIZE, 272, GroupLayout.PREFERRED_SIZE)
+										.addGap(40)
+										.addComponent(lblCity)
+										.addGap(18)
+										.addComponent(textFieldCity, 223, 223, 223))
+									.addGroup(gl_contentPane.createSequentialGroup()
+										.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+											.addComponent(textFieldAdress, GroupLayout.PREFERRED_SIZE, 422, GroupLayout.PREFERRED_SIZE)
+											.addGroup(gl_contentPane.createSequentialGroup()
+												.addComponent(textFieldGender, GroupLayout.PREFERRED_SIZE, 143, GroupLayout.PREFERRED_SIZE)
+												.addGap(43)
+												.addComponent(lblIdade)
+												.addGap(27)
+												.addComponent(textFieldAge, GroupLayout.PREFERRED_SIZE, 73, GroupLayout.PREFERRED_SIZE)
+												.addGap(52)
+												.addComponent(lblTelephone)))
+										.addGap(18)
+										.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+											.addComponent(textFieldTelephone, GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
+											.addGroup(gl_contentPane.createSequentialGroup()
+												.addComponent(lblNumber)
+												.addGap(18)
+												.addComponent(textFieldNumber, GroupLayout.DEFAULT_SIZE, 91, Short.MAX_VALUE)))))))
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 								.addComponent(lblPostalCode)
@@ -198,7 +247,10 @@ public class AlunoGUI extends JFrame {
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
-					.addGap(28)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+						.addComponent(textFieldCodigo, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblCodigo))
+					.addGap(14)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblName)
 						.addComponent(textFieldNome, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
@@ -250,8 +302,72 @@ public class AlunoGUI extends JFrame {
 		});
 	}
 	
+	private void IncluirAluno() {
+		
+		Aluno aluno  = PegarDadosAluno();
+		//System.out.println(aluno.toString());
+
+		AlunoService alunoservice = new AlunoService();
+		
+		alunoservice.save(aluno);
+	}
+	
+	protected void AlterarAluno() {
+		
+		Aluno aluno  = PegarDadosAluno();
+		AlunoService alunoservice = new AlunoService();
+		
+		alunoservice.update(aluno);		
+	}	
+	
+	protected void ExcluirAluno() {
+		
+		Aluno aluno  = PegarDadosAluno();
+		
+		AlunoService alunoservice = new AlunoService();
+		
+		alunoservice.save(aluno);
+		
+		alunoservice.delete(aluno);
+	}
+	
+	private void BuscarAluno(){
+		Aluno aluno = new Aluno();
+		AlunoService alunoservice = new AlunoService();
+		
+		if(VariaveisProjeto.digitacaoCampo(textFieldCodigo.getText())) {
+			textFieldCodigo.requestFocus();
+			return;
+		}
+		
+		Integer id = Integer.valueOf(textFieldCodigo.getText()); 
+		
+		aluno = alunoservice.findById(id);		
+		
+		aluno.setName(textFieldNome.getText());
+		aluno.setGender(textFieldGender.getText());	
+		aluno.setAge(textFieldAge.getColumns());		
+		aluno.setAdress(textFieldAdress.getText());		
+		aluno.setNumber(textFieldNumber.getColumns());		
+		aluno.setNeighborhood(textFieldNeighborhood.getText());			
+		aluno.setCity(textFieldCity.getText());				
+		aluno.setTelephone(textFieldTelephone.getColumns());			
+		aluno.setPostal_code(textFieldPostalCode.getColumns());			
+		aluno.setPeriod(textFieldPeriod.getText());
+		
+		
+		if(aluno.isActivity()) {
+			rdbtnActivity.setSelected(true);
+		} 
+		
+	}
+	
 	public Aluno PegarDadosAluno() {
 		Aluno aluno = new Aluno();
+		
+		if(!"".equals(textFieldCodigo.getText())) {
+			aluno.setIdAluno(Integer.valueOf(textFieldCodigo.getText()));
+		}
 		
 		aluno.setName(textFieldNome.getText());
 		aluno.setGender(textFieldGender.getText());	
