@@ -17,6 +17,11 @@ public class VariaveisProjeto {
 		if(Objects.isNull(texto)) {
 			return true;
 		}		
+		
+		if("".equals(String.valueOf(texto))) {
+			return true;
+		}
+		
 		return false;
 	}
 	
@@ -28,6 +33,7 @@ public class VariaveisProjeto {
 		if("".equals(texto.trim())) {
 			return true;
 		}
+		
 		return false;
 	}
 }
