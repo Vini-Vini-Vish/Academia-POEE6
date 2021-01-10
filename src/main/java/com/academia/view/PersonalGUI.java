@@ -164,6 +164,7 @@ public class PersonalGUI extends JFrame {
 		btnSair = new JButton("Sair");		
 		
 		//-----------------------------------------------------------------//
+		
 		lblCodigo = new JLabel("Codigo");
 		
 		textFieldCodigo = new JTextField();
@@ -174,6 +175,7 @@ public class PersonalGUI extends JFrame {
 			}
 		});
 		textFieldCodigo.setColumns(10);
+		
 		//-----------------------------------------------------------------//	
 		
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
@@ -250,6 +252,9 @@ public class PersonalGUI extends JFrame {
 										.addComponent(textFieldPeriod, GroupLayout.PREFERRED_SIZE, 232, GroupLayout.PREFERRED_SIZE)
 										.addContainerGap()))))))
 		);
+		
+		//-----------------------------------------------------------------//
+		
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
@@ -304,11 +309,17 @@ public class PersonalGUI extends JFrame {
 						.addComponent(btnExcluir))
 					.addGap(54))
 		);
+		
+		//-----------------------------------------------------------------//
+		
 		contentPane.setLayout(gl_contentPane);
 		createEvents();
 	}
 	
+	//-----------------------------------------------------------------//
+	
 	private void createEvents() {
+		
 		btnSair.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
@@ -316,7 +327,8 @@ public class PersonalGUI extends JFrame {
 		});
 	}
 	
-	//-----------------------------------------------------------------------
+	//-----------------------------------------------------------------------//
+	
 	private void IncluirPersonal() {
 		
 		Personal personal  = PegarDadosPersonal();
@@ -327,6 +339,8 @@ public class PersonalGUI extends JFrame {
 		personalservice.save(personal);
 	}
 	
+	//-----------------------------------------------------------------//
+	
 	protected void AlterarPersonal() {
 		
 		Personal personal  = PegarDadosPersonal();
@@ -334,6 +348,8 @@ public class PersonalGUI extends JFrame {
 		
 		personalservice.update(personal);		
 	}	
+	
+	//-----------------------------------------------------------------//
 	
 	protected void ExcluirPersonal() {
 		
@@ -346,7 +362,10 @@ public class PersonalGUI extends JFrame {
 		personalservice.delete(personal);
 	}
 	
+	//-----------------------------------------------------------------//
+	
 	private void BuscarPersonal(){
+		
 		Personal personal = new Personal();
 		PersonalService personalservice = new PersonalService();
 		
@@ -377,9 +396,11 @@ public class PersonalGUI extends JFrame {
 		} 
 		
 	}
-	//-----------------------------------------------------------------------
+	
+	//-----------------------------------------------------------------//
 	
 	public Personal PegarDadosPersonal() {
+		
 		Personal personal = new Personal();
 		
 		personal.setName(textFieldName.getText());
