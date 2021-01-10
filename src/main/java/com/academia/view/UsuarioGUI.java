@@ -21,6 +21,8 @@ import java.awt.event.ActionEvent;
 import javax.swing.JComboBox;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class UsuarioGUI extends JFrame {
 
@@ -69,25 +71,110 @@ public class UsuarioGUI extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		
+		//-----------------------------------------------------------------//		
+		
+		JLabel lblCodigo = new JLabel("Codigo");
+		
+		textFieldCodigo = new JTextField();
+		
+		textFieldCodigo.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				
+				BuscarUsuario();	
+				
+				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+					textFieldName.requestFocus();
+				}
+			}
+		});
+		
+		textFieldCodigo.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusLost(FocusEvent e) {
+				
+				BuscarUsuario();	
+			}
+		});
+		textFieldCodigo.setColumns(10);
+				 
+		//-----------------------------------------------------------------//		
+		
 		JLabel lblName = new JLabel("Nome:");
 		
 		textFieldName = new JTextField();
+		
+		textFieldName.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				
+				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+					textFieldEmail.requestFocus();
+				}				
+			}
+		});
 		textFieldName.setColumns(10);
+		
+		//-----------------------------------------------------------------//		
 		
 		JLabel lblEmail = new JLabel("Email:");
 		
 		textFieldEmail = new JTextField();
+		
+		textFieldEmail.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				
+				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+					passwordFieldPassword.requestFocus();
+				}
+			}
+		});
 		textFieldEmail.setColumns(10);
+		
+		//-----------------------------------------------------------------//		
 		
 		JLabel lblPassword = new JLabel("Senha:");
 		
 		passwordFieldPassword = new JPasswordField();
 		
+		passwordFieldPassword.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				
+				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+					rdbtnAtivo.requestFocus();
+				}
+			}
+		});
+		
 		//-----------------------------------------------------------------//		
 		
 		rdbtnAtivo = new JRadioButton("Ativo");
 		
+		rdbtnAtivo.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				
+				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+					rdbtnAdmin.requestFocus();
+				}
+			}
+		});
+		
+		//-----------------------------------------------------------------//	
+		
 		rdbtnAdmin = new JRadioButton("Adimistrador");
+		
+		rdbtnAdmin.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				
+				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+					btnIncluir.requestFocus();
+				}
+			}
+		});
 		
 		//-----------------------------------------------------------------//		
 		
@@ -119,19 +206,6 @@ public class UsuarioGUI extends JFrame {
 		
 		btnSair = new JButton("Sair");
 		
-		//-----------------------------------------------------------------//		
-		
-		JLabel lblCodigo = new JLabel("Codigo");
-		
-		textFieldCodigo = new JTextField();
-		textFieldCodigo.addFocusListener(new FocusAdapter() {
-			@Override
-			public void focusLost(FocusEvent e) {
-				BuscarUsuario();	
-			}
-		});
-		textFieldCodigo.setColumns(10);
-		 
 		//-----------------------------------------------------------------//	
 				
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
@@ -231,7 +305,9 @@ public class UsuarioGUI extends JFrame {
 		UsuarioService usuarioservice = new UsuarioService();
 		
 		usuarioservice.save(usuario);
-	}
+		
+		limpaTextoCampo();
+	}	
 	
 	//-----------------------------------------------------------------//	
 	
@@ -300,11 +376,12 @@ public class UsuarioGUI extends JFrame {
 	public Usuario PegarDadosUsuario() {
 		
 		Usuario usuario = new Usuario();
+		
 		if(!"".equals(textFieldCodigo.getText())) {
 			usuario.setId(Integer.valueOf(textFieldCodigo.getText()));
 		}
 		
-		usuario.setId(Integer.valueOf(textFieldCodigo.getText()));
+		usuario.setId(VariaveisProjeto.convertToInteger(textFieldCodigo.getText()));
 		usuario.setUsername(textFieldName.getText());
 		usuario.setEmail(textFieldEmail.getText());
 		usuario.setPassword(passwordFieldPassword.getText());
@@ -323,4 +400,15 @@ public class UsuarioGUI extends JFrame {
 		
 		return usuario;
 	}
+	
+	private void limpaTextoCampo() {
+		
+		textFieldCodigo.setText(VariaveisProjeto.LIMPA_CAMPO);
+		textFieldName.setText(VariaveisProjeto.LIMPA_CAMPO);
+		textFieldEmail.setText(VariaveisProjeto.LIMPA_CAMPO);
+		passwordFieldPassword.setText(VariaveisProjeto.LIMPA_CAMPO);
+		rdbtnAdmin.setText(VariaveisProjeto.LIMPA_CAMPO);
+		rdbtnAtivo.setText(VariaveisProjeto.LIMPA_CAMPO);
+	}
+	
 }
