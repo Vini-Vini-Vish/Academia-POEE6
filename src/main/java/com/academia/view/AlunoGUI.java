@@ -19,6 +19,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class AlunoGUI extends JFrame {
 
@@ -77,63 +79,224 @@ public class AlunoGUI extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		
+		//-----------------------------------------------------------------//
+		
+		lblCodigo = new JLabel("Codigo");
+		
+		textFieldCodigo = new JTextField();
+		
+		textFieldCodigo.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				
+				BuscarAluno();
+				
+				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+					textFieldNome.requestFocus();
+				}
+			}
+		});
+		
+		textFieldCodigo.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusLost(FocusEvent e) {
+				
+				BuscarAluno();
+			}
+		});
+				
+		//-----------------------------------------------------------------//	
+		
 		JLabel lblName = new JLabel("Nome:");
 		
 		textFieldNome = new JTextField();
+		
+		textFieldNome.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				
+				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+					textFieldGender.requestFocus();
+				}
+			}
+		});
 		textFieldNome.setColumns(10);
+		
+		//-----------------------------------------------------------------//	
 		
 		JLabel lblGender = new JLabel("Genero:");
 		
 		textFieldGender = new JTextField();
+		
+		textFieldGender.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				
+				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+					textFieldAge.requestFocus();
+				}
+			}
+		});
 		textFieldGender.setColumns(10);
+		
+		//-----------------------------------------------------------------//	
 		
 		JLabel lblIdade = new JLabel("Idade");
 		
 		textFieldAge = new JTextField();
+		
+		textFieldAge.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				
+				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+					textFieldTelephone.requestFocus();
+				}
+			}
+		});
 		textFieldAge.setColumns(10);
+		
+		//-----------------------------------------------------------------//	
 		
 		lblAdress = new JLabel("Endereço:");
 		
 		textFieldAdress = new JTextField();
+		
+		textFieldAdress.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				
+				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+					textFieldNumber.requestFocus();
+				}
+			}
+		});
 		textFieldAdress.setColumns(10);
+		
+		//-----------------------------------------------------------------//	
 		
 		lblNumber = new JLabel("Numero:");
 		
 		textFieldNumber = new JTextField();
+		
+		textFieldNumber.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				
+				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+					textFieldNeighborhood.requestFocus();
+				}
+			}
+		});
 		textFieldNumber.setColumns(10);
+		
+		//-----------------------------------------------------------------//	
 		
 		lblNeighborhood = new JLabel("Bairro:");
 		
 		textFieldNeighborhood = new JTextField();
+		
+		textFieldNeighborhood.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				
+				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+					textFieldCity.requestFocus();
+				}
+			}
+		});
 		textFieldNeighborhood.setColumns(10);
+		
+		//-----------------------------------------------------------------//	
 		
 		lblCity = new JLabel("Cidade:");
 		
 		textFieldCity = new JTextField();
+		
+		textFieldCity.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				
+				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+					textFieldPostalCode.requestFocus();
+				}
+			}
+		});
 		textFieldCity.setColumns(10);
+		
+		//-----------------------------------------------------------------//	
 		
 		lblTelephone = new JLabel("Telefone:");
 		
 		textFieldTelephone = new JTextField();
+		
+		textFieldTelephone.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				
+				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+					textFieldAdress.requestFocus();
+				}
+			}
+		});
 		textFieldTelephone.setColumns(10);
+		
+		//-----------------------------------------------------------------//	
 		
 		lblPostalCode = new JLabel("Codigo Postal:");
 		
 		textFieldPostalCode = new JTextField();
+		
+		textFieldPostalCode.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				
+				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+					textFieldPeriod.requestFocus();
+				}
+			}
+		});
 		textFieldPostalCode.setColumns(10);
+		
+		//-----------------------------------------------------------------//	
 		
 		lblPeriod = new JLabel("Periodo:");
 		
 		textFieldPeriod = new JTextField();
+		
+		textFieldPeriod.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				
+				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+					rdbtnActivity.requestFocus();
+				}
+			}
+		});
 		textFieldPeriod.setText("");
 		textFieldPeriod.setColumns(10);
 		
+		//-----------------------------------------------------------------//	
+		
 		rdbtnActivity = new JRadioButton("Ativo");
 		
+		rdbtnActivity.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				
+				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+					btnIncluir.requestFocus();
+				}
+			}
+		});
+		
 		//-----------------------------------------------------------------//		
+		
 		btnIncluir = new JButton("Incluir");
+		
 		btnIncluir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
 				IncluirAluno();
 			}
 		});
@@ -141,8 +304,10 @@ public class AlunoGUI extends JFrame {
 		//-----------------------------------------------------------------//	
 		
 		btnAlterar = new JButton("Alterar");
+		
 		btnAlterar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
 				AlterarAluno();
 			}
 		});
@@ -150,8 +315,10 @@ public class AlunoGUI extends JFrame {
 		//-----------------------------------------------------------------//
 		
 		btnExcluir = new JButton("Excluir");
+		
 		btnExcluir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
 				ExcluirAluno();
 			}
 		});
@@ -162,20 +329,9 @@ public class AlunoGUI extends JFrame {
 		
 		//-----------------------------------------------------------------//
 		
-		lblCodigo = new JLabel("Codigo");
-		
-		textFieldCodigo = new JTextField();
-		textFieldCodigo.addFocusListener(new FocusAdapter() {
-			@Override
-			public void focusLost(FocusEvent e) {
-				BuscarAluno();
-			}
-		});
-		
-		//-----------------------------------------------------------------//
-		
 		textFieldCodigo.setText("");
 		textFieldCodigo.setColumns(10);
+		
 		//-----------------------------------------------------------------//	
 		
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
@@ -321,6 +477,8 @@ public class AlunoGUI extends JFrame {
 		AlunoService alunoservice = new AlunoService();
 		
 		alunoservice.save(aluno);
+		
+		limpaTextoCampo();
 	}
 	
 	//-----------------------------------------------------------------//
@@ -390,6 +548,7 @@ public class AlunoGUI extends JFrame {
 			aluno.setIdAluno(Integer.valueOf(textFieldCodigo.getText()));
 		}
 		
+		aluno.setIdAluno(VariaveisProjeto.convertToInteger(textFieldCodigo.getText()));
 		aluno.setName(textFieldNome.getText());
 		aluno.setGender(textFieldGender.getText());	
 		aluno.setAge(textFieldAge.getColumns());		
@@ -408,6 +567,23 @@ public class AlunoGUI extends JFrame {
 		}
 		
 		return aluno;
+	}
+	
+	private void limpaTextoCampo() {
+		
+		textFieldCodigo.setText(VariaveisProjeto.LIMPA_CAMPO);
+		textFieldNome.setText(VariaveisProjeto.LIMPA_CAMPO);
+		textFieldGender.setText(VariaveisProjeto.LIMPA_CAMPO);
+		textFieldAge.setText(VariaveisProjeto.LIMPA_CAMPO);
+		textFieldAdress.setText(VariaveisProjeto.LIMPA_CAMPO);		
+		textFieldNumber.setText(VariaveisProjeto.LIMPA_CAMPO);
+		textFieldNeighborhood.setText(VariaveisProjeto.LIMPA_CAMPO);
+		textFieldCity.setText(VariaveisProjeto.LIMPA_CAMPO);
+		textFieldTelephone.setText(VariaveisProjeto.LIMPA_CAMPO);
+		textFieldPostalCode.setText(VariaveisProjeto.LIMPA_CAMPO);
+		textFieldPeriod.setText(VariaveisProjeto.LIMPA_CAMPO);		
+		rdbtnActivity.setText(VariaveisProjeto.LIMPA_CAMPO);
+		
 	}
 	
 }
