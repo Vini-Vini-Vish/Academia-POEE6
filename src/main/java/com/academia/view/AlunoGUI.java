@@ -244,6 +244,9 @@ public class AlunoGUI extends JFrame {
 							.addComponent(btnSair, GroupLayout.PREFERRED_SIZE, 65, GroupLayout.PREFERRED_SIZE)))
 					.addGap(61))
 		);
+		
+		//-----------------------------------------------------------------//
+		
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
@@ -290,17 +293,25 @@ public class AlunoGUI extends JFrame {
 						.addComponent(btnAlterar, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE))
 					.addContainerGap(112, Short.MAX_VALUE))
 		);
+		
+		//-----------------------------------------------------------------//
+		
 		contentPane.setLayout(gl_contentPane);
 		createEvents();
 	}
 	
+	//-----------------------------------------------------------------//
+	
 	private void createEvents() {
+		
 		btnSair.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
 			}
 		});
 	}
+	
+	//-----------------------------------------------------------------//
 	
 	private void IncluirAluno() {
 		
@@ -312,6 +323,8 @@ public class AlunoGUI extends JFrame {
 		alunoservice.save(aluno);
 	}
 	
+	//-----------------------------------------------------------------//
+	
 	protected void AlterarAluno() {
 		
 		Aluno aluno  = PegarDadosAluno();
@@ -319,6 +332,8 @@ public class AlunoGUI extends JFrame {
 		
 		alunoservice.update(aluno);		
 	}	
+	
+	//-----------------------------------------------------------------//
 	
 	protected void ExcluirAluno() {
 		
@@ -331,7 +346,10 @@ public class AlunoGUI extends JFrame {
 		alunoservice.delete(aluno);
 	}
 	
+	//-----------------------------------------------------------------//
+	
 	private void BuscarAluno(){
+		
 		Aluno aluno = new Aluno();
 		AlunoService alunoservice = new AlunoService();
 		
@@ -362,7 +380,10 @@ public class AlunoGUI extends JFrame {
 		
 	}
 	
+	//-----------------------------------------------------------------//
+	
 	public Aluno PegarDadosAluno() {
+		
 		Aluno aluno = new Aluno();
 		
 		if(!"".equals(textFieldCodigo.getText())) {
