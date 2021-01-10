@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import com.academia.estrutura.util.VariaveisProjeto;
 import com.academia.model.models.Personal;
+import com.academia.model.models.Usuario;
 import com.academia.model.service.PersonalService;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -19,6 +20,8 @@ import java.awt.event.ActionEvent;
 import javax.swing.JRadioButton;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class PersonalGUI extends JFrame {
 
@@ -72,65 +75,235 @@ public class PersonalGUI extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		
+		//-----------------------------------------------------------------//
+		
+		lblCodigo = new JLabel("Codigo");
+		
+		textFieldCodigo = new JTextField();
+		
+		textFieldCodigo.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				
+				BuscarPersonal();
+				
+				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+					textFieldName.requestFocus();
+				}
+			}
+		});
+		
+		textFieldCodigo.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusLost(FocusEvent e) {
+				BuscarPersonal();
+			}
+		});
+		textFieldCodigo.setColumns(10);
+				
+		//-----------------------------------------------------------------//
+		
 		JLabel lblName = new JLabel("Nome:");
 		
 		textFieldName = new JTextField();
+		
+		textFieldName.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				
+				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+					textFieldAge.requestFocus();
+				}
+			}
+		});
 		textFieldName.setColumns(10);
+		
+		//-----------------------------------------------------------------//
 		
 		JLabel lblAge = new JLabel("Idade:");
 		
 		textFieldAge = new JTextField();
+		
+		textFieldAge.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				
+				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+					textFieldTelephone.requestFocus();
+				}
+			}
+		});
 		textFieldAge.setText("");
 		textFieldAge.setColumns(10);
+		
+		//-----------------------------------------------------------------//
 		
 		JLabel lblAdress = new JLabel("Endereço:");
 		
 		textFieldAdress = new JTextField();
+		
+		textFieldAdress.addKeyListener(new KeyAdapter() {			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				
+				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+					textFieldNumber.requestFocus();
+				}
+			}
+		});
 		textFieldAdress.setColumns(10);
+		
+		//-----------------------------------------------------------------//
 		
 		JLabel lblNumberl = new JLabel("Numero:");
 		
 		textFieldNumber = new JTextField();
+		
+		textFieldNumber.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				
+				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+					textFieldNeightbornhood.requestFocus();
+				}
+			}
+		});
 		textFieldNumber.setColumns(10);
+		
+		//-----------------------------------------------------------------//
 		
 		JLabel lblNeightbornhood = new JLabel("Bairro:");
 		
 		textFieldNeightbornhood = new JTextField();
+		
+		textFieldNeightbornhood.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				
+				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+					textFieldCity.requestFocus();
+				}
+			}
+		});
 		textFieldNeightbornhood.setColumns(10);
+		
+		//-----------------------------------------------------------------//
 		
 		JLabel lblCity = new JLabel("Cidade:");
 		
 		textFieldCity = new JTextField();
+		
+		textFieldCity.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				
+				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+					textFieldCodePost.requestFocus();
+				}
+			}
+		});
 		textFieldCity.setColumns(10);
+		
+		//-----------------------------------------------------------------//
 		
 		JLabel lblTelephone = new JLabel("Telefone:");
 		
 		textFieldTelephone = new JTextField();
+		
+		textFieldTelephone.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				
+				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+					textFieldGender.requestFocus();
+				}
+			}
+		});
 		textFieldTelephone.setColumns(10);
+		
+		//-----------------------------------------------------------------//
 		
 		JLabel lblPostalCode = new JLabel("Codigo Postal:");
 		
 		textFieldCodePost = new JTextField();
+		
+		textFieldCodePost.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				
+				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+					textFieldPeriod.requestFocus();
+				}
+			}
+		});
 		textFieldCodePost.setColumns(10);
+		
+		//-----------------------------------------------------------------//
 		
 		JLabel lblGender = new JLabel("Genero:");
 		
 		textFieldGender = new JTextField();
+		
+		textFieldGender.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				
+				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+					textFieldAdress.requestFocus();
+				}
+			}
+		});
 		textFieldGender.setColumns(10);
+		
+		//-----------------------------------------------------------------//
 		
 		JLabel lblPeriod = new JLabel("Periodo:");
 		
 		textFieldPeriod = new JTextField();
+		
+		textFieldPeriod.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				
+				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+					textFieldCref.requestFocus();
+				}
+			}
+		});
 		textFieldPeriod.setText("");
 		textFieldPeriod.setColumns(10);
+		
+		//-----------------------------------------------------------------//
 		
 		JLabel lblCref = new JLabel("CREF:");
 		
 		textFieldCref = new JTextField();
+		
+		textFieldCref.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				
+				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+					rdbtnActivity.requestFocus();
+				}
+			}
+		});
 		textFieldCref.setText("");
 		textFieldCref.setColumns(10);
 		
+		//-----------------------------------------------------------------//
+		
 		rdbtnActivity = new JRadioButton("Ativo");
+		
+		rdbtnActivity.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				
+				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+					btnIncluir.requestFocus();
+				}
+			}
+		});
 		
 		//-----------------------------------------------------------------//	
 		
@@ -163,19 +336,6 @@ public class PersonalGUI extends JFrame {
 		
 		btnSair = new JButton("Sair");		
 		
-		//-----------------------------------------------------------------//
-		
-		lblCodigo = new JLabel("Codigo");
-		
-		textFieldCodigo = new JTextField();
-		textFieldCodigo.addFocusListener(new FocusAdapter() {
-			@Override
-			public void focusLost(FocusEvent e) {
-				BuscarPersonal();
-			}
-		});
-		textFieldCodigo.setColumns(10);
-		
 		//-----------------------------------------------------------------//	
 		
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
@@ -187,74 +347,69 @@ public class PersonalGUI extends JFrame {
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addComponent(lblCodigo)
 							.addContainerGap())
-						.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-							.addGroup(gl_contentPane.createSequentialGroup()
-								.addComponent(rdbtnActivity)
-								.addContainerGap())
-							.addGroup(gl_contentPane.createSequentialGroup()
-								.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-									.addComponent(lblNeightbornhood)
-									.addComponent(lblCity)
-									.addComponent(lblPeriod)
-									.addComponent(lblAdress)
-									.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING, false)
-										.addComponent(lblName, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-										.addComponent(lblAge, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-									.addComponent(btnIncluir))
-								.addGap(17)
-								.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-									.addGroup(gl_contentPane.createSequentialGroup()
-										.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+								.addComponent(lblNeightbornhood)
+								.addComponent(lblCity)
+								.addComponent(lblPeriod)
+								.addComponent(lblAdress)
+								.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING, false)
+									.addComponent(lblName, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+									.addComponent(lblAge, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+								.addComponent(btnIncluir))
+							.addGap(17)
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_contentPane.createSequentialGroup()
+									.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+										.addGroup(gl_contentPane.createSequentialGroup()
+											.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+												.addComponent(textFieldCity, GroupLayout.DEFAULT_SIZE, 345, Short.MAX_VALUE)
+												.addGroup(gl_contentPane.createSequentialGroup()
+													.addGap(1)
+													.addComponent(btnAlterar)
+													.addGap(18)
+													.addComponent(btnExcluir, GroupLayout.PREFERRED_SIZE, 74, GroupLayout.PREFERRED_SIZE)))
+											.addPreferredGap(ComponentPlacement.RELATED)
+											.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
+												.addGroup(gl_contentPane.createSequentialGroup()
+													.addGap(47)
+													.addComponent(lblPostalCode)
+													.addGap(18)
+													.addComponent(textFieldCodePost, GroupLayout.PREFERRED_SIZE, 111, GroupLayout.PREFERRED_SIZE))
+												.addComponent(btnSair, GroupLayout.PREFERRED_SIZE, 65, GroupLayout.PREFERRED_SIZE)))
+										.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
+											.addComponent(textFieldName)
 											.addGroup(gl_contentPane.createSequentialGroup()
-												.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-													.addComponent(textFieldCity, GroupLayout.DEFAULT_SIZE, 341, Short.MAX_VALUE)
-													.addGroup(gl_contentPane.createSequentialGroup()
-														.addGap(1)
-														.addComponent(btnAlterar)
-														.addGap(18)
-														.addComponent(btnExcluir, GroupLayout.PREFERRED_SIZE, 74, GroupLayout.PREFERRED_SIZE)))
-												.addPreferredGap(ComponentPlacement.RELATED)
-												.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
-													.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
-														.addGroup(gl_contentPane.createSequentialGroup()
-															.addGap(47)
-															.addComponent(lblPostalCode)
-															.addGap(18)
-															.addComponent(textFieldCodePost, GroupLayout.PREFERRED_SIZE, 111, GroupLayout.PREFERRED_SIZE))
-														.addGroup(gl_contentPane.createSequentialGroup()
-															.addComponent(lblCref)
-															.addPreferredGap(ComponentPlacement.UNRELATED)
-															.addComponent(textFieldCref)))
-													.addComponent(btnSair, GroupLayout.PREFERRED_SIZE, 65, GroupLayout.PREFERRED_SIZE)))
-											.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
-												.addComponent(textFieldName)
-												.addGroup(gl_contentPane.createSequentialGroup()
-													.addComponent(textFieldAge, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-													.addGap(35)
-													.addComponent(lblTelephone)
-													.addGap(18)
-													.addComponent(textFieldTelephone, GroupLayout.PREFERRED_SIZE, 143, GroupLayout.PREFERRED_SIZE)
-													.addGap(51)
-													.addComponent(lblGender)
-													.addGap(18)
-													.addComponent(textFieldGender))
-												.addGroup(gl_contentPane.createSequentialGroup()
-													.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING, false)
-														.addComponent(textFieldNeightbornhood, Alignment.LEADING)
-														.addComponent(textFieldAdress, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 414, Short.MAX_VALUE))
-													.addGap(29)
-													.addComponent(lblNumberl)
-													.addGap(18)
-													.addComponent(textFieldNumber))
-												.addComponent(textFieldCodigo, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
-										.addGap(43))
-									.addGroup(gl_contentPane.createSequentialGroup()
-										.addComponent(textFieldPeriod, GroupLayout.PREFERRED_SIZE, 232, GroupLayout.PREFERRED_SIZE)
-										.addContainerGap()))))))
+												.addComponent(textFieldAge, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+												.addGap(35)
+												.addComponent(lblTelephone)
+												.addGap(18)
+												.addComponent(textFieldTelephone, GroupLayout.PREFERRED_SIZE, 143, GroupLayout.PREFERRED_SIZE)
+												.addGap(51)
+												.addComponent(lblGender)
+												.addGap(18)
+												.addComponent(textFieldGender))
+											.addGroup(gl_contentPane.createSequentialGroup()
+												.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING, false)
+													.addComponent(textFieldNeightbornhood, Alignment.LEADING)
+													.addComponent(textFieldAdress, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 414, Short.MAX_VALUE))
+												.addGap(29)
+												.addComponent(lblNumberl)
+												.addGap(18)
+												.addComponent(textFieldNumber))
+											.addComponent(textFieldCodigo, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+										.addGroup(gl_contentPane.createSequentialGroup()
+											.addGap(250)
+											.addComponent(lblCref)
+											.addGap(18)
+											.addComponent(textFieldCref, GroupLayout.DEFAULT_SIZE, 223, Short.MAX_VALUE)
+											.addGap(18)
+											.addComponent(rdbtnActivity)))
+									.addGap(43))
+								.addGroup(gl_contentPane.createSequentialGroup()
+									.addComponent(textFieldPeriod, GroupLayout.PREFERRED_SIZE, 232, GroupLayout.PREFERRED_SIZE)
+									.addContainerGap())))))
 		);
-		
-		//-----------------------------------------------------------------//
-		
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
@@ -297,11 +452,10 @@ public class PersonalGUI extends JFrame {
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblPeriod)
 						.addComponent(textFieldPeriod, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblCref)
 						.addComponent(textFieldCref, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblCref))
-					.addGap(18)
-					.addComponent(rdbtnActivity)
-					.addPreferredGap(ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
+						.addComponent(rdbtnActivity))
+					.addPreferredGap(ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 						.addComponent(btnSair)
 						.addComponent(btnIncluir, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
@@ -337,6 +491,8 @@ public class PersonalGUI extends JFrame {
 		PersonalService personalservice = new PersonalService();
 		
 		personalservice.save(personal);
+		
+		limpaTextoCampo();
 	}
 	
 	//-----------------------------------------------------------------//
@@ -403,6 +559,11 @@ public class PersonalGUI extends JFrame {
 		
 		Personal personal = new Personal();
 		
+		if(!"".equals(textFieldCodigo.getText())) {
+			personal.setIdpersonal(Integer.valueOf(textFieldCodigo.getText()));
+		}
+		
+		personal.setIdpersonal(VariaveisProjeto.convertToInteger(textFieldCodigo.getText()));
 		personal.setName(textFieldName.getText());
 		personal.setAge(textFieldAge.getColumns());
 		personal.setAdress(textFieldAdress.getText());
@@ -422,5 +583,25 @@ public class PersonalGUI extends JFrame {
 		}
 		
 		return personal;
+	}
+	
+	//-----------------------------------------------------------------//
+	
+	private void limpaTextoCampo() {
+		
+		textFieldCodigo.setText(VariaveisProjeto.LIMPA_CAMPO);
+		textFieldName.setText(VariaveisProjeto.LIMPA_CAMPO);
+		textFieldGender.setText(VariaveisProjeto.LIMPA_CAMPO);
+		textFieldAge.setText(VariaveisProjeto.LIMPA_CAMPO);
+		textFieldAdress.setText(VariaveisProjeto.LIMPA_CAMPO);		
+		textFieldNumber.setText(VariaveisProjeto.LIMPA_CAMPO);
+		textFieldNeightbornhood.setText(VariaveisProjeto.LIMPA_CAMPO);
+		textFieldCity.setText(VariaveisProjeto.LIMPA_CAMPO);
+		textFieldTelephone.setText(VariaveisProjeto.LIMPA_CAMPO);
+		textFieldCodePost.setText(VariaveisProjeto.LIMPA_CAMPO);
+		textFieldPeriod.setText(VariaveisProjeto.LIMPA_CAMPO);	
+		textFieldCref.setText(VariaveisProjeto.LIMPA_CAMPO);	
+		rdbtnActivity.setText(VariaveisProjeto.LIMPA_CAMPO);
+
 	}
 }
