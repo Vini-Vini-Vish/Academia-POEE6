@@ -182,6 +182,9 @@ public class UsuarioGUI extends JFrame {
 											.addComponent(rdbtnAdmin)))
 									.addGap(168))))))
 		);
+		
+		//-----------------------------------------------------------------//	
+		
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
@@ -211,9 +214,14 @@ public class UsuarioGUI extends JFrame {
 						.addComponent(btnExcluir, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE))
 					.addContainerGap(112, Short.MAX_VALUE))
 		);
+		
+		//-----------------------------------------------------------------//	
+		
 		contentPane.setLayout(gl_contentPane);
 		createEvents();
 	}
+	
+	//-----------------------------------------------------------------//	
 	
 	private void IncluirUsuario() {
 		
@@ -225,6 +233,8 @@ public class UsuarioGUI extends JFrame {
 		usuarioservice.save(usuario);
 	}
 	
+	//-----------------------------------------------------------------//	
+	
 	private void createEvents() {
 		btnSair.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -232,6 +242,8 @@ public class UsuarioGUI extends JFrame {
 			}
 		});
 	}
+	
+	//-----------------------------------------------------------------//	
 	
 	private void BuscarUsuario(){
 		Usuario usuario = new Usuario();
@@ -260,6 +272,8 @@ public class UsuarioGUI extends JFrame {
 		
 	}
 	
+	//-----------------------------------------------------------------//	
+	
 	protected void AlterarUsuario() {
 		Usuario usuario = PegarDadosUsuario();
 		UsuarioService usuarioservice = new UsuarioService();
@@ -267,7 +281,10 @@ public class UsuarioGUI extends JFrame {
 		usuarioservice.update(usuario);		
 	}	
 	
+	//-----------------------------------------------------------------//	
+	
 	protected void ExcluirUsuario() {
+		
 		Usuario usuario = PegarDadosUsuario();
 		
 		UsuarioService usuarioservice = new UsuarioService();
@@ -276,6 +293,8 @@ public class UsuarioGUI extends JFrame {
 		
 		usuarioservice.delete(usuario);
 	}	
+	
+	//-----------------------------------------------------------------//	
 	
 	@SuppressWarnings("deprecation")
 	public Usuario PegarDadosUsuario() {
