@@ -21,10 +21,13 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import javax.swing.ImageIcon;
 
 public class AlunoGUI extends JFrame {
 
 	private JPanel contentPane;
+	private JLabel lblCodigo;	
+	private JTextField textFieldCodigo;
 	private JTextField textFieldNome;
 	private JTextField textFieldGender;
 	private JTextField textFieldAge;
@@ -48,9 +51,18 @@ public class AlunoGUI extends JFrame {
 	private JButton btnExcluir;
 	
 	private JRadioButton rdbtnActivity;
-	private JButton btnSair;
-	private JLabel lblCodigo;
-	private JTextField textFieldCodigo;
+	private JButton btnSair;	
+	
+	private JLabel checkNome;
+	private JLabel checkGenero;
+	private JLabel checkTelefone;
+	private JLabel checkIdade;
+	private JLabel checkNumero;
+	private JLabel checkEndereco;
+	private JLabel checkCidade;
+	private JLabel checkBairro;
+	private JLabel checkCodigoPostal;
+	private JLabel checkPeriodo;
 
 	/**
 	 * Launch the application.
@@ -293,6 +305,7 @@ public class AlunoGUI extends JFrame {
 		//-----------------------------------------------------------------//		
 		
 		btnIncluir = new JButton("Incluir");
+		btnIncluir.setIcon(new ImageIcon(AlunoGUI.class.getResource("/com/academia/estrutura/imagens/application_form_add.png")));
 		
 		btnIncluir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -304,6 +317,7 @@ public class AlunoGUI extends JFrame {
 		//-----------------------------------------------------------------//	
 		
 		btnAlterar = new JButton("Alterar");
+		btnAlterar.setIcon(new ImageIcon(AlunoGUI.class.getResource("/com/academia/estrutura/imagens/application_form_edit.png")));
 		
 		btnAlterar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -315,6 +329,7 @@ public class AlunoGUI extends JFrame {
 		//-----------------------------------------------------------------//
 		
 		btnExcluir = new JButton("Excluir");
+		btnExcluir.setIcon(new ImageIcon(AlunoGUI.class.getResource("/com/academia/estrutura/imagens/application_form_delete.png")));
 		
 		btnExcluir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -326,11 +341,44 @@ public class AlunoGUI extends JFrame {
 		//-----------------------------------------------------------------//
 		
 		btnSair = new JButton("Sair");		
+		btnSair.setIcon(new ImageIcon(AlunoGUI.class.getResource("/com/academia/estrutura/imagens/sair.png")));
 		
 		//-----------------------------------------------------------------//
 		
 		textFieldCodigo.setText("");
 		textFieldCodigo.setColumns(10);
+		
+		//-----------------------------------------------------------------//
+		
+		checkNome = new JLabel("");
+		checkNome.setIcon(new ImageIcon(AlunoGUI.class.getResource("/com/academia/estrutura/imagens/ok.png")));
+		
+		checkGenero = new JLabel("");
+		checkGenero.setIcon(new ImageIcon(AlunoGUI.class.getResource("/com/academia/estrutura/imagens/ok.png")));
+		
+		checkTelefone = new JLabel("");
+		checkTelefone.setIcon(new ImageIcon(AlunoGUI.class.getResource("/com/academia/estrutura/imagens/ok.png")));
+		
+		checkIdade = new JLabel("");
+		checkIdade.setIcon(new ImageIcon(AlunoGUI.class.getResource("/com/academia/estrutura/imagens/ok.png")));
+		
+		checkNumero = new JLabel("");
+		checkNumero.setIcon(new ImageIcon(AlunoGUI.class.getResource("/com/academia/estrutura/imagens/ok.png")));
+		
+		checkEndereco = new JLabel("");
+		checkEndereco.setIcon(new ImageIcon(AlunoGUI.class.getResource("/com/academia/estrutura/imagens/ok.png")));
+		
+		checkCidade = new JLabel("");
+		checkCidade.setIcon(new ImageIcon(AlunoGUI.class.getResource("/com/academia/estrutura/imagens/ok.png")));
+		
+		checkBairro = new JLabel("");
+		checkBairro.setIcon(new ImageIcon(AlunoGUI.class.getResource("/com/academia/estrutura/imagens/ok.png")));
+		
+		checkCodigoPostal = new JLabel("");
+		checkCodigoPostal.setIcon(new ImageIcon(AlunoGUI.class.getResource("/com/academia/estrutura/imagens/ok.png")));
+		
+		checkPeriodo = new JLabel("");
+		checkPeriodo.setIcon(new ImageIcon(AlunoGUI.class.getResource("/com/academia/estrutura/imagens/ok.png")));
 		
 		//-----------------------------------------------------------------//	
 		
@@ -344,39 +392,49 @@ public class AlunoGUI extends JFrame {
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 								.addComponent(lblAdress)
 								.addComponent(lblNeighborhood)
-								.addComponent(lblGender)
 								.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
 									.addComponent(lblCodigo)
-									.addComponent(lblName)))
+									.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+										.addComponent(lblGender)
+										.addComponent(lblName))))
 							.addGap(29)
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 								.addComponent(textFieldCodigo, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-									.addComponent(textFieldNome, GroupLayout.PREFERRED_SIZE, 590, GroupLayout.PREFERRED_SIZE)
-									.addGroup(gl_contentPane.createSequentialGroup()
-										.addComponent(textFieldNeighborhood, GroupLayout.PREFERRED_SIZE, 272, GroupLayout.PREFERRED_SIZE)
-										.addGap(40)
-										.addComponent(lblCity)
-										.addGap(18)
-										.addComponent(textFieldCity, 223, 223, 223))
-									.addGroup(gl_contentPane.createSequentialGroup()
-										.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-											.addComponent(textFieldAdress, GroupLayout.PREFERRED_SIZE, 422, GroupLayout.PREFERRED_SIZE)
-											.addGroup(gl_contentPane.createSequentialGroup()
-												.addComponent(textFieldGender, GroupLayout.PREFERRED_SIZE, 143, GroupLayout.PREFERRED_SIZE)
-												.addGap(43)
-												.addComponent(lblIdade)
-												.addGap(27)
-												.addComponent(textFieldAge, GroupLayout.PREFERRED_SIZE, 73, GroupLayout.PREFERRED_SIZE)
-												.addGap(52)
-												.addComponent(lblTelephone)))
-										.addGap(18)
-										.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-											.addComponent(textFieldTelephone, GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
-											.addGroup(gl_contentPane.createSequentialGroup()
-												.addComponent(lblNumber)
-												.addGap(18)
-												.addComponent(textFieldNumber, GroupLayout.DEFAULT_SIZE, 91, Short.MAX_VALUE)))))))
+								.addComponent(textFieldNome, GroupLayout.PREFERRED_SIZE, 590, GroupLayout.PREFERRED_SIZE)
+								.addGroup(gl_contentPane.createSequentialGroup()
+									.addComponent(textFieldNeighborhood, GroupLayout.PREFERRED_SIZE, 272, GroupLayout.PREFERRED_SIZE)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(checkBairro, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE)
+									.addGap(18)
+									.addComponent(lblCity)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(textFieldCity, GroupLayout.PREFERRED_SIZE, 223, GroupLayout.PREFERRED_SIZE))
+								.addGroup(gl_contentPane.createSequentialGroup()
+									.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+										.addGroup(gl_contentPane.createSequentialGroup()
+											.addPreferredGap(ComponentPlacement.RELATED)
+											.addComponent(textFieldGender, GroupLayout.PREFERRED_SIZE, 143, GroupLayout.PREFERRED_SIZE)
+											.addPreferredGap(ComponentPlacement.RELATED)
+											.addComponent(checkGenero, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE)
+											.addGap(32)
+											.addComponent(lblIdade)
+											.addGap(18)
+											.addComponent(textFieldAge, GroupLayout.PREFERRED_SIZE, 61, GroupLayout.PREFERRED_SIZE)
+											.addPreferredGap(ComponentPlacement.RELATED)
+											.addComponent(checkIdade, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE)
+											.addGap(10)
+											.addComponent(lblTelephone))
+										.addGroup(gl_contentPane.createSequentialGroup()
+											.addComponent(textFieldAdress, GroupLayout.PREFERRED_SIZE, 377, GroupLayout.PREFERRED_SIZE)
+											.addPreferredGap(ComponentPlacement.UNRELATED)
+											.addComponent(checkEndereco, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE)))
+									.addGap(17)
+									.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+										.addComponent(textFieldTelephone, GroupLayout.DEFAULT_SIZE, 156, Short.MAX_VALUE)
+										.addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
+											.addComponent(lblNumber)
+											.addGap(18)
+											.addComponent(textFieldNumber, GroupLayout.PREFERRED_SIZE, 74, GroupLayout.PREFERRED_SIZE))))))
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 								.addComponent(lblPostalCode)
@@ -384,25 +442,34 @@ public class AlunoGUI extends JFrame {
 							.addPreferredGap(ComponentPlacement.UNRELATED)
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 								.addGroup(gl_contentPane.createSequentialGroup()
+									.addGap(18)
 									.addComponent(btnAlterar)
-									.addGap(28)
+									.addGap(18)
 									.addComponent(btnExcluir, GroupLayout.PREFERRED_SIZE, 73, GroupLayout.PREFERRED_SIZE))
 								.addGroup(gl_contentPane.createSequentialGroup()
 									.addComponent(textFieldPostalCode, GroupLayout.PREFERRED_SIZE, 130, GroupLayout.PREFERRED_SIZE)
-									.addGap(65)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(checkCodigoPostal, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE)
+									.addGap(23)
 									.addComponent(lblPeriod)
 									.addGap(18)
-									.addComponent(textFieldPeriod, GroupLayout.PREFERRED_SIZE, 128, GroupLayout.PREFERRED_SIZE)
-									.addPreferredGap(ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
+									.addComponent(textFieldPeriod, GroupLayout.PREFERRED_SIZE, 128, GroupLayout.PREFERRED_SIZE)))
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
+								.addGroup(gl_contentPane.createSequentialGroup()
+									.addComponent(checkPeriodo, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE)
+									.addPreferredGap(ComponentPlacement.RELATED, 103, Short.MAX_VALUE)
 									.addComponent(rdbtnActivity)
-									.addGap(75)))
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(btnSair, GroupLayout.PREFERRED_SIZE, 65, GroupLayout.PREFERRED_SIZE)))
-					.addGap(61))
+									.addGap(14))
+								.addComponent(btnSair))))
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+						.addComponent(checkNome, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE)
+						.addComponent(checkTelefone, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE)
+						.addComponent(checkNumero, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE)
+						.addComponent(checkCidade, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE))
+					.addGap(15))
 		);
-		
-		//-----------------------------------------------------------------//
-		
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
@@ -412,50 +479,69 @@ public class AlunoGUI extends JFrame {
 					.addGap(14)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblName)
-						.addComponent(textFieldNome, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addComponent(textFieldNome, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(checkNome))
 					.addGap(18)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
-						.addComponent(lblGender)
-						.addComponent(textFieldGender, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-							.addComponent(lblIdade)
-							.addComponent(textFieldAge, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addComponent(textFieldTelephone, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addComponent(lblTelephone)))
-					.addGap(18)
+						.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
+								.addComponent(textFieldGender, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblGender))
+							.addComponent(checkGenero, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
+								.addComponent(checkIdade, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
+								.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+									.addComponent(textFieldTelephone, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+									.addComponent(lblTelephone)
+									.addComponent(checkTelefone, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
+									.addComponent(lblIdade)
+									.addComponent(textFieldAge, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+							.addGap(5)))
+					.addGap(21)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblAdress)
 						.addComponent(textFieldAdress, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(textFieldNumber, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lblNumber)
-						.addComponent(textFieldNumber, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addComponent(checkNumero, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
+						.addComponent(checkEndereco, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE))
 					.addGap(18)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblNeighborhood)
 						.addComponent(textFieldNeighborhood, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblCity)
-						.addComponent(textFieldCity, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addComponent(textFieldCity, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(checkCidade, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
+						.addComponent(checkBairro, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblCity))
 					.addGap(18)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblPostalCode)
 						.addComponent(textFieldPostalCode, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lblPeriod)
 						.addComponent(textFieldPeriod, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(rdbtnActivity))
+						.addComponent(rdbtnActivity)
+						.addComponent(checkCodigoPostal, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
+						.addComponent(checkPeriodo, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE))
 					.addGap(58)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 						.addComponent(btnSair)
 						.addComponent(btnIncluir, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnExcluir)
-						.addComponent(btnAlterar, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(112, Short.MAX_VALUE))
+						.addComponent(btnAlterar, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnExcluir))
+					.addContainerGap(78, Short.MAX_VALUE))
 		);
 		
 		//-----------------------------------------------------------------//
 		
 		contentPane.setLayout(gl_contentPane);
 		createEvents();
+		
+		limpaTextoCampo();
+		
+		desabilitaCheckCampo();
 	}
-	
+
 	//-----------------------------------------------------------------//
 	
 	private void createEvents() {
@@ -489,6 +575,8 @@ public class AlunoGUI extends JFrame {
 		AlunoService alunoservice = new AlunoService();
 		
 		alunoservice.update(aluno);		
+		
+		limpaTextoCampo();
 	}	
 	
 	//-----------------------------------------------------------------//
@@ -502,6 +590,25 @@ public class AlunoGUI extends JFrame {
 		alunoservice.save(aluno);
 		
 		alunoservice.delete(aluno);
+		
+		limpaTextoCampo();
+	}
+	
+	//-----------------------------------------------------------------//
+	
+	private void desabilitaCheckCampo() {
+				
+		checkNome.setVisible(false);		
+		checkGenero.setVisible(false); 		
+		checkTelefone.setVisible(false); 		
+		checkIdade.setVisible(false);		
+		checkNumero.setVisible(false); 
+		checkEndereco.setVisible(false);		
+		checkCidade.setVisible(false); 
+		checkBairro.setVisible(false);		
+		checkCodigoPostal.setVisible(false);		
+		checkPeriodo.setVisible(false); 
+		
 	}
 	
 	//-----------------------------------------------------------------//
@@ -582,7 +689,7 @@ public class AlunoGUI extends JFrame {
 		textFieldTelephone.setText(VariaveisProjeto.LIMPA_CAMPO);
 		textFieldPostalCode.setText(VariaveisProjeto.LIMPA_CAMPO);
 		textFieldPeriod.setText(VariaveisProjeto.LIMPA_CAMPO);		
-		rdbtnActivity.setText(VariaveisProjeto.LIMPA_CAMPO);
+		rdbtnActivity.setSelected(false);
 		
 	}
 	
