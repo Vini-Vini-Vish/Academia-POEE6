@@ -60,10 +60,9 @@ public class PersonalGUI extends JFrame {
 	private JLabel checkEndereco;
 	private JLabel checkCref;
 	private JLabel checkPeriodo;
+	
+	private boolean status = true; 
 
-	/**
-	 * Launch the application.
-	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -125,7 +124,14 @@ public class PersonalGUI extends JFrame {
 			public void keyPressed(KeyEvent e) {
 				
 				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
-					textFieldAge.requestFocus();
+					if( verificaDigitacaoNome() ) {
+						textFieldName.requestFocus();
+					} else {
+						status = true;
+						mudaStatusCheckNome();
+						checkNome.setVisible(true);
+						textFieldAge.requestFocus();
+					}					
 				}
 			}
 		});
@@ -615,6 +621,33 @@ public class PersonalGUI extends JFrame {
 		personalservice.delete(personal);
 		
 		limpaTextoCampo();
+	}
+	
+	//-----------------------------------------------------------------//
+	
+	private boolean verificaDigitacaoNome() {
+				
+		if(VariaveisProjeto.digitacaoCampo(textFieldName.getText())) {
+			status = false;
+			mudaStatusCheckNome();
+			return true;
+		}
+		
+		return false;
+	}
+	
+	//-----------------------------------------------------------------//	
+	
+	private void mudaStatusCheckNome() {
+		
+		checkNome.setVisible(true);
+		
+		if(status == false) {
+			checkNome.setIcon(new ImageIcon(UsuarioGUI.class.getResource("/com/academia/estrutura/imagens/iconFechar.png")));
+		} else {
+			checkNome.setIcon(new ImageIcon(UsuarioGUI.class.getResource("/com/academia/estrutura/imagens/ok.png")));
+		}
+		
 	}
 	
 	//-----------------------------------------------------------------//
