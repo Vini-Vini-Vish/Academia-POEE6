@@ -43,17 +43,12 @@ public class UsuarioGUI extends JFrame {
 	private JRadioButton rdbtnAtivo;	
 	private JRadioButton rdbtnAdmin;
 	
-	private JLabel checkNomeSucesso;
-	private JLabel checkEmailSucesso;
-	private JLabel checkSenhaSucesso;
+	private JLabel checkNome;
+	private JLabel checkEmail;
+	private JLabel checkSenha;
 	
-	private JLabel checkNomeErro;
-	private JLabel checkEmailErro;
-	private JLabel checkSenhaErro;
+	private boolean status = true; 
 
-	/**
-	 * Launch the application.
-	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -110,20 +105,23 @@ public class UsuarioGUI extends JFrame {
 		JLabel lblName = new JLabel("Nome:");
 		
 		textFieldName = new JTextField();
+		textFieldName.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusLost(FocusEvent e) {
+			}
+		});
 		
 		textFieldName.addKeyListener(new KeyAdapter() {
 			@Override
-			public void keyPressed(KeyEvent e) {
-				
+			public void keyPressed(KeyEvent e) {				
 				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
 					if( verificaDigitacaoNome() ) {
 						textFieldName.requestFocus();
 					} else {
-						checkNomeSucesso.setVisible(true);
-						textFieldEmail.requestFocus();
+						digitacaoNomeValido();
 					}					
 				}				 
-			}
+			}			
 		});
 		textFieldName.setColumns(10);
 		
@@ -132,12 +130,27 @@ public class UsuarioGUI extends JFrame {
 		JLabel lblEmail = new JLabel("Email:");
 		
 		textFieldEmail = new JTextField();
+		textFieldEmail.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusLost(FocusEvent e) {
+				if( verificaDigitacaoEmail() ) {
+					textFieldEmail.requestFocus();
+				} else {
+					digitacaoEmailValido();
+				}	
+			}
+		});
 		
 		textFieldEmail.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				
 				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+					if( verificaDigitacaoEmail() ) {
+						textFieldEmail.requestFocus();
+					} else {
+						digitacaoEmailValido();
+					}					
 					passwordFieldPassword.requestFocus();
 				}
 			}
@@ -224,14 +237,14 @@ public class UsuarioGUI extends JFrame {
 		
 		//-----------------------------------------------------------------//	
 		
-		checkNomeSucesso = new JLabel("");
-		checkNomeSucesso.setIcon(new ImageIcon(UsuarioGUI.class.getResource("/com/academia/estrutura/imagens/ok.png")));
+		checkNome = new JLabel("");
+		checkNome.setIcon(new ImageIcon(UsuarioGUI.class.getResource("/com/academia/estrutura/imagens/ok.png")));
 		
-		checkEmailSucesso = new JLabel("");
-		checkEmailSucesso.setIcon(new ImageIcon(UsuarioGUI.class.getResource("/com/academia/estrutura/imagens/ok.png")));
+		checkEmail = new JLabel("");
+		checkEmail.setIcon(new ImageIcon(UsuarioGUI.class.getResource("/com/academia/estrutura/imagens/ok.png")));
 		
-		checkSenhaSucesso = new JLabel("");
-		checkSenhaSucesso.setIcon(new ImageIcon(UsuarioGUI.class.getResource("/com/academia/estrutura/imagens/ok.png")));
+		checkSenha = new JLabel("");
+		checkSenha.setIcon(new ImageIcon(UsuarioGUI.class.getResource("/com/academia/estrutura/imagens/ok.png")));
 		
 		
 		//-----------------------------------------------------------------//	
@@ -268,7 +281,7 @@ public class UsuarioGUI extends JFrame {
 										.addGroup(gl_contentPane.createSequentialGroup()
 											.addComponent(passwordFieldPassword, GroupLayout.PREFERRED_SIZE, 372, GroupLayout.PREFERRED_SIZE)
 											.addPreferredGap(ComponentPlacement.RELATED)
-											.addComponent(checkSenhaSucesso, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE)))
+											.addComponent(checkSenha, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE)))
 									.addPreferredGap(ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
 									.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
 										.addGroup(gl_contentPane.createSequentialGroup()
@@ -282,8 +295,8 @@ public class UsuarioGUI extends JFrame {
 										.addComponent(textFieldEmail, Alignment.LEADING, 574, 574, Short.MAX_VALUE))
 									.addPreferredGap(ComponentPlacement.RELATED)
 									.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-										.addComponent(checkNomeSucesso, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE)
-										.addComponent(checkEmailSucesso, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE))))
+										.addComponent(checkNome, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE)
+										.addComponent(checkEmail, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE))))
 							.addGap(127))
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addComponent(textFieldCodigo, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
@@ -300,17 +313,17 @@ public class UsuarioGUI extends JFrame {
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 						.addComponent(textFieldName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lblName, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(checkNomeSucesso))
+						.addComponent(checkNome))
 					.addGap(44)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblEmail, GroupLayout.PREFERRED_SIZE, 17, GroupLayout.PREFERRED_SIZE)
 						.addComponent(textFieldEmail, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(checkEmailSucesso, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE))
+						.addComponent(checkEmail, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE))
 					.addGap(35)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblPassword)
 						.addComponent(passwordFieldPassword, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(checkSenhaSucesso, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
+						.addComponent(checkSenha, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
 						.addComponent(rdbtnAdmin)
 						.addComponent(rdbtnAtivo, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE))
 					.addGap(51)
@@ -384,9 +397,19 @@ public class UsuarioGUI extends JFrame {
 	
 	//-----------------------------------------------------------------//	
 	
+	private void digitacaoNomeValido() {
+		status = true;
+		mudaStatusCheckNome();
+		checkNome.setVisible(true);
+		textFieldEmail.requestFocus();
+	}
+	
+	//-----------------------------------------------------------------//	
+	
 	private boolean verificaDigitacaoNome() {
 				
 		if(VariaveisProjeto.digitacaoCampo(textFieldName.getText())) {
+			status = false;
 			mudaStatusCheckNome();
 			return true;
 		}
@@ -398,13 +421,15 @@ public class UsuarioGUI extends JFrame {
 	
 	private void mudaStatusCheckNome() {
 		
-		checkNomeSucesso.setVisible(true);
-		checkNomeSucesso.setIcon(new ImageIcon(UsuarioGUI.class.getResource("/com/academia/estrutura/imagens/iconFechar.png")));
-				
-		/*
-		checkEmailSucesso = new JLabel("");
-		checkEmailSucesso.setIcon(new ImageIcon(UsuarioGUI.class.getResource("/com/academia/estrutura/imagens/ok.png")));
+		checkNome.setVisible(true);
 		
+		if(status == false) {
+			checkNome.setIcon(new ImageIcon(UsuarioGUI.class.getResource("/com/academia/estrutura/imagens/iconFechar.png")));
+		} else {
+			checkNome.setIcon(new ImageIcon(UsuarioGUI.class.getResource("/com/academia/estrutura/imagens/ok.png")));
+		}
+						
+		/*
 		checkSenhaSucesso = new JLabel("");
 		checkSenhaSucesso.setIcon(new ImageIcon(UsuarioGUI.class.getResource("/com/academia/estrutura/imagens/ok.png")));
 		*/
@@ -412,10 +437,44 @@ public class UsuarioGUI extends JFrame {
 	
 	//-----------------------------------------------------------------//	
 	
+	private void digitacaoEmailValido() {
+		status = true;
+	    mudaStatusCheckEmail();
+		checkEmail.setVisible(true);	
+		passwordFieldPassword.requestFocus();
+	}
+	
+	//-----------------------------------------------------------------//
+	
+	private boolean verificaDigitacaoEmail() {
+		if ( VariaveisProjeto.digitacaoCampo(textFieldEmail.getText())) {
+		     status = false;
+			 mudaStatusCheckEmail();
+			 return true; 
+		}
+		return false;
+	}
+	
+	//-----------------------------------------------------------------//		
+	
+	private void mudaStatusCheckEmail() {
+		
+		checkEmail.setVisible(true);
+		
+		if(status == false) {
+			checkEmail.setIcon(new ImageIcon(UsuarioGUI.class.getResource("/com/academia/estrutura/imagens/iconFechar.png")));
+		} else {
+			checkEmail.setIcon(new ImageIcon(UsuarioGUI.class.getResource("/com/academia/estrutura/imagens/ok.png")));
+		}
+		
+	}
+		
+	//-----------------------------------------------------------------//	
+		
 	private void desabilitaCheckCampo() {
-		checkNomeSucesso.setVisible(false);
-		checkEmailSucesso.setVisible(false);
-		checkSenhaSucesso.setVisible(false);
+		checkNome.setVisible(false);
+		checkEmail.setVisible(false);
+		checkSenha.setVisible(false);
 	}
 
 	//-----------------------------------------------------------------//	
