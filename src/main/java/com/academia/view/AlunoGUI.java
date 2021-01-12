@@ -64,9 +64,8 @@ public class AlunoGUI extends JFrame {
 	private JLabel checkCodigoPostal;
 	private JLabel checkPeriodo;
 
-	/**
-	 * Launch the application.
-	 */
+	private boolean status = true; 
+	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -128,7 +127,14 @@ public class AlunoGUI extends JFrame {
 			public void keyPressed(KeyEvent e) {
 				
 				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
-					textFieldGender.requestFocus();
+					if( verificaDigitacaoNome() ) {
+						textFieldNome.requestFocus();
+					} else {
+						status = true;
+						mudaStatusCheckNome();
+						checkNome.setVisible(true);
+						textFieldGender.requestFocus();
+					}						
 				}
 			}
 		});
@@ -594,6 +600,33 @@ public class AlunoGUI extends JFrame {
 		limpaTextoCampo();
 	}
 	
+	//-----------------------------------------------------------------//	
+	
+	private boolean verificaDigitacaoNome() {
+				
+		if(VariaveisProjeto.digitacaoCampo(textFieldNome.getText())) {
+			status = false;
+			mudaStatusCheckNome();
+			return true;
+		}
+		
+		return false;
+	}
+	
+	//-----------------------------------------------------------------//	
+	
+	private void mudaStatusCheckNome() {
+		
+		checkNome.setVisible(true);
+		
+		if(status == false) {
+			checkNome.setIcon(new ImageIcon(UsuarioGUI.class.getResource("/com/academia/estrutura/imagens/iconFechar.png")));
+		} else {
+			checkNome.setIcon(new ImageIcon(UsuarioGUI.class.getResource("/com/academia/estrutura/imagens/ok.png")));
+		}
+		
+	}
+	
 	//-----------------------------------------------------------------//
 	
 	private void desabilitaCheckCampo() {
@@ -675,6 +708,8 @@ public class AlunoGUI extends JFrame {
 		
 		return aluno;
 	}
+	
+	//-----------------------------------------------------------------//
 	
 	private void limpaTextoCampo() {
 		
