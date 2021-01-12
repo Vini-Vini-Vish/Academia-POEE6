@@ -22,7 +22,7 @@ public class Personal {
 	private String 	period;
 	private String 	cref;
 		
-	private boolean activity;
+	private boolean activity = false;
 	
 	//----------------------------------------------
 	@Id
