@@ -60,7 +60,7 @@ public class PersonalGUI extends JFrame {
 	private JLabel checkEndereco;
 	private JLabel checkCref;
 	private JLabel checkPeriodo;
-	
+		
 	private boolean status = true; 
 
 	public static void main(String[] args) {
@@ -118,6 +118,16 @@ public class PersonalGUI extends JFrame {
 		JLabel lblName = new JLabel("Nome:");
 		
 		textFieldName = new JTextField();
+		textFieldName.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusLost(FocusEvent e) {
+				if( verificaDigitacaoNome() ) {
+					textFieldName.requestFocus();
+				} else {
+					digitacaoNomeValido();
+				}
+			}
+		});
 		
 		textFieldName.addKeyListener(new KeyAdapter() {
 			@Override
@@ -127,11 +137,9 @@ public class PersonalGUI extends JFrame {
 					if( verificaDigitacaoNome() ) {
 						textFieldName.requestFocus();
 					} else {
-						status = true;
-						mudaStatusCheckNome();
-						checkNome.setVisible(true);
+						digitacaoNomeValido();
 						textFieldAge.requestFocus();
-					}					
+					}										
 				}
 			}
 		});
@@ -142,13 +150,28 @@ public class PersonalGUI extends JFrame {
 		JLabel lblAge = new JLabel("Idade:");
 		
 		textFieldAge = new JTextField();
+		textFieldAge.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusLost(FocusEvent e) {
+				if( verificaDigitacaoIdade() ) {
+					textFieldAge.requestFocus();
+				} else {
+					digitacaoIdadeValido();
+				}
+			}
+		});
 		
 		textFieldAge.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				
 				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
-					textFieldTelephone.requestFocus();
+					if( verificaDigitacaoIdade() ) {
+						textFieldAge.requestFocus();
+					} else {
+						digitacaoIdadeValido();
+						textFieldTelephone.requestFocus();
+					}					
 				}
 			}
 		});
@@ -160,13 +183,28 @@ public class PersonalGUI extends JFrame {
 		JLabel lblAdress = new JLabel("Endereço:");
 		
 		textFieldAdress = new JTextField();
+		textFieldAdress.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusLost(FocusEvent e) {
+				if( verificaDigitacaoEndereco() ) {
+					textFieldAdress.requestFocus();
+				} else {
+					digitacaoEnderecoValido();
+				}
+			}
+		});
 		
 		textFieldAdress.addKeyListener(new KeyAdapter() {			
 			@Override
 			public void keyPressed(KeyEvent e) {
 				
 				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
-					textFieldNumber.requestFocus();
+					if( verificaDigitacaoEndereco() ) {
+						textFieldAdress.requestFocus();
+					} else {
+						digitacaoEnderecoValido();
+						textFieldNumber.requestFocus();
+					}						
 				}
 			}
 		});
@@ -177,13 +215,28 @@ public class PersonalGUI extends JFrame {
 		JLabel lblNumberl = new JLabel("Numero:");
 		
 		textFieldNumber = new JTextField();
+		textFieldNumber.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusLost(FocusEvent e) {
+				if( verificaDigitacaoNumero() ) {
+					textFieldNumber.requestFocus();
+				} else {
+					digitacaoNumeroValido();
+				}
+			}
+		});
 		
 		textFieldNumber.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				
 				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
-					textFieldNeightbornhood.requestFocus();
+					if( verificaDigitacaoNumero() ) {
+						textFieldNumber.requestFocus();
+					} else {
+						digitacaoNumeroValido();
+						textFieldNeightbornhood.requestFocus();
+					}					
 				}
 			}
 		});
@@ -194,13 +247,28 @@ public class PersonalGUI extends JFrame {
 		JLabel lblNeightbornhood = new JLabel("Bairro:");
 		
 		textFieldNeightbornhood = new JTextField();
+		textFieldNeightbornhood.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusLost(FocusEvent e) {
+				if( verificaDigitacaoBairro() ) {
+					textFieldNeightbornhood.requestFocus();
+				} else {
+					digitacaoBairroValido();
+				}
+			}
+		});
 		
 		textFieldNeightbornhood.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				
 				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
-					textFieldCity.requestFocus();
+					if( verificaDigitacaoBairro() ) {
+						textFieldNeightbornhood.requestFocus();
+					} else {
+						digitacaoBairroValido();
+						textFieldCity.requestFocus();
+					}						
 				}
 			}
 		});
@@ -211,13 +279,28 @@ public class PersonalGUI extends JFrame {
 		JLabel lblCity = new JLabel("Cidade:");
 		
 		textFieldCity = new JTextField();
+		textFieldCity.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusLost(FocusEvent e) {
+				if( verificaDigitacaoCidade() ) {
+					textFieldCity.requestFocus();
+				} else {
+					digitacaoCidadeValido();
+				}
+			}
+		});
 		
 		textFieldCity.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				
 				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
-					textFieldCodePost.requestFocus();
+					if( verificaDigitacaoBairro() ) {
+						textFieldCity.requestFocus();
+					} else {
+						digitacaoCidadeValido();
+						textFieldCodePost.requestFocus();
+					}					
 				}
 			}
 		});
@@ -228,13 +311,28 @@ public class PersonalGUI extends JFrame {
 		JLabel lblTelephone = new JLabel("Telefone:");
 		
 		textFieldTelephone = new JTextField();
+		textFieldTelephone.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusLost(FocusEvent e) {
+				if( verificaDigitacaoTelefone() ) {
+					textFieldTelephone.requestFocus();
+				} else {
+					digitacaoTelefoneValido();
+				}
+			}
+		});
 		
 		textFieldTelephone.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				
 				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
-					textFieldGender.requestFocus();
+					if( verificaDigitacaoTelefone() ) {
+						textFieldTelephone.requestFocus();
+					} else {
+						digitacaoTelefoneValido();
+						textFieldGender.requestFocus();
+					}						
 				}
 			}
 		});
@@ -245,13 +343,28 @@ public class PersonalGUI extends JFrame {
 		JLabel lblPostalCode = new JLabel("Codigo Postal:");
 		
 		textFieldCodePost = new JTextField();
+		textFieldCodePost.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusLost(FocusEvent e) {
+				if( verificaDigitacaoCodigoPostal() ) {
+					textFieldCodePost.requestFocus();
+				} else {
+					digitacaoCodigoPostalValido();
+				}
+			}
+		});
 		
 		textFieldCodePost.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				
 				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
-					textFieldPeriod.requestFocus();
+					if( verificaDigitacaoCodigoPostal() ) {
+						textFieldCodePost.requestFocus();
+					} else {
+						digitacaoCodigoPostalValido();
+						textFieldPeriod.requestFocus();
+					}					
 				}
 			}
 		});
@@ -262,13 +375,29 @@ public class PersonalGUI extends JFrame {
 		JLabel lblGender = new JLabel("Genero:");
 		
 		textFieldGender = new JTextField();
+		textFieldGender.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusLost(FocusEvent e) {
+				if( verificaDigitacaoGenero() ) {
+					textFieldGender.requestFocus();
+				} else {
+					digitacaoGeneroValido();
+				}
+			}
+		});
 		
 		textFieldGender.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				
 				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
-					textFieldAdress.requestFocus();
+					if( verificaDigitacaoGenero() ) {
+						textFieldGender.requestFocus();
+					} else {
+						digitacaoGeneroValido();
+						textFieldAdress.requestFocus();
+					}
+					
 				}
 			}
 		});
@@ -279,13 +408,28 @@ public class PersonalGUI extends JFrame {
 		JLabel lblPeriod = new JLabel("Periodo:");
 		
 		textFieldPeriod = new JTextField();
+		textFieldPeriod.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusLost(FocusEvent e) {
+				if( verificaDigitacaoPeriodo() ) {
+					textFieldPeriod.requestFocus();
+				} else {
+					digitacaoPeriodoValido();
+				}
+			}
+		});
 		
 		textFieldPeriod.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				
 				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
-					textFieldCref.requestFocus();
+					if( verificaDigitacaoPeriodo() ) {
+						textFieldPeriod.requestFocus();
+					} else {
+						digitacaoPeriodoValido();
+						textFieldCref.requestFocus();
+					}					
 				}
 			}
 		});
@@ -297,13 +441,28 @@ public class PersonalGUI extends JFrame {
 		JLabel lblCref = new JLabel("CREF:");
 		
 		textFieldCref = new JTextField();
+		textFieldCref.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusLost(FocusEvent e) {
+				if( verificaDigitacaoCref() ) {
+					textFieldCref.requestFocus();
+				} else {
+					digitacaoCrefValido();
+				}
+			}
+		});
 		
 		textFieldCref.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				
 				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
-					rdbtnActivity.requestFocus();
+					if( verificaDigitacaoCref() ) {
+						textFieldCref.requestFocus();
+					} else {
+						digitacaoCrefValido();
+						rdbtnActivity.requestFocus();
+					}						
 				}
 			}
 		});
@@ -623,7 +782,17 @@ public class PersonalGUI extends JFrame {
 		limpaTextoCampo();
 	}
 	
-	//-----------------------------------------------------------------//
+	//-----------------------------------------------------------------//	
+	//------------------------------NOME-------------------------------//
+	
+	private void digitacaoNomeValido() {
+		status = true;
+		mudaStatusCheckNome();
+		checkNome.setVisible(true);
+		textFieldAge.requestFocus();
+	}
+	
+	//-----------------------------------------------------------------//	
 	
 	private boolean verificaDigitacaoNome() {
 				
@@ -643,15 +812,366 @@ public class PersonalGUI extends JFrame {
 		checkNome.setVisible(true);
 		
 		if(status == false) {
-			checkNome.setIcon(new ImageIcon(UsuarioGUI.class.getResource("/com/academia/estrutura/imagens/iconFechar.png")));
+			checkNome.setIcon(new ImageIcon(PersonalGUI.class.getResource("/com/academia/estrutura/imagens/iconFechar.png")));
 		} else {
-			checkNome.setIcon(new ImageIcon(UsuarioGUI.class.getResource("/com/academia/estrutura/imagens/ok.png")));
-		}
+			checkNome.setIcon(new ImageIcon(PersonalGUI.class.getResource("/com/academia/estrutura/imagens/ok.png")));
+		}					
+	}	
+			
+	//-----------------------------------------------------------------//	
+	//------------------------------Gender-----------------------------//
+	
+	private void digitacaoGeneroValido() {
 		
+		status = true;		
+		mudaStatusCheckGenero();
+		checkGenero.setVisible(true);
+		textFieldAge.requestFocus();
 	}
 	
-	//-----------------------------------------------------------------//
+	//-----------------------------------------------------------------//	
 	
+	private boolean verificaDigitacaoGenero() {
+				
+		if(VariaveisProjeto.digitacaoCampo(textFieldGender.getText())) {
+			status = false;
+			mudaStatusCheckGenero();
+			return true;
+		}		
+		return false;
+	}
+	
+	//-----------------------------------------------------------------//	
+	
+	private void mudaStatusCheckGenero() {
+		
+		checkGenero.setVisible(true);
+		
+		if(status == false) {
+			checkGenero.setIcon(new ImageIcon(PersonalGUI.class.getResource("/com/academia/estrutura/imagens/iconFechar.png")));
+		} else {
+			checkGenero.setIcon(new ImageIcon(PersonalGUI.class.getResource("/com/academia/estrutura/imagens/ok.png")));
+		}		
+	}
+			
+	//-----------------------------------------------------------------//	
+	//------------------------------Age--------------------------------//
+	
+	private void digitacaoIdadeValido() {
+		status = true;
+		mudaStatusCheckIdade();
+		checkIdade.setVisible(true);
+		textFieldTelephone.requestFocus();
+	}
+	
+	//-----------------------------------------------------------------//	
+	
+	private boolean verificaDigitacaoIdade() {
+				
+		if(VariaveisProjeto.digitacaoCampo(textFieldAge.getText())) {
+			status = false;
+			mudaStatusCheckIdade();
+			return true;
+		}		
+		return false;
+	}
+	
+	//-----------------------------------------------------------------//	
+	
+	private void mudaStatusCheckIdade() {
+		
+		checkIdade.setVisible(true);
+		
+		if(status == false) {
+			checkIdade.setIcon(new ImageIcon(PersonalGUI.class.getResource("/com/academia/estrutura/imagens/iconFechar.png")));
+		} else {
+			checkIdade.setIcon(new ImageIcon(PersonalGUI.class.getResource("/com/academia/estrutura/imagens/ok.png")));
+		}		
+	}
+	
+	//-----------------------------------------------------------------//	
+	//------------------------------Telephone--------------------------//
+	
+	private void digitacaoTelefoneValido() {
+		status = true;
+		mudaStatusCheckTelefone();
+		CheckTelefone.setVisible(true);
+		textFieldAdress.requestFocus();
+	}
+	
+	//-----------------------------------------------------------------//	
+	
+	private boolean verificaDigitacaoTelefone() {
+				
+		if(VariaveisProjeto.digitacaoCampo(textFieldTelephone.getText())) {
+			status = false;
+			mudaStatusCheckTelefone();
+			return true;
+		}		
+		return false;
+	}
+	
+	//-----------------------------------------------------------------//	
+	
+	private void mudaStatusCheckTelefone() {
+		
+		CheckTelefone.setVisible(true);
+		
+		if(status == false) {
+			CheckTelefone.setIcon(new ImageIcon(PersonalGUI.class.getResource("/com/academia/estrutura/imagens/iconFechar.png")));
+		} else {
+			CheckTelefone.setIcon(new ImageIcon(PersonalGUI.class.getResource("/com/academia/estrutura/imagens/ok.png")));
+		}		
+	}
+	
+	//-----------------------------------------------------------------//	
+	//------------------------------Adress-----------------------------//
+	
+	private void digitacaoEnderecoValido() {
+		status = true;
+		mudaStatusCheckEndereco();
+		checkEndereco.setVisible(true);
+		textFieldNumber.requestFocus();
+	}
+	
+	//-----------------------------------------------------------------//	
+	
+	private boolean verificaDigitacaoEndereco() {
+				
+		if(VariaveisProjeto.digitacaoCampo(textFieldAdress.getText())) {
+			status = false;
+			mudaStatusCheckEndereco();
+			return true;
+		}		
+		return false;
+	}
+	
+	//-----------------------------------------------------------------//	
+	
+	private void mudaStatusCheckEndereco() {
+		
+		checkEndereco.setVisible(true);
+		
+		if(status == false) {
+			checkEndereco.setIcon(new ImageIcon(PersonalGUI.class.getResource("/com/academia/estrutura/imagens/iconFechar.png")));
+		} else {
+			checkEndereco.setIcon(new ImageIcon(PersonalGUI.class.getResource("/com/academia/estrutura/imagens/ok.png")));
+		}		
+	}
+	
+	//-----------------------------------------------------------------//	
+	//------------------------------Number-----------------------------//
+	
+	private void digitacaoNumeroValido() {
+		status = true;
+		mudaStatusCheckNumero();
+		checkNumero.setVisible(true);
+		textFieldNeightbornhood.requestFocus();
+	}
+	
+	//-----------------------------------------------------------------//	
+	
+	private boolean verificaDigitacaoNumero() {
+				
+		if(VariaveisProjeto.digitacaoCampo(textFieldNumber.getText())) {
+			status = false;
+			mudaStatusCheckNumero();
+			return true;
+		}		
+		return false;
+	}
+	
+	//-----------------------------------------------------------------//	
+	
+	private void mudaStatusCheckNumero() {
+		
+		checkNumero.setVisible(true);
+		
+		if(status == false) {
+			checkNumero.setIcon(new ImageIcon(PersonalGUI.class.getResource("/com/academia/estrutura/imagens/iconFechar.png")));
+		} else {
+			checkNumero.setIcon(new ImageIcon(PersonalGUI.class.getResource("/com/academia/estrutura/imagens/imagens/ok.png")));
+		}		
+	}
+	
+	//-----------------------------------------------------------------//	
+	//------------------------------Neighborhood-----------------------//
+	
+	private void digitacaoBairroValido() {
+		status = true;
+		mudaStatusCheckBairro();
+		checkBairro.setVisible(true);
+		textFieldCity.requestFocus();
+	}
+	
+	//-----------------------------------------------------------------//	
+	
+	private boolean verificaDigitacaoBairro() {
+				
+		if(VariaveisProjeto.digitacaoCampo(textFieldNeightbornhood.getText())) {
+			status = false;
+			mudaStatusCheckBairro();
+			return true;
+		}		
+		return false;
+	}
+	
+	//-----------------------------------------------------------------//	
+	
+	private void mudaStatusCheckBairro() {
+		
+		checkBairro.setVisible(true);
+		
+		if(status == false) {
+			checkBairro.setIcon(new ImageIcon(PersonalGUI.class.getResource("/com/academia/estrutura/imagens/iconFechar.png")));
+		} else {
+			checkBairro.setIcon(new ImageIcon(PersonalGUI.class.getResource("/com/academia/estrutura/imagens/imagens/ok.png")));
+		}		
+	}
+	
+	//-----------------------------------------------------------------//	
+	//------------------------------City-------------------------------//
+	
+	private void digitacaoCidadeValido() {
+		status = true;
+		mudaStatusCheckCidade();
+		checkCidade.setVisible(true);
+		textFieldCodePost.requestFocus();
+	}
+	
+	//-----------------------------------------------------------------//	
+	
+	private boolean verificaDigitacaoCidade() {
+				
+		if(VariaveisProjeto.digitacaoCampo(textFieldCity.getText())) {
+			status = false;
+			mudaStatusCheckCidade();
+			return true;
+		}		
+		return false;
+	}
+	
+	//-----------------------------------------------------------------//	
+	
+	private void mudaStatusCheckCidade() {
+		
+		checkCidade.setVisible(true);
+		
+		if(status == false) {
+			checkCidade.setIcon(new ImageIcon(PersonalGUI.class.getResource("/com/academia/estrutura/imagens/iconFechar.png")));
+		} else {
+			checkCidade.setIcon(new ImageIcon(PersonalGUI.class.getResource("/com/academia/estrutura/imagens/ok.png")));
+		}		
+	}
+	
+	//-----------------------------------------------------------------//	
+	//------------------------------PostalCode-------------------------//
+	
+	private void digitacaoCodigoPostalValido() {
+		status = true;
+		mudaStatusCheckCodigoPostal();
+		checkCodigoPostal.setVisible(true);
+		textFieldPeriod.requestFocus();
+	}
+	
+	//-----------------------------------------------------------------//	
+	
+	private boolean verificaDigitacaoCodigoPostal() {
+				
+		if(VariaveisProjeto.digitacaoCampo(textFieldCodePost.getText())) {
+			status = false;
+			mudaStatusCheckCodigoPostal();
+			return true;
+		}		
+		return false;
+	}
+	
+	//-----------------------------------------------------------------//	
+	
+	private void mudaStatusCheckCodigoPostal() {
+		
+		checkCodigoPostal.setVisible(true);
+		
+		if(status == false) {
+			checkCodigoPostal.setIcon(new ImageIcon(PersonalGUI.class.getResource("/com/academia/estrutura/imagens/iconFechar.png")));
+		} else {
+			checkCodigoPostal.setIcon(new ImageIcon(PersonalGUI.class.getResource("/com/academia/estrutura/imagens/ok.png")));
+		}		
+	}
+	
+	//-----------------------------------------------------------------//	
+	//------------------------------period-----------------------------//
+	
+	private void digitacaoPeriodoValido() {
+		status = true;
+		mudaStatusCheckPeriodo();
+		checkPeriodo.setVisible(true);
+		textFieldCref.requestFocus();
+	}
+	
+	//-----------------------------------------------------------------//	
+	
+	private boolean verificaDigitacaoPeriodo() {
+				
+		if(VariaveisProjeto.digitacaoCampo(textFieldPeriod.getText())) {
+			status = false;
+			mudaStatusCheckPeriodo();
+			return true;
+		}		
+		return false;
+	}
+	
+	//-----------------------------------------------------------------//	
+	
+	private void mudaStatusCheckPeriodo() {
+		
+		checkPeriodo.setVisible(true);
+		
+		if(status == false) {
+			checkPeriodo.setIcon(new ImageIcon(PersonalGUI.class.getResource("/com/academia/estrutura/imagens/iconFechar.png")));
+		} else {
+			checkPeriodo.setIcon(new ImageIcon(PersonalGUI.class.getResource("/com/academia/estrutura/imagens/ok.png")));
+		}		
+	}
+		
+	//-----------------------------------------------------------------//	
+	//------------------------------period-----------------------------//
+	
+	private void digitacaoCrefValido() {
+		status = true;
+		mudaStatusCheckCref();
+		checkCref.setVisible(true);
+		rdbtnActivity.requestFocus();
+	}
+	
+	//-----------------------------------------------------------------//	
+	
+	private boolean verificaDigitacaoCref() {
+				
+		if(VariaveisProjeto.digitacaoCampo(textFieldCref.getText())) {
+			status = false;
+			mudaStatusCheckCref();
+			return true;
+		}		
+		return false;
+	}
+	
+	//-----------------------------------------------------------------//	
+	
+	private void mudaStatusCheckCref() {
+		
+		checkCref.setVisible(true);
+		
+		if(status == false) {
+			checkCref.setIcon(new ImageIcon(PersonalGUI.class.getResource("/com/academia/estrutura/imagens/iconFechar.png")));
+		} else {
+			checkCref.setIcon(new ImageIcon(PersonalGUI.class.getResource("/com/academia/estrutura/imagens/ok.png")));
+		}		
+	}
+	
+	//-----------------------------------------------------------------//	
+	//-----------------------------------------------------------------//		
+		
 	private void desabilitaCheckCampo() {
 		
 		checkNome.setVisible(false);		
