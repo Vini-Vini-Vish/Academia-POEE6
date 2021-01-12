@@ -22,7 +22,7 @@ public class Aluno {
 	private int 	postal_code;
 	private String 	period;
 	
-	private boolean activity;
+	private boolean activity = false;
 	
 	//----------------------------------------------
 	@Id
