@@ -206,7 +206,7 @@ public class AlunoGUI extends JFrame {
 				}
 			}
 		});
-		textFieldNumber.setColumns(10);
+		textFieldNumber.setColumns(10); 
 		
 		//-----------------------------------------------------------------//	
 		
@@ -435,9 +435,9 @@ public class AlunoGUI extends JFrame {
 											.addPreferredGap(ComponentPlacement.UNRELATED)
 											.addComponent(checkEndereco, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE)))
 									.addGap(17)
-									.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-										.addComponent(textFieldTelephone, GroupLayout.DEFAULT_SIZE, 156, Short.MAX_VALUE)
-										.addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
+									.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
+										.addComponent(textFieldTelephone, GroupLayout.DEFAULT_SIZE, 154, Short.MAX_VALUE)
+										.addGroup(gl_contentPane.createSequentialGroup()
 											.addComponent(lblNumber)
 											.addGap(18)
 											.addComponent(textFieldNumber, GroupLayout.PREFERRED_SIZE, 74, GroupLayout.PREFERRED_SIZE))))))
@@ -451,7 +451,7 @@ public class AlunoGUI extends JFrame {
 									.addGap(18)
 									.addComponent(btnAlterar)
 									.addGap(18)
-									.addComponent(btnExcluir, GroupLayout.PREFERRED_SIZE, 73, GroupLayout.PREFERRED_SIZE))
+									.addComponent(btnExcluir))
 								.addGroup(gl_contentPane.createSequentialGroup()
 									.addComponent(textFieldPostalCode, GroupLayout.PREFERRED_SIZE, 130, GroupLayout.PREFERRED_SIZE)
 									.addPreferredGap(ComponentPlacement.RELATED)
@@ -464,7 +464,7 @@ public class AlunoGUI extends JFrame {
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
 								.addGroup(gl_contentPane.createSequentialGroup()
 									.addComponent(checkPeriodo, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE)
-									.addPreferredGap(ComponentPlacement.RELATED, 103, Short.MAX_VALUE)
+									.addPreferredGap(ComponentPlacement.RELATED, 91, Short.MAX_VALUE)
 									.addComponent(rdbtnActivity)
 									.addGap(14))
 								.addComponent(btnSair))))
@@ -535,7 +535,7 @@ public class AlunoGUI extends JFrame {
 						.addComponent(btnIncluir, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnAlterar, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnExcluir))
-					.addContainerGap(78, Short.MAX_VALUE))
+					.addContainerGap(79, Short.MAX_VALUE))
 		);
 		
 		//-----------------------------------------------------------------//
