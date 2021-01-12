@@ -108,6 +108,11 @@ public class UsuarioGUI extends JFrame {
 		textFieldName.addFocusListener(new FocusAdapter() {
 			@Override
 			public void focusLost(FocusEvent e) {
+				if( verificaDigitacaoNome() ) {
+					textFieldName.requestFocus();
+				} else {
+					digitacaoEmailValido();
+				}
 			}
 		});
 		
