@@ -18,7 +18,7 @@ import javax.swing.JRadioButton;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import javax.swing.JComboBox;
+import javax.swing.JComboBox; 
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.KeyAdapter;
@@ -47,7 +47,7 @@ public class UsuarioGUI extends JFrame {
 	private JLabel checkEmail;
 	private JLabel checkSenha;
 	
-	private boolean status = true; 
+	private boolean status = true;  
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -162,12 +162,28 @@ public class UsuarioGUI extends JFrame {
 		JLabel lblPassword = new JLabel("Senha:");
 		
 		passwordFieldPassword = new JPasswordField();
+		passwordFieldPassword.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusLost(FocusEvent e) {
+				if( verificaDigitacaoSenha() ) {
+					passwordFieldPassword.requestFocus();
+				} else {
+					digitacaoSenhaValida();
+				}
+			}
+		});
 		
 		passwordFieldPassword.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				
 				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+					
+					if( verificaDigitacaoSenha() ) {
+						passwordFieldPassword.requestFocus();
+					} else {
+						digitacaoSenhaValida();
+					}
 					rdbtnAtivo.requestFocus();
 				}
 			}
@@ -470,7 +486,39 @@ public class UsuarioGUI extends JFrame {
 	}
 		
 	//-----------------------------------------------------------------//	
-		
+	
+	private void digitacaoSenhaValida() {
+		status = true;
+	    mudaStatusCheckSenha();
+		checkSenha.setVisible(true);	
+		rdbtnAtivo.requestFocus();
+	}
+	
+	//-----------------------------------------------------------------//	
+	
+	@SuppressWarnings("deprecation")
+	private boolean verificaDigitacaoSenha() {
+		if ( VariaveisProjeto.digitacaoCampo(passwordFieldPassword.getText())) {
+		     status = false;
+			 mudaStatusCheckSenha();
+			 return true; 
+		}
+		return false;
+	}
+	
+	//-----------------------------------------------------------------//	
+	
+	private void mudaStatusCheckSenha() {
+		checkSenha.setVisible(true);
+		if (status == false ) {
+			checkSenha.setIcon(new ImageIcon(UsuarioGUI.class.getResource("/com/projeto/estrutura/imagens/iconFechar.png")));
+		} else {
+			checkSenha.setIcon(new ImageIcon(UsuarioGUI.class.getResource("/com/projeto/estrutura/imagens/ok.png")));
+		}
+	}
+	
+	//-----------------------------------------------------------------//	
+			
 	private void desabilitaCheckCampo() {
 		checkNome.setVisible(false);
 		checkEmail.setVisible(false);
