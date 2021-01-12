@@ -357,7 +357,7 @@ public class PersonalGUI extends JFrame {
 		
 		//-----------------------------------------------------------------//
 		
-		btnSair = new JButton("Sair");		
+		btnSair = new JButton("Sair");		 
 		btnSair.setIcon(new ImageIcon(PersonalGUI.class.getResource("/com/academia/estrutura/imagens/sair.png")));
 		
 		//-----------------------------------------------------------------//
