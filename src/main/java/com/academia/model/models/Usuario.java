@@ -17,7 +17,7 @@ public class Usuario {
 	private String email;
 	private String password;
 	
-	private boolean ativo = true;
+	private boolean ativo = false;
 	private boolean admin = false;
 	
 	//----------------------------------------------
