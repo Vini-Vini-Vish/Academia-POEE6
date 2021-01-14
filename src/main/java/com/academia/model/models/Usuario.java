@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -20,7 +22,11 @@ public class Usuario {
 	private boolean ativo = false;
 	private boolean admin = false;
 	
-	//----------------------------------------------
+	private Departamento departamento;
+	
+	//---------------------------------------------------//
+	
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "USUARIO_ID")
@@ -28,9 +34,11 @@ public class Usuario {
 		return id;
 	}
 	public void setId(Integer id) {
-		this.id = id;
+		this.id = id;		
 	}
-	//----------------------------------------------
+	
+	//---------------------------------------------------//
+	
 	@Column(name = "USUARIO_USERNAME", length = 60, nullable = false)
 	public String getUsername() {
 		return username;
@@ -38,7 +46,9 @@ public class Usuario {
 	public void setUsername(String username) {
 		this.username = username;
 	}
-	//----------------------------------------------
+	
+	//---------------------------------------------------//
+	
 	@Column(name = "USUARIO_EMAIL", length = 100, nullable = false, unique = true)
 	public String getEmail() {
 		return email;
@@ -46,7 +56,9 @@ public class Usuario {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	//----------------------------------------------
+	
+	//---------------------------------------------------//
+	
 	@Column(name = "USUARIO_PASSWORD", length = 100, nullable = false)
 	public String getPassword() {
 		return password;
@@ -54,7 +66,9 @@ public class Usuario {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	//----------------------------------------------
+	
+	//---------------------------------------------------//
+	
 	@Column(nullable = false)
 	public boolean isAtivo() {
 		return ativo;
@@ -62,7 +76,9 @@ public class Usuario {
 	public void setAtivo(boolean ativo) {
 		this.ativo = ativo;
 	}
-	//----------------------------------------------
+	
+	//---------------------------------------------------//
+	
 	@Column(nullable = false)
 	public boolean isAdmin() {
 		return admin;
@@ -70,7 +86,20 @@ public class Usuario {
 	public void setAdmin(boolean admin) {
 		this.admin = admin;
 	}
-	//----------------------------------------------
+	
+	//---------------------------------------------------//
+	
+	@ManyToOne
+	@JoinColumn(name = "DEPARTAMENTO_ID", nullable = false)
+	public Departamento getDepartamento() {
+		return departamento;
+	}
+	public void setDepartamento(Departamento departamento) {
+		this.departamento = departamento;
+	}
+	
+	//---------------------------------------------------//
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -78,7 +107,9 @@ public class Usuario {
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
 	}
-	//----------------------------------------------
+	
+	//---------------------------------------------------//
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -95,11 +126,14 @@ public class Usuario {
 			return false;
 		return true;
 	}		
-	//----------------------------------------------
+	
+	//---------------------------------------------------//
+	
 	@Override
 	public String toString() {
 		return "Usuario [id=" + id + ", username=" + username + ", email=" + email + ", password=" + password
 				+ ", ativo=" + ativo + ", admin=" + admin + "]";
 	}
-	//----------------------------------------------
+	
+	//---------------------------------------------------//
 }
