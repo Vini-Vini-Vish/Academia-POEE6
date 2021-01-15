@@ -11,17 +11,22 @@ public class PersonalService extends ConexaoBancoService {
 	private PersonalDao personalDao;
 	
 	//-------------------------------------------------------------------
+	
 	public PersonalService() {
 		this.personalDao = new PersonalDao(this.getEntityManager());
 	}
+	
 	//-------------------------------------------------------------------
+	
 	public Integer save(Personal personal) {
 		
 		Integer toReturn = 0;
 		
 		EntityTransaction trx = this.getTransaction();
 		
-		if(validarDigitacao(personal) == VariaveisProjeto.DIGITACAO_OK) {
+		toReturn = validarDigitacao(personal);
+		
+		if(toReturn == VariaveisProjeto.DIGITACAO_OK) {
 		
 			try {
 				trx.begin();
@@ -37,13 +42,12 @@ public class PersonalService extends ConexaoBancoService {
 			}finally {
 				this.close();
 			}
-		} else {
-			toReturn = VariaveisProjeto.CAMPO_VAZIO;
-		}
-		
+		}		
 		return toReturn;
 	}
+	
 	//-------------------------------------------------------------------
+	
 	public Integer update(Personal personal) {
 		
 		Integer toReturn =0;
@@ -67,7 +71,7 @@ public class PersonalService extends ConexaoBancoService {
 				this.close();
 			}
 		} else {
-			toReturn = VariaveisProjeto.CAMPO_VAZIO;
+			toReturn = VariaveisProjeto.NOME_CAMPO_VAZIO;
 		}
 		
 		return toReturn;
@@ -109,7 +113,7 @@ public class PersonalService extends ConexaoBancoService {
 	
 	public Integer validarDigitacao(Personal personal) {
 		if(VariaveisProjeto.digitacaoCampo(personal.getName())) {
-			return VariaveisProjeto.CAMPO_VAZIO;
+			return VariaveisProjeto.NOME_CAMPO_VAZIO;
 		}		
 		return VariaveisProjeto.DIGITACAO_OK;
 	}	
