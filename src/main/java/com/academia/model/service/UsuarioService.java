@@ -11,39 +11,46 @@ public class UsuarioService extends ConexaoBancoService {
 	
 	private UsuarioDao usuarioDao;
 	
+	//-------------------------------------------------------------------
+	
 	public UsuarioService() {
 		this.usuarioDao = new UsuarioDao(this.getEntityManager());
 	}
 	
+	//-------------------------------------------------------------------
+	
 	public Integer save(Usuario usuario) {
 		
 		Integer toReturn = 0;
-		
+
 		EntityTransaction trx = this.getTransaction();
 		
-		if(validarDigitacao(usuario)== VariaveisProjeto.DIGITACAO_OK) {
-		
+		toReturn = validarDigitacao(usuario);
+
+		if ( toReturn == VariaveisProjeto.DIGITACAO_OK) {
+
 			try {
 				trx.begin();
 				this.getUsuarioDao().save(usuario);
 				trx.commit();
-				
-			}catch(Exception ex) {
+                toReturn = VariaveisProjeto.INCLUSAO_REALIZADA;
+                
+			} catch (Exception ex) {
 				ex.printStackTrace();
-				if(trx.isActive()) {
+				if ( trx.isActive() ) {
 					trx.rollback();
 				}
+				
 				toReturn = VariaveisProjeto.ERRO_INCLUSAO;
-			}finally {
+
+			} finally {
 				this.close();
 			}
-		} else {
-			toReturn = VariaveisProjeto.CAMPO_VAZIO;
-		}
-		
-		return toReturn;
+		} 
+		return toReturn; 
 	}
 	
+	//-------------------------------------------------------------------
 	
 	public Integer update(Usuario usuario) {
 		
@@ -51,12 +58,15 @@ public class UsuarioService extends ConexaoBancoService {
 		
 		EntityTransaction trx = this.getTransaction();
 		
-		if(validarDigitacao(usuario)== VariaveisProjeto.DIGITACAO_OK) {
+		toReturn = validarDigitacao(usuario);
+		
+		if(toReturn == VariaveisProjeto.DIGITACAO_OK) {
 		
 			try {
 				trx.begin();
 				this.getUsuarioDao().update(usuario);
 				trx.commit();
+				toReturn = VariaveisProjeto.ALTERACAO_REALIZADA;
 				
 			}catch(Exception ex) {
 				ex.printStackTrace();
@@ -68,11 +78,13 @@ public class UsuarioService extends ConexaoBancoService {
 				this.close();
 			}
 		} else {
-			toReturn = VariaveisProjeto.CAMPO_VAZIO;
+			toReturn = VariaveisProjeto.NOME_CAMPO_VAZIO;
 		}
 		
 		return toReturn;
 	}
+	
+	//-------------------------------------------------------------------
 	
 	public Integer delete(Usuario usuario) {
 		
@@ -86,6 +98,7 @@ public class UsuarioService extends ConexaoBancoService {
 				Usuario usuarioEncontrado = this.getUsuarioDao().findById(usuario.getId());
 				this.getUsuarioDao().remove(usuarioEncontrado);
 				trx.commit();
+				toReturn = VariaveisProjeto.EXCLUSAO_REALIZADA;
 				
 			}catch(Exception ex) {
 				ex.printStackTrace();
@@ -100,23 +113,30 @@ public class UsuarioService extends ConexaoBancoService {
 		return toReturn;
 	}
 	
+	//-------------------------------------------------------------------
 	
 	public Usuario findById(Integer id) {
 		return this.getUsuarioDao().findById(id);
 	}
 	
+	//-------------------------------------------------------------------
+	
 	public List<Usuario> findAll(){
 		return this.getUsuarioDao().findAll(Usuario.class);
 	}
 	
+	//-------------------------------------------------------------------
+	
 	public Integer validarDigitacao(Usuario usuario) {
 		if(VariaveisProjeto.digitacaoCampo(usuario.getUsername())) {
-			return VariaveisProjeto.CAMPO_VAZIO;
+			return VariaveisProjeto.NOME_CAMPO_VAZIO;
 		}
 		
 		return VariaveisProjeto.DIGITACAO_OK;
 	}	
 
+	//-------------------------------------------------------------------
+	
 	public UsuarioDao getUsuarioDao() {
 		return usuarioDao;
 	}
