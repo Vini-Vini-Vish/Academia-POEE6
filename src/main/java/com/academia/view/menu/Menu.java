@@ -1,7 +1,5 @@
 package com.academia.view.menu;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -15,7 +13,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 public class Menu extends JFrame {
-
 	
 	private static final long serialVersionUID = -7288934016245956517L;
 	
