@@ -3,7 +3,7 @@ package com.academia.model.service;
 import java.util.List;
 import javax.persistence.EntityTransaction;
 import com.academia.estrutura.util.VariaveisProjeto;
-import com.academia.model.dao.AlunoDao;
+import com.academia.model.dao.aluno.AlunoDao;
 import com.academia.model.models.Aluno;
 
 public class AlunoService extends ConexaoBancoService{
