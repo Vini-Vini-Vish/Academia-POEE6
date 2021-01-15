@@ -364,6 +364,7 @@ public class UsuarioGUI extends JFrame {
 		desabilitaCheckCampo();
 	}
 
+	//-------------------------Incluir--------------------------------//
 	//-----------------------------------------------------------------//	
 	
 	private void IncluirUsuario() {
@@ -404,6 +405,7 @@ public class UsuarioGUI extends JFrame {
 		
 	}	
 	
+	//-------------------------Alterar---------------------------------//	
 	//-----------------------------------------------------------------//	
 	
 	protected void AlterarUsuario() {
@@ -442,6 +444,7 @@ public class UsuarioGUI extends JFrame {
 		}
 	}	
 	
+	//-------------------------Excluir---------------------------------//
 	//-----------------------------------------------------------------//	
 	
 	protected void ExcluirUsuario() {
@@ -471,6 +474,7 @@ public class UsuarioGUI extends JFrame {
 		}
 	}	
 	
+	//-------------------------Show Mensagem---------------------------//
 	//-----------------------------------------------------------------//
 	
 	private void showMensagem(String mensagem, String status, int option ) {
