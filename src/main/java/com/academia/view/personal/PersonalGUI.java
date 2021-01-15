@@ -5,7 +5,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import com.academia.estrutura.util.VariaveisProjeto;
-import com.academia.model.models.Aluno;
 import com.academia.model.models.Personal;
 import com.academia.model.service.PersonalService;
 import javax.swing.GroupLayout;
@@ -741,6 +740,7 @@ public class PersonalGUI extends JFrame {
 		});
 	}
 	
+	//-------------------------Incluir---------------------------------------//
 	//-----------------------------------------------------------------------//
 	
 	private void IncluirPersonal() {
@@ -756,23 +756,26 @@ public class PersonalGUI extends JFrame {
 		
 		toReturn = personalservice.save(personal);
 		
-		if(toReturn == VariaveisProjeto.NOME_CAMPO_VAZIO) {
-			status = true;
+		if( toReturn == VariaveisProjeto.NOME_CAMPO_VAZIO ) {
+			status = false;
 			mudaStatusCheckNome();
-			JOptionPane.showMessageDialog(null, "ERRO NO CAMPO NOME","RE-ESCREVA CORRETAMENTE", JOptionPane.ERROR_MESSAGE);
-		}
-		if(toReturn == VariaveisProjeto.ERRO_INCLUSAO) {
-			JOptionPane.showMessageDialog(null, "ERRO NA INCLUSAO","ERRO", JOptionPane.ERROR_MESSAGE);
-		}
-		if(toReturn == VariaveisProjeto.INCLUSAO_REALIZADA) {
-			JOptionPane.showMessageDialog(null, "INCLUSAO DO REGISTRO REALIZADA","SUCESSO", JOptionPane.OK_OPTION);
-			limpaTextoCampo();
-			personal = new Personal();
+			showMensagem("Erro na Digitação, verifique!", "Erro", JOptionPane.ERROR_MESSAGE);
 		}
 		
-		limpaTextoCampo();
+		if ( toReturn == VariaveisProjeto.ERRO_ALTERACAO ) {
+			showMensagem("Erro na alteração do Registro, verifique com seu administrador!", "Erro", JOptionPane.ERROR_MESSAGE);
+		}
+		
+		if ( toReturn == VariaveisProjeto.ERRO_ALTERACAO) {
+			showMensagem("alteração do Registro realizada com sucesso!", "OK", JOptionPane.OK_OPTION);
+			
+			limpaTextoCampo();
+			
+			personal = new Personal();
+		}
 	}
 	
+	//-------------------------Alterar---------------------------------//
 	//-----------------------------------------------------------------//
 	
 	protected void AlterarPersonal() {
@@ -785,19 +788,36 @@ public class PersonalGUI extends JFrame {
 		limpaTextoCampo();
 	}	
 	
+	//-------------------------Excluir---------------------------------//
 	//-----------------------------------------------------------------//
 	
 	protected void ExcluirPersonal() {
 		
+		Integer toReturn = 0;
+		
 		Personal personal  = PegarDadosPersonal();
 		
-		PersonalService personalservice = new PersonalService();
+		PersonalService personalservice = new PersonalService();		
+				
+		toReturn = personalservice.delete(personal);
 		
-		personalservice.save(personal);
-		
-		personalservice.delete(personal);
-		
-		limpaTextoCampo();
+		if ( toReturn == VariaveisProjeto.ERRO_EXCLUSAO ) {
+			showMensagem("Erro na Exclusão do Registro, verifique com seu administrador!",
+					   	 "Erro",JOptionPane.ERROR_MESSAGE);
+		}
+		if ( toReturn == VariaveisProjeto.EXCLUSAO_REALIZADA) {
+			showMensagem("Exclusão do Registro realizada com sucesso!",
+					     "OK",JOptionPane.OK_OPTION);
+			limpaTextoCampo();
+			personal = new Personal();
+		}
+	}
+	
+	//-------------------------Show Mensagem---------------------------//
+	//-----------------------------------------------------------------//
+
+	private void showMensagem(String mensagem, String status, int option ) {
+		JOptionPane.showMessageDialog(null, mensagem, status, option );
 	}
 	
 	//-----------------------------------------------------------------//	
