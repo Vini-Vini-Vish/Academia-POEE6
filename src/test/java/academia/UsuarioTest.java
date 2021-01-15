@@ -4,7 +4,7 @@ import static org.junit.Assert.assertTrue;
 import java.util.List;
 import org.junit.Test;
 
-import com.academia.model.models.Usuario;
+import com.academia.model.models.user.Usuario;
 import com.academia.model.service.UsuarioService;
 
 public class UsuarioTest {
