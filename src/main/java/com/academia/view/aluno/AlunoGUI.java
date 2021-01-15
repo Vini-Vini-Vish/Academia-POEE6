@@ -6,7 +6,6 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import com.academia.estrutura.util.VariaveisProjeto;
 import com.academia.model.models.Aluno;
-import com.academia.model.models.Usuario;
 import com.academia.model.service.AlunoService;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -705,12 +704,13 @@ public class AlunoGUI extends JFrame {
 		});
 	}
 	
+	//-------------------------Incluir--------------------------------//
 	//-----------------------------------------------------------------//
 	
 	private void IncluirAluno() {
 		
 		Integer toReturn = 0;
-		
+				
 		Aluno aluno  = PegarDadosAluno();
 		//System.out.println(aluno.toString());
 
@@ -718,49 +718,92 @@ public class AlunoGUI extends JFrame {
 				
 		toReturn = alunoservice.save(aluno);
 		
-		if(toReturn == VariaveisProjeto.NOME_CAMPO_VAZIO) {
-			status = true;
+		if( toReturn == VariaveisProjeto.NOME_CAMPO_VAZIO ) {
+			status = false;
 			mudaStatusCheckNome();
-			JOptionPane.showMessageDialog(null, "ERRO NO CAMPO NOME","RE-ESCREVA CORRETAMENTE", JOptionPane.ERROR_MESSAGE);
+			showMensagem("Erro na Digitação, verifique!", "Erro", JOptionPane.ERROR_MESSAGE);
 		}
-		if(toReturn == VariaveisProjeto.ERRO_INCLUSAO) {
-			JOptionPane.showMessageDialog(null, "ERRO NA INCLUSAO","ERRO", JOptionPane.ERROR_MESSAGE);
+		
+		if ( toReturn == VariaveisProjeto.ERRO_INCLUSAO ) {
+			showMensagem("Erro na Inclusão do Registro, verifique com seu administrador!", "Erro", JOptionPane.ERROR_MESSAGE);
 		}
-		if(toReturn == VariaveisProjeto.INCLUSAO_REALIZADA) {
-			JOptionPane.showMessageDialog(null, "INCLUSAO DO REGISTRO REALIZADA","SUCESSO", JOptionPane.OK_OPTION);
+		
+		if ( toReturn == VariaveisProjeto.INCLUSAO_REALIZADA) {
+			showMensagem("Inclusão do Registro realizada com sucesso!", "OK", JOptionPane.OK_OPTION);
+			
 			limpaTextoCampo();
+			
 			aluno = new Aluno();
 		}
 	
 	}
 	
+	//-------------------------Alterar---------------------------------//	
 	//-----------------------------------------------------------------//
 	
 	protected void AlterarAluno() {
 		
+		Integer toReturn = 0;
+		
 		Aluno aluno  = PegarDadosAluno();
+		
 		AlunoService alunoservice = new AlunoService();
 		
 		alunoservice.update(aluno);	
-				
-		limpaTextoCampo();
+						
+		toReturn = alunoservice.update(aluno);
+		
+		if( toReturn == VariaveisProjeto.NOME_CAMPO_VAZIO ) {
+			status = false;
+			mudaStatusCheckNome();
+			showMensagem("Erro na Digitação, verifique!", "Erro", JOptionPane.ERROR_MESSAGE);
+		}
+		
+		if ( toReturn == VariaveisProjeto.ERRO_ALTERACAO ) {
+			showMensagem("Erro na alteração do Registro, verifique com seu administrador!", "Erro", JOptionPane.ERROR_MESSAGE);
+		}
+		
+		if ( toReturn == VariaveisProjeto.ERRO_ALTERACAO) {
+			showMensagem("alteração do Registro realizada com sucesso!", "OK", JOptionPane.OK_OPTION);
+			
+			limpaTextoCampo();
+			
+			aluno = new Aluno();
+		}
 	}	
 	
+	//-------------------------Excluir---------------------------------//
 	//-----------------------------------------------------------------//
 	
 	protected void ExcluirAluno() {
 		
-		Aluno aluno  = PegarDadosAluno();
+		Integer toReturn = 0;
 		
+		Aluno aluno  = PegarDadosAluno();
+				
 		AlunoService alunoservice = new AlunoService();
 		
-		alunoservice.save(aluno);
+		toReturn = alunoservice.delete(aluno);
 		
-		alunoservice.delete(aluno);
-		
-		limpaTextoCampo();
+		if ( toReturn == VariaveisProjeto.ERRO_EXCLUSAO ) {
+			showMensagem("Erro na Exclusão do Registro, verifique com seu administrador!",
+					   	 "Erro",JOptionPane.ERROR_MESSAGE);
+		}
+		if ( toReturn == VariaveisProjeto.EXCLUSAO_REALIZADA) {
+			showMensagem("Exclusão do Registro realizada com sucesso!",
+					     "OK",JOptionPane.OK_OPTION);
+			limpaTextoCampo();
+			aluno = new Aluno();
+		}
 	}
 	
+	//-------------------------Show Mensagem---------------------------//
+	//-----------------------------------------------------------------//
+
+	private void showMensagem(String mensagem, String status, int option ) {
+		JOptionPane.showMessageDialog(null, mensagem, status, option );
+	}
+		
 	//-----------------------------------------------------------------//	
 	//------------------------------NOME-------------------------------//
 	
