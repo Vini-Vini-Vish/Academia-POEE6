@@ -4,8 +4,8 @@ import java.util.List;
 import javax.persistence.EntityTransaction;
 
 import com.academia.estrutura.util.VariaveisProjeto;
-import com.academia.model.dao.UsuarioDao;
-import com.academia.model.models.Usuario;
+import com.academia.model.dao.usuario.UsuarioDao;
+import com.academia.model.models.user.Usuario;
 
 public class UsuarioService extends ConexaoBancoService {
 	
