@@ -37,7 +37,7 @@ public class ConexaoBancoDados {
 		
 		Map<String, String> properties = new HashMap<String, String>();
 		
-		properties.put("javax.persistence.schema-generation.database.action", "drop-and-create");
+		properties.put("javax.persistence.schema-generation.database.action", "update");
 		properties.put("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
 		properties.put("hibernate.connection.driver_class", "com.mysql.jdbc.Driver");
 		properties.put("hibernate.connection.url", "jdbc:mysql://localhost:3306/projeto?createDatabaseIfNotExist=true&useSSL=false");
