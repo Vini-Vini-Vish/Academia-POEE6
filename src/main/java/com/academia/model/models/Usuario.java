@@ -1,11 +1,15 @@
 package com.academia.model.models;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -23,6 +27,7 @@ public class Usuario {
 	private boolean admin = false;
 	
 	private Departamento departamento;
+	private List<Role> roles;
 	
 	//---------------------------------------------------//
 	
@@ -98,7 +103,20 @@ public class Usuario {
 		this.departamento = departamento;
 	}
 	
-	//---------------------------------------------------//
+	//---------------------------------------------------// 
+	
+	@ManyToMany
+	@JoinTable(name = "TAB_USUARIO_ROLE",
+		joinColumns = @JoinColumn(name = "USUARIO_ID"),
+		inverseJoinColumns = @JoinColumn(name = "ROLE_ID"))
+	public List<Role> getRoles() {
+		return roles;
+	}
+	public void setRoles(List<Role> roles) {
+		this.roles = roles;
+	}
+	
+	//---------------------------------------------------// 
 	
 	@Override
 	public int hashCode() {
