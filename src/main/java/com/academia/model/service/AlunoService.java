@@ -13,14 +13,18 @@ public class AlunoService extends ConexaoBancoService{
 	public AlunoService() {
 		this.alunoDao = new AlunoDao(this.getEntityManager());
 	}
+	
 	//-------------------------------------------------------------------
+	
 	public Integer save(Aluno aluno) {
 		
 		Integer toReturn = 0;
 		
 		EntityTransaction trx = this.getTransaction();
 		
-		if(validarDigitacao(aluno) == VariaveisProjeto.DIGITACAO_OK) {
+		toReturn = validarDigitacao(aluno);
+		
+		if(toReturn == VariaveisProjeto.DIGITACAO_OK) {
 		
 			try {
 				trx.begin();
@@ -36,13 +40,13 @@ public class AlunoService extends ConexaoBancoService{
 			}finally {
 				this.close();
 			}
-		} else {
-			toReturn = VariaveisProjeto.CAMPO_VAZIO;
 		}
 		
 		return toReturn;
 	}
+	
 	//-------------------------------------------------------------------
+	
 	public Integer update(Aluno aluno) {
 		
 		Integer toReturn =0;
@@ -65,13 +69,13 @@ public class AlunoService extends ConexaoBancoService{
 			}finally {
 				this.close();
 			}
-		} else {
-			toReturn = VariaveisProjeto.CAMPO_VAZIO;
 		}
 		
 		return toReturn;
 	}
+	
 	//-------------------------------------------------------------------
+	
 	public Integer delete(Aluno aluno) {
 		
 		Integer toReturn =0;
@@ -97,7 +101,9 @@ public class AlunoService extends ConexaoBancoService{
 		
 		return toReturn;
 	}
+	
 	//-------------------------------------------------------------------
+	
 	public Aluno findById(Integer idaluno) {
 		return this.getAlunoDao().findById(idaluno);
 	}
@@ -108,7 +114,7 @@ public class AlunoService extends ConexaoBancoService{
 	
 	public Integer validarDigitacao(Aluno aluno) {
 		if(VariaveisProjeto.digitacaoCampo(aluno.getName())) {
-			return VariaveisProjeto.CAMPO_VAZIO;
+			return VariaveisProjeto.NOME_CAMPO_VAZIO;
 		}		
 		return VariaveisProjeto.DIGITACAO_OK;
 	}	
