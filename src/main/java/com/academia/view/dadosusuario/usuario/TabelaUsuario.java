@@ -4,23 +4,36 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.TableRowSorter;
+
+import com.academia.model.models.user.Usuario;
+import com.academia.model.service.UsuarioService;
+
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JButton;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.ListSelectionModel;
 import javax.swing.ImageIcon;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.swing.JLabel;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JTextField;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.ItemEvent;
 
 public class TabelaUsuario extends JFrame {
 
 	private static final long serialVersionUID = 1960507399838165929L;
-	
+		
 	private JPanel contentPane;
 	private JScrollPane scrollPane;
 	private JTable tabelaUsuario;
@@ -39,10 +52,22 @@ public class TabelaUsuario extends JFrame {
 	private JTextField textField;
 	private JButton btnPesquisar;
 	private JLabel lblPagina;
-	private JLabel lblPrmeiroValor;
+	private JLabel lblInicio;
 	private JLabel lblDe;
-	private JLabel lblValorFinal;
-
+	private JLabel lblFinal;
+	
+	private static final int CODIGO = 0;
+	private static final int NOME = 1;
+	private static final int EMAIL = 2;
+	
+	private Integer totalData = 0;
+	private Integer defaultPagina = 5;
+	private Integer totalPagina = 1;
+	private Integer numeroPagina = 1;
+	private JLabel totalRegistros;
+	
+	private TabelaUsuarioModel tabelaUsuarioModel;
+	private TableRowSorter<TabelaUsuarioModel> sortTabelaUsuario;
 	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -59,6 +84,7 @@ public class TabelaUsuario extends JFrame {
 
 	
 	public TabelaUsuario() {
+				
 		setTitle("Lista de Usuarios");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 828, 555);
@@ -70,7 +96,7 @@ public class TabelaUsuario extends JFrame {
 		
 		//-----------------------------------------------------------------//		
 
-		btnIcluir = new JButton("Incluir");
+		btnIcluir = new JButton("Incluir");		
 		btnIcluir.setMnemonic(KeyEvent.VK_I);
 		btnIcluir.setIcon(new ImageIcon(TabelaUsuario.class.getResource("/com/academia/estrutura/imagens/book_previous.png")));
 		
@@ -102,6 +128,12 @@ public class TabelaUsuario extends JFrame {
 		//-----------------------------------------------------------------//		
 
 		comboBox = new JComboBox<String>();
+		comboBox.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				iniciaPaginacao();
+			}
+		});
+		
 		comboBox.setModel(new DefaultComboBoxModel<String>(new String[] {"5", "10", "15", "20"}));
 		comboBox.setToolTipText("");
 		
@@ -121,11 +153,11 @@ public class TabelaUsuario extends JFrame {
 		
 		lblPagina = new JLabel("Pagina:");
 		
-		lblPrmeiroValor = new JLabel("10");
+		lblInicio = new JLabel("10");
 		
 		lblDe = new JLabel("de");
 		
-		lblValorFinal = new JLabel("50");
+		lblFinal = new JLabel("50");
 		
 		//-----------------------------------------------------------------//		
 
@@ -144,11 +176,11 @@ public class TabelaUsuario extends JFrame {
 							.addGap(63)
 							.addComponent(lblPagina)
 							.addGap(18)
-							.addComponent(lblPrmeiroValor)
+							.addComponent(lblInicio)
 							.addGap(18)
 							.addComponent(lblDe)
 							.addGap(18)
-							.addComponent(lblValorFinal)
+							.addComponent(lblFinal)
 							.addGap(86))
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
@@ -200,33 +232,65 @@ public class TabelaUsuario extends JFrame {
 						.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 								.addComponent(lblPagina)
-								.addComponent(lblPrmeiroValor)
+								.addComponent(lblInicio)
 								.addComponent(lblDe)
-								.addComponent(lblValorFinal))
+								.addComponent(lblFinal))
 							.addContainerGap())))
 		);
 		
 		//-----------------------------------------------------------------//		
 
 		btnPrimeiro = new JButton("");
+		btnPrimeiro.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				numeroPagina = 1;
+				iniciaPaginacao();
+			}
+		});
+		
 		btnPrimeiro.setIcon(new ImageIcon(TabelaUsuario.class.getResource("/com/academia/estrutura/imagens/go-first.png")));
 		btnPrimeiro.setToolTipText("Primeira Pagina\r\n");
 		
 		//-----------------------------------------------------------------//		
 
 		btnAnterior = new JButton("");
+		btnAnterior.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (numeroPagina > 1) {
+					numeroPagina = numeroPagina - 1;
+					iniciaPaginacao();
+				}
+			}
+		});
+		
 		btnAnterior.setToolTipText("Pagina Anterior\r\n");
 		btnAnterior.setIcon(new ImageIcon(TabelaUsuario.class.getResource("/com/academia/estrutura/imagens/go-previous.png")));
 		
 		//-----------------------------------------------------------------//		
 
 		btnProximo = new JButton("");
+		btnProximo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if ( numeroPagina < totalPagina ) {
+					numeroPagina = numeroPagina + 1;
+					iniciaPaginacao();
+				}
+			}
+		});
+		
 		btnProximo.setToolTipText("Proxima Pagina\r\n");
 		btnProximo.setIcon(new ImageIcon(TabelaUsuario.class.getResource("/com/academia/estrutura/imagens/go-next.png")));
 		
 		//-----------------------------------------------------------------//		
 
 		btnUltimo = new JButton("");
+		btnUltimo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				numeroPagina = totalPagina;
+				iniciaPaginacao();
+			}
+		});
+		
 		btnUltimo.setToolTipText("Ultima Pagina\r\n");
 		btnUltimo.setIcon(new ImageIcon(TabelaUsuario.class.getResource("/com/academia/estrutura/imagens/go-last.png")));
 		
@@ -266,5 +330,102 @@ public class TabelaUsuario extends JFrame {
 		tabelaUsuario = new JTable();
 		scrollPane.setViewportView(tabelaUsuario);
 		contentPane.setLayout(gl_contentPane);
+	}
+	
+	//-----------------------------------------------------------------//		
+	
+	public JTable getTable() {
+		return tabelaUsuario;
+	}
+	
+	//-----------------------------------------------------------------//		
+	
+	private void iniciaPaginacao() {
+	      
+		totalData = buscaTotalRegistroUsuario();
+		
+		defaultPagina = Integer.valueOf(comboBox.getSelectedItem().toString());
+		
+		Double totalPaginasExistenes = Math.ceil(totalData.doubleValue() / defaultPagina.doubleValue());
+	
+		totalPagina = totalPaginasExistenes.intValue();
+		
+		if ( numeroPagina.equals(1)) {
+			btnPrimeiro.setEnabled(false);
+			btnProximo.setEnabled(false);
+		} else {
+			btnPrimeiro.setEnabled(true);
+			btnProximo.setEnabled(true);
+		}
+		
+		if ( numeroPagina.equals(totalPagina)) {
+			btnUltimo.setEnabled(false);
+			btnProximo.setEnabled(false);
+		} else {
+			btnUltimo.setEnabled(true);
+			btnProximo.setEnabled(true);
+		}
+		
+		if (numeroPagina > totalPagina ) {
+			numeroPagina = 1;
+		}
+		
+		//-----------------------------------------------------------------//
+			
+		tabelaUsuarioModel = new TabelaUsuarioModel();
+		
+		tabelaUsuarioModel.setListaUsuario(carregaListaUsuario(numeroPagina, defaultPagina));
+		
+		tabelaUsuario.setModel(tabelaUsuarioModel);
+		
+		tabelaUsuario.setFillsViewportHeight(true);
+		
+		tabelaUsuario.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		
+		tabelaUsuarioModel.fireTableDataChanged();
+		
+		sortTabelaUsuario = new TableRowSorter<TabelaUsuarioModel>(tabelaUsuarioModel);
+		
+		tabelaUsuario.setRowSorter(sortTabelaUsuario);		
+		
+			
+		tabelaUsuario.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);		
+		
+		tabelaUsuario.getColumnModel().getColumn(CODIGO).setWidth(11);
+		tabelaUsuario.getColumnModel().getColumn(NOME).setWidth(100);
+		tabelaUsuario.getColumnModel().getColumn(EMAIL).setWidth(100);
+		
+		lblInicio.setText(String.valueOf(numeroPagina));
+		lblFinal.setText(String.valueOf(totalPagina));
+		totalRegistros.setText(String.valueOf(totalData));
+		
+		//-----------------------------------------------------------------//
+		 
+	}
+	
+	//-----------------------------------------------------------------//		
+	
+	private List<Usuario> carregaListaUsuario(Integer numeroPagina, Integer defaultPagina) {
+
+		UsuarioService usuarioService = new UsuarioService();
+
+		List<Usuario> listaUsuario  = new ArrayList<Usuario>();
+		
+		listaUsuario = usuarioService.listUsuarioPaginacao( ( defaultPagina * (numeroPagina - 1 )), defaultPagina);
+		
+		return listaUsuario;
+	}
+	
+	//-----------------------------------------------------------------//		
+	
+	private Integer buscaTotalRegistroUsuario() {
+		
+		Integer totalRegistro = 0;
+		
+		UsuarioService usuarioService = new UsuarioService();
+		
+		totalRegistro = usuarioService.countTotalRegister();
+		
+		return totalRegistro;
 	}
 }
