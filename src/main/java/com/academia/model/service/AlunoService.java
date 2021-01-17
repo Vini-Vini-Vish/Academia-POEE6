@@ -151,4 +151,12 @@ public class AlunoService extends ConexaoBancoService{
 	public AlunoDao getAlunoDao() {
 		return alunoDao;
 	}
+
+	public Integer countTotalRegister() {
+		return alunoDao.countTotalRegister(Aluno.class);
+	}
+
+	public List<Aluno> listAlunoPaginacao(int numeroPagina, Integer defaultPagina) {
+		return alunoDao.listAlunoPaginacao(numeroPagina,defaultPagina);
+	}
 }
