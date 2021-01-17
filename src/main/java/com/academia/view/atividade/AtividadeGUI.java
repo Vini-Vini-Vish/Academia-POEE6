@@ -322,11 +322,11 @@ public class AtividadeGUI extends JFrame {
 		
 		toReturn = atividadeservice.save(atividade);
 		
-		if( toReturn == VariaveisProjeto.USUARIO_USER_NAME) {
-			status = false;
-			mudaStatusCheckNome();
-			showMensagem("Erro na Digitação, verifique!", "Erro", JOptionPane.ERROR_MESSAGE);
-		}
+		//-----------------------------------------------------------------//	
+		
+		erroDigitacao(toReturn);	
+		
+		//-----------------------------------------------------------------//	
 		
 		if ( toReturn == VariaveisProjeto.ERRO_INCLUSAO ) {
 			showMensagem("Erro na Inclusão do Registro, verifique com seu administrador!", "Erro", JOptionPane.ERROR_MESSAGE);
@@ -355,11 +355,11 @@ public class AtividadeGUI extends JFrame {
 		
 		toReturn = atividadeservice.update(atividade);		
 		
-		if( toReturn == VariaveisProjeto.USUARIO_USER_NAME ) {
-			status = false;
-			mudaStatusCheckNome();
-			showMensagem("Erro na Digitação, verifique!", "Erro", JOptionPane.ERROR_MESSAGE);
-		}
+		//-----------------------------------------------------------------//	
+		
+		erroDigitacao(toReturn);	
+		
+		//-----------------------------------------------------------------//	
 		
 		if ( toReturn == VariaveisProjeto.ERRO_ALTERACAO ) {
 			showMensagem("Erro na alteração do Registro, verifique com seu administrador!", "Erro", JOptionPane.ERROR_MESSAGE);
@@ -372,7 +372,7 @@ public class AtividadeGUI extends JFrame {
 			
 			atividade = new Atividade();
 		}
-	}	
+	}
 	
 	//-------------------------Excluir---------------------------------//
 	//-----------------------------------------------------------------//	
@@ -410,6 +410,22 @@ public class AtividadeGUI extends JFrame {
 				dispose();
 			}
 		});
+	}	
+	
+	//-------------------------Erro Digitação--------------------------//
+	//-----------------------------------------------------------------//
+	
+	private void erroDigitacao(Integer toReturn) {
+		if( toReturn == VariaveisProjeto.NOME) {
+			status = false;
+			mudaStatusCheckNome();
+			showMensagem("Erro na Digitação, verifique!", "Erro", JOptionPane.ERROR_MESSAGE);
+		}
+		if( toReturn == VariaveisProjeto.DESCRICAO ) {
+			status = false;
+			mudaStatusCheckDescricao();
+			showMensagem("Erro na Digitação, verifique!", "Erro", JOptionPane.ERROR_MESSAGE);
+		}
 	}	
 	
 	//-------------------------Show Mensagem---------------------------//
