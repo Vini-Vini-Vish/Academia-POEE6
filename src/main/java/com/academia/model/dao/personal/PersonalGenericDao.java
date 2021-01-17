@@ -55,5 +55,11 @@ public abstract class PersonalGenericDao <Personal, Id extends Serializable>{
 	public Class<Personal> getClassePersistencia() {
 		return classePersistencia;
 	}
+	
+	public Integer countTotalRegister(Class<Personal> classe) {
+		Query query = this.getEntityManager().createNativeQuery("SELECT count(o) FROM "+classe.getSimpleName()+" o");		
+		Long total = (Long) query.getSingleResult();
+		return total.intValue();
+	}
 }
 
