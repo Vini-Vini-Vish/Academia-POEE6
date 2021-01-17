@@ -720,56 +720,7 @@ public class AlunoGUI extends JFrame {
 		
 		//-----------------------------------------------------------------//
 		
-		if( toReturn == VariaveisProjeto.NOME ) {
-			status = false;
-			mudaStatusCheckNome();
-			showMensagem("Erro na Digitação, verifique!", "Erro", JOptionPane.ERROR_MESSAGE);
-		}	
-		if( toReturn == VariaveisProjeto.GENERO ) {
-			status = false;
-			mudaStatusCheckGenero();
-			showMensagem("Erro na Digitação, verifique!", "Erro", JOptionPane.ERROR_MESSAGE);
-		}	
-		if( toReturn == VariaveisProjeto.IDADE ) {
-			status = false;
-			mudaStatusCheckIdade();
-			showMensagem("Erro na Digitação, verifique!", "Erro", JOptionPane.ERROR_MESSAGE);
-		}	
-		if( toReturn == VariaveisProjeto.ENDERECO ) {
-			status = false;
-			mudaStatusCheckEndereco();
-			showMensagem("Erro na Digitação, verifique!", "Erro", JOptionPane.ERROR_MESSAGE);
-		}	
-		if( toReturn == VariaveisProjeto.NUMERO ) {
-			status = false;
-			mudaStatusCheckNumero();
-			showMensagem("Erro na Digitação, verifique!", "Erro", JOptionPane.ERROR_MESSAGE);
-		}	
-		if( toReturn == VariaveisProjeto.BAIRRO ) {
-			status = false;
-			mudaStatusCheckBairro();
-			showMensagem("Erro na Digitação, verifique!", "Erro", JOptionPane.ERROR_MESSAGE);
-		}	
-		if( toReturn == VariaveisProjeto.CIDADE ) {
-			status = false;
-			mudaStatusCheckCidade();
-			showMensagem("Erro na Digitação, verifique!", "Erro", JOptionPane.ERROR_MESSAGE);
-		}	
-		if( toReturn == VariaveisProjeto.TELEFONE ) {
-			status = false;
-			mudaStatusCheckTelefone();
-			showMensagem("Erro na Digitação, verifique!", "Erro", JOptionPane.ERROR_MESSAGE);
-		}	
-		if( toReturn == VariaveisProjeto.CODIGO_POSTAL ) {
-			status = false;
-			mudaStatusCheckTelefone();
-			showMensagem("Erro na Digitação, verifique!", "Erro", JOptionPane.ERROR_MESSAGE);
-		}	
-		if( toReturn == VariaveisProjeto.PERIODO ) {
-			status = false;
-			mudaStatusCheckPeriodo();
-			showMensagem("Erro na Digitação, verifique!", "Erro", JOptionPane.ERROR_MESSAGE);
-		}
+		erroDigitacao(toReturn);
 		
 		//-----------------------------------------------------------------//
 		
@@ -804,6 +755,52 @@ public class AlunoGUI extends JFrame {
 		
 		//-----------------------------------------------------------------//
 		
+		erroDigitacao(toReturn);					
+		
+		//-----------------------------------------------------------------//
+		
+		if ( toReturn == VariaveisProjeto.ERRO_ALTERACAO ) {
+			showMensagem("Erro na alteração do Registro, verifique com seu administrador!", "Erro", JOptionPane.ERROR_MESSAGE);
+		}
+		
+		if ( toReturn == VariaveisProjeto.ERRO_ALTERACAO) {
+			showMensagem("alteração do Registro realizada com sucesso!", "OK", JOptionPane.OK_OPTION);
+			
+			limpaTextoCampo();
+			
+			aluno = new Aluno();
+		}
+	}
+	
+	//-------------------------Excluir---------------------------------//
+	//-----------------------------------------------------------------//
+	
+	protected void ExcluirAluno() {
+		
+		Integer toReturn = 0;
+		
+		Aluno aluno  = PegarDadosAluno();
+				
+		AlunoService alunoservice = new AlunoService();
+		
+		toReturn = alunoservice.delete(aluno);
+		
+		if ( toReturn == VariaveisProjeto.ERRO_EXCLUSAO ) {
+			showMensagem("Erro na Exclusão do Registro, verifique com seu administrador!",
+					   	 "Erro",JOptionPane.ERROR_MESSAGE);
+		}
+		if ( toReturn == VariaveisProjeto.EXCLUSAO_REALIZADA) {
+			showMensagem("Exclusão do Registro realizada com sucesso!",
+					     "OK",JOptionPane.OK_OPTION);
+			limpaTextoCampo();
+			aluno = new Aluno();
+		}
+	}
+	
+	//-------------------------Erro Digitação--------------------------//
+	//-----------------------------------------------------------------//
+	
+	private void erroDigitacao(Integer toReturn) {
 		if( toReturn == VariaveisProjeto.NOME ) {
 			status = false;
 			mudaStatusCheckNome();
@@ -853,47 +850,8 @@ public class AlunoGUI extends JFrame {
 			status = false;
 			mudaStatusCheckPeriodo();
 			showMensagem("Erro na Digitação, verifique!", "Erro", JOptionPane.ERROR_MESSAGE);
-		}					
-		
-		//-----------------------------------------------------------------//
-		
-		if ( toReturn == VariaveisProjeto.ERRO_ALTERACAO ) {
-			showMensagem("Erro na alteração do Registro, verifique com seu administrador!", "Erro", JOptionPane.ERROR_MESSAGE);
-		}
-		
-		if ( toReturn == VariaveisProjeto.ERRO_ALTERACAO) {
-			showMensagem("alteração do Registro realizada com sucesso!", "OK", JOptionPane.OK_OPTION);
-			
-			limpaTextoCampo();
-			
-			aluno = new Aluno();
 		}
 	}	
-	
-	//-------------------------Excluir---------------------------------//
-	//-----------------------------------------------------------------//
-	
-	protected void ExcluirAluno() {
-		
-		Integer toReturn = 0;
-		
-		Aluno aluno  = PegarDadosAluno();
-				
-		AlunoService alunoservice = new AlunoService();
-		
-		toReturn = alunoservice.delete(aluno);
-		
-		if ( toReturn == VariaveisProjeto.ERRO_EXCLUSAO ) {
-			showMensagem("Erro na Exclusão do Registro, verifique com seu administrador!",
-					   	 "Erro",JOptionPane.ERROR_MESSAGE);
-		}
-		if ( toReturn == VariaveisProjeto.EXCLUSAO_REALIZADA) {
-			showMensagem("Exclusão do Registro realizada com sucesso!",
-					     "OK",JOptionPane.OK_OPTION);
-			limpaTextoCampo();
-			aluno = new Aluno();
-		}
-	}
 	
 	//-------------------------Show Mensagem---------------------------//
 	//-----------------------------------------------------------------//
