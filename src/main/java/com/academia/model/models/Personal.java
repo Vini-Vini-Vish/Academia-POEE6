@@ -10,16 +10,16 @@ import javax.persistence.Table;
 public class Personal {
 	
 	private Integer idpersonal;
-	private String 	name;
-	private int 	age;
-	private String 	adress;
-	private int 	number;
-	private String 	neighborhood;
-	private String 	city;
-	private int		telephone;
-	private int 	codeposte;
-	private String 	gender;
-	private String 	period;
+	private String 	nome;
+	private int 	idade;
+	private String 	endereco;
+	private int 	numero;
+	private String 	bairro;
+	private String 	cidade;
+	private int		telefone;
+	private int 	codigo_postal;
+	private String 	genero;
+	private String 	periodo;
 	private String 	cref;
 		
 	private boolean activity = false;
@@ -37,82 +37,82 @@ public class Personal {
 	//----------------------------------------------
 	@Column(name = "PERSONAL_NAME", length = 100, nullable = false)
 	public String getName() {
-		return name;
+		return nome;
 	}
 	public void setName(String name) {
-		this.name = name;
+		this.nome = name;
 	}
 	//----------------------------------------------
 	@Column(name = "PERSONAL_AGE", length = 3, nullable = false)
 	public int getAge() {
-		return age;
+		return idade;
 	}
 	public void setAge(int age) {
-		this.age = age;
+		this.idade = age;
 	}
 	//----------------------------------------------
 	@Column(name = "PERSONAL_ADRESS", length = 80, nullable = false)
 	public String getAdress() {
-		return adress;
+		return endereco;
 	}
 	public void setAdress(String adress) {
-		this.adress = adress;
+		this.endereco = adress;
 	}
 	//----------------------------------------------
 	@Column(name = "PERSONAL_NUMBER", length = 6, nullable = false)
 	public int getNumber() {
-		return number;
+		return numero;
 	}
 	public void setNumber(int number) {
-		this.number = number;
+		this.numero = number;
 	}
 	//----------------------------------------------
 	@Column(name = "PERSONAL_NEIGHBORHOODE", length = 80, nullable = false)
 	public String getNeighborhood() {
-		return neighborhood;
+		return bairro;
 	}	
 	public void setNeighborhood(String neighborhood) {
-		this.neighborhood = neighborhood;
+		this.bairro = neighborhood;
 	}
 	//----------------------------------------------
 	@Column(name = "PERSONAL_CITY", length = 70, nullable = false)
 	public String getCity() {
-		return city;
+		return cidade;
 	}
 	public void setCity(String city) {
-		this.city = city;
+		this.cidade = city;
 	}
 	//----------------------------------------------
 	@Column(name = "PERSONAL_TELEPHONE", length = 13, nullable = false, unique = true)
 	public int getTelephone() {
-		return telephone;
+		return telefone;
 	}
 	public void setTelephone(int telephone) {
-		this.telephone = telephone;
+		this.telefone = telephone;
 	}
 	//----------------------------------------------
 	@Column(name = "PERSONAL_CODEPOSTAL", length = 10, nullable = false)
 	public int getCodeposte() {
-		return codeposte;
+		return codigo_postal;
 	}
 	public void setCodeposte(int postecode) {
-		this.codeposte = postecode;
+		this.codigo_postal = postecode;
 	}
 	//----------------------------------------------
 	@Column(name = "PERSONAL_GENDER", length = 80, nullable = false)
 	public String getGender() {
-		return gender;
+		return genero;
 	}
 	public void setGender(String gender) {
-		this.gender = gender;
+		this.genero = gender;
 	}
 	//----------------------------------------------
 	@Column(name = "PERSONAL_PERIOD", length = 15, nullable = false)
 	public String getPeriod() {
-		return period;
+		return periodo;
 	}
 	public void setPeriod(String period) {
-		this.period = period;
+		this.periodo = period;
 	}
 	//----------------------------------------------
 	@Column(name = "PERSONAL_CREF", nullable = false)
@@ -158,9 +158,9 @@ public class Personal {
 	//----------------------------------------------
 	@Override
 	public String toString() {
-		return "Usuario [idpersonal=" + idpersonal + ", name=" + name + ", age=" + age + ", adress=" + adress
-				+ ", number=" + number + ", neighborhood=" + neighborhood + ", city=" + city +", telephone=" + telephone +
-				", codeposte=" + codeposte +", gender=" + gender + ", period=" + period +", cref=" + cref +""
+		return "Usuario [idpersonal=" + idpersonal + ", name=" + nome + ", age=" + idade + ", adress=" + endereco
+				+ ", number=" + numero + ", neighborhood=" + bairro + ", city=" + cidade +", telephone=" + telefone +
+				", codeposte=" + codigo_postal +", gender=" + genero + ", period=" + periodo +", cref=" + cref +""
 				+ ", activity=" + activity +"]";
 	}
 	//----------------------------------------------
