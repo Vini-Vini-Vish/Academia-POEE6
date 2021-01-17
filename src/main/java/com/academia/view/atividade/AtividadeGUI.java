@@ -322,7 +322,7 @@ public class AtividadeGUI extends JFrame {
 		
 		toReturn = atividadeservice.save(atividade);
 		
-		if( toReturn == VariaveisProjeto.NOME_CAMPO_VAZIO ) {
+		if( toReturn == VariaveisProjeto.USUARIO_USER_NAME) {
 			status = false;
 			mudaStatusCheckNome();
 			showMensagem("Erro na Digitação, verifique!", "Erro", JOptionPane.ERROR_MESSAGE);
@@ -355,7 +355,7 @@ public class AtividadeGUI extends JFrame {
 		
 		toReturn = atividadeservice.update(atividade);		
 		
-		if( toReturn == VariaveisProjeto.NOME_CAMPO_VAZIO ) {
+		if( toReturn == VariaveisProjeto.USUARIO_USER_NAME ) {
 			status = false;
 			mudaStatusCheckNome();
 			showMensagem("Erro na Digitação, verifique!", "Erro", JOptionPane.ERROR_MESSAGE);
