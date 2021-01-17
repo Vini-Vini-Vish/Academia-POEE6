@@ -758,61 +758,7 @@ public class PersonalGUI extends JFrame {
 		
 		//-----------------------------------------------------------------//
 		
-		if( toReturn == VariaveisProjeto.NOME ) {
-			status = false;
-			mudaStatusCheckNome();
-			showMensagem("Erro na Digitação, verifique!", "Erro", JOptionPane.ERROR_MESSAGE);
-		}	
-		if( toReturn == VariaveisProjeto.GENERO ) {
-			status = false;
-			mudaStatusCheckGenero();
-			showMensagem("Erro na Digitação, verifique!", "Erro", JOptionPane.ERROR_MESSAGE);
-		}	
-		if( toReturn == VariaveisProjeto.IDADE ) {
-			status = false;
-			mudaStatusCheckIdade();
-			showMensagem("Erro na Digitação, verifique!", "Erro", JOptionPane.ERROR_MESSAGE);
-		}	
-		if( toReturn == VariaveisProjeto.ENDERECO ) {
-			status = false;
-			mudaStatusCheckEndereco();
-			showMensagem("Erro na Digitação, verifique!", "Erro", JOptionPane.ERROR_MESSAGE);
-		}	
-		if( toReturn == VariaveisProjeto.NUMERO ) {
-			status = false;
-			mudaStatusCheckNumero();
-			showMensagem("Erro na Digitação, verifique!", "Erro", JOptionPane.ERROR_MESSAGE);
-		}	
-		if( toReturn == VariaveisProjeto.BAIRRO ) {
-			status = false;
-			mudaStatusCheckBairro();
-			showMensagem("Erro na Digitação, verifique!", "Erro", JOptionPane.ERROR_MESSAGE);
-		}	
-		if( toReturn == VariaveisProjeto.CIDADE ) {
-			status = false;
-			mudaStatusCheckCidade();
-			showMensagem("Erro na Digitação, verifique!", "Erro", JOptionPane.ERROR_MESSAGE);
-		}	
-		if( toReturn == VariaveisProjeto.TELEFONE ) {
-			status = false;
-			mudaStatusCheckTelefone();
-			showMensagem("Erro na Digitação, verifique!", "Erro", JOptionPane.ERROR_MESSAGE);
-		}	
-		if( toReturn == VariaveisProjeto.CODIGO_POSTAL ) {
-			status = false;
-			mudaStatusCheckTelefone();
-			showMensagem("Erro na Digitação, verifique!", "Erro", JOptionPane.ERROR_MESSAGE);
-		}	
-		if( toReturn == VariaveisProjeto.PERIODO ) {
-			status = false;
-			mudaStatusCheckPeriodo();
-			showMensagem("Erro na Digitação, verifique!", "Erro", JOptionPane.ERROR_MESSAGE);
-		}	
-		if( toReturn == VariaveisProjeto.CREF) {
-			status = false;
-			mudaStatusCheckCref();
-			showMensagem("Erro na Digitação, verifique!", "Erro", JOptionPane.ERROR_MESSAGE);
-		}	
+		erroDigitacao(toReturn);	
 		
 		//-----------------------------------------------------------------//
 		
@@ -828,6 +774,8 @@ public class PersonalGUI extends JFrame {
 			personal = new Personal();
 		}
 	}
+
+
 	
 	//-------------------------Alterar---------------------------------//
 	//-----------------------------------------------------------------//
@@ -846,61 +794,7 @@ public class PersonalGUI extends JFrame {
 		
 		//-----------------------------------------------------------------//
 		
-		if( toReturn == VariaveisProjeto.NOME ) {
-			status = false;
-			mudaStatusCheckNome();
-			showMensagem("Erro na Digitação, verifique!", "Erro", JOptionPane.ERROR_MESSAGE);
-		}	
-		if( toReturn == VariaveisProjeto.GENERO ) {
-			status = false;
-			mudaStatusCheckGenero();
-			showMensagem("Erro na Digitação, verifique!", "Erro", JOptionPane.ERROR_MESSAGE);
-		}	
-		if( toReturn == VariaveisProjeto.IDADE ) {
-			status = false;
-			mudaStatusCheckIdade();
-			showMensagem("Erro na Digitação, verifique!", "Erro", JOptionPane.ERROR_MESSAGE);
-		}	
-		if( toReturn == VariaveisProjeto.ENDERECO ) {
-			status = false;
-			mudaStatusCheckEndereco();
-			showMensagem("Erro na Digitação, verifique!", "Erro", JOptionPane.ERROR_MESSAGE);
-		}	
-		if( toReturn == VariaveisProjeto.NUMERO ) {
-			status = false;
-			mudaStatusCheckNumero();
-			showMensagem("Erro na Digitação, verifique!", "Erro", JOptionPane.ERROR_MESSAGE);
-		}	
-		if( toReturn == VariaveisProjeto.BAIRRO ) {
-			status = false;
-			mudaStatusCheckBairro();
-			showMensagem("Erro na Digitação, verifique!", "Erro", JOptionPane.ERROR_MESSAGE);
-		}	
-		if( toReturn == VariaveisProjeto.CIDADE ) {
-			status = false;
-			mudaStatusCheckCidade();
-			showMensagem("Erro na Digitação, verifique!", "Erro", JOptionPane.ERROR_MESSAGE);
-		}	
-		if( toReturn == VariaveisProjeto.TELEFONE ) {
-			status = false;
-			mudaStatusCheckTelefone();
-			showMensagem("Erro na Digitação, verifique!", "Erro", JOptionPane.ERROR_MESSAGE);
-		}	
-		if( toReturn == VariaveisProjeto.CODIGO_POSTAL ) {
-			status = false;
-			mudaStatusCheckTelefone();
-			showMensagem("Erro na Digitação, verifique!", "Erro", JOptionPane.ERROR_MESSAGE);
-		}	
-		if( toReturn == VariaveisProjeto.PERIODO ) {
-			status = false;
-			mudaStatusCheckPeriodo();
-			showMensagem("Erro na Digitação, verifique!", "Erro", JOptionPane.ERROR_MESSAGE);
-		}	
-		if( toReturn == VariaveisProjeto.CREF) {
-			status = false;
-			mudaStatusCheckCref();
-			showMensagem("Erro na Digitação, verifique!", "Erro", JOptionPane.ERROR_MESSAGE);
-		}				
+		erroDigitacao(toReturn);				
 		
 		//-----------------------------------------------------------------//
 		
@@ -941,6 +835,67 @@ public class PersonalGUI extends JFrame {
 					     "OK",JOptionPane.OK_OPTION);
 			limpaTextoCampo();
 			personal = new Personal();
+		}
+	}
+	
+	//-------------------------Erro Digitação--------------------------//
+	//-----------------------------------------------------------------//
+	
+	private void erroDigitacao(Integer toReturn) {
+		if( toReturn == VariaveisProjeto.NOME ) {
+			status = false;
+			mudaStatusCheckNome();
+			showMensagem("Erro na Digitação, verifique!", "Erro", JOptionPane.ERROR_MESSAGE);
+		}	
+		if( toReturn == VariaveisProjeto.GENERO ) {
+			status = false;
+			mudaStatusCheckGenero();
+			showMensagem("Erro na Digitação, verifique!", "Erro", JOptionPane.ERROR_MESSAGE);
+		}	
+		if( toReturn == VariaveisProjeto.IDADE ) {
+			status = false;
+			mudaStatusCheckIdade();
+			showMensagem("Erro na Digitação, verifique!", "Erro", JOptionPane.ERROR_MESSAGE);
+		}	
+		if( toReturn == VariaveisProjeto.ENDERECO ) {
+			status = false;
+			mudaStatusCheckEndereco();
+			showMensagem("Erro na Digitação, verifique!", "Erro", JOptionPane.ERROR_MESSAGE);
+		}	
+		if( toReturn == VariaveisProjeto.NUMERO ) {
+			status = false;
+			mudaStatusCheckNumero();
+			showMensagem("Erro na Digitação, verifique!", "Erro", JOptionPane.ERROR_MESSAGE);
+		}	
+		if( toReturn == VariaveisProjeto.BAIRRO ) {
+			status = false;
+			mudaStatusCheckBairro();
+			showMensagem("Erro na Digitação, verifique!", "Erro", JOptionPane.ERROR_MESSAGE);
+		}	
+		if( toReturn == VariaveisProjeto.CIDADE ) {
+			status = false;
+			mudaStatusCheckCidade();
+			showMensagem("Erro na Digitação, verifique!", "Erro", JOptionPane.ERROR_MESSAGE);
+		}	
+		if( toReturn == VariaveisProjeto.TELEFONE ) {
+			status = false;
+			mudaStatusCheckTelefone();
+			showMensagem("Erro na Digitação, verifique!", "Erro", JOptionPane.ERROR_MESSAGE);
+		}	
+		if( toReturn == VariaveisProjeto.CODIGO_POSTAL ) {
+			status = false;
+			mudaStatusCheckTelefone();
+			showMensagem("Erro na Digitação, verifique!", "Erro", JOptionPane.ERROR_MESSAGE);
+		}	
+		if( toReturn == VariaveisProjeto.PERIODO ) {
+			status = false;
+			mudaStatusCheckPeriodo();
+			showMensagem("Erro na Digitação, verifique!", "Erro", JOptionPane.ERROR_MESSAGE);
+		}	
+		if( toReturn == VariaveisProjeto.CREF) {
+			status = false;
+			mudaStatusCheckCref();
+			showMensagem("Erro na Digitação, verifique!", "Erro", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 	
