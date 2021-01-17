@@ -78,7 +78,7 @@ public class UsuarioService extends ConexaoBancoService {
 				this.close();
 			}
 		} else {
-			toReturn = VariaveisProjeto.NOME_CAMPO_VAZIO;
+			toReturn = VariaveisProjeto.USUARIO_USER_NAME;
 		}
 		
 		return toReturn;
@@ -128,11 +128,19 @@ public class UsuarioService extends ConexaoBancoService {
 	//-------------------------------------------------------------------
 	
 	public Integer validarDigitacao(Usuario usuario) {
-		if(VariaveisProjeto.digitacaoCampo(usuario.getUsername())) {
-			return VariaveisProjeto.NOME_CAMPO_VAZIO;
+		
+		if ( VariaveisProjeto.digitacaoCampo(usuario.getUsername())) {
+			return VariaveisProjeto.USUARIO_USER_NAME;
+		}
+		if ( VariaveisProjeto.digitacaoCampo(usuario.getEmail())) {
+			return VariaveisProjeto.USUARIO_EMAIL;
+		}
+		if ( VariaveisProjeto.digitacaoCampo(usuario.getPassword())) {
+			return VariaveisProjeto.USUARIO_PASSWORD;
 		}
 		
 		return VariaveisProjeto.DIGITACAO_OK;
+		
 	}	
 
 	//-------------------------------------------------------------------
