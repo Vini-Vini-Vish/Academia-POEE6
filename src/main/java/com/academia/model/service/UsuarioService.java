@@ -147,5 +147,13 @@ public class UsuarioService extends ConexaoBancoService {
 	
 	public UsuarioDao getUsuarioDao() {
 		return usuarioDao;
+	}
+
+	public Integer countTotalRegister() {
+		return usuarioDao.countTotalRegister(Usuario.class);
+	}
+
+	public List<Usuario> listUsuarioPaginacao(int numeroPagina, Integer defaultPagina) {
+		return usuarioDao.listUsuarioPaginacao(numeroPagina,defaultPagina);
 	}	
 }
