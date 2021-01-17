@@ -11,16 +11,16 @@ public class Aluno {
 	
 	//Atributos de um aluno na academia
 	private Integer idAluno;
-	private String 	name;
-	private String 	gender;
-	private int 	age;
-	private String	adress;
-	private int 	number;
-	private String 	neighborhood;
-	private String 	city;
-	private int 	telephone;
-	private int 	postal_code;
-	private String 	period;
+	private String 	nome;
+	private String 	genero;
+	private int 	idade;
+	private String	endereco;
+	private int 	numero;
+	private String 	bairro;
+	private String 	cidade;
+	private int 	telefone;
+	private int 	codigo_postal;
+	private String 	periodo;
 	
 	private boolean activity = false;
 	
@@ -37,82 +37,82 @@ public class Aluno {
 	//----------------------------------------------
 	@Column(name = "ALUNO_NAME", length = 100, nullable = false)
 	public String getName() {
-		return name;
+		return nome;
 	}
 	public void setName(String name) {
-		this.name = name;
+		this.nome = name;
 	}
 	//----------------------------------------------
 	@Column(name = "ALUNO_GENDER", length = 80, nullable = false)
 	public String getGender() {
-		return gender;
+		return genero;
 	}
 	public void setGender(String gender) {
-		this.gender = gender;
+		this.genero = gender;
 	}
 	//----------------------------------------------
 	@Column(name = "ALUNO_AGE", length = 3, nullable = false)
 	public int getAge() {
-		return age;
+		return idade;
 	}
 	public void setAge(int age) {
-		this.age = age;
+		this.idade = age;
 	}
 	//----------------------------------------------
 	@Column(name = "ALUNO_ADRESS", length = 80, nullable = false)
 	public String getAdress() {
-		return adress;
+		return endereco;
 	}
 	public void setAdress(String adress) {
-		this.adress = adress;
+		this.endereco = adress;
 	}
 	//----------------------------------------------
 	@Column(name = "ALUNO_NUMBER", length = 6, nullable = false)
 	public int getNumber() {
-		return number;
+		return numero;
 	}
 	public void setNumber(int number) {
-		this.number = number;
+		this.numero = number;
 	}
 	//----------------------------------------------
 	@Column(name = "ALUNO_NEIGHBORHOODE", length = 80, nullable = false)
 	public String getNeighborhood() {
-		return neighborhood;
+		return bairro;
 	}
 	public void setNeighborhood(String neighborhood) {
-		this.neighborhood = neighborhood;
+		this.bairro = neighborhood;
 	}
 	//----------------------------------------------
 	@Column(name = "ALUNO_CITY", length = 70, nullable = false)
 	public String getCity() {
-		return city;
+		return cidade;
 	}
 	public void setCity(String city) {
-		this.city = city;
+		this.cidade = city;
 	}
 	//----------------------------------------------
 	@Column(name = "ALUNO_TELEPHONE", length = 13, nullable = false, unique = true)
 	public int getTelephone() {
-		return telephone;
+		return telefone;
 	}
 	public void setTelephone(int telephone) {
-		this.telephone = telephone;
+		this.telefone = telephone;
 	}
 	//----------------------------------------------
 	@Column(name = "ALUNO_CODEPOSTAL", length = 10, nullable = false)
 	public int getPostal_code() {
-		return postal_code;
+		return codigo_postal;
 	}
 	public void setPostal_code(int postal_code) {
-		this.postal_code = postal_code;
+		this.codigo_postal = postal_code;
 	}
 	//----------------------------------------------
 	@Column(name = "ALUNO_PERIOD", length = 15, nullable = false)
 	public String getPeriod() {
-		return period;
+		return periodo;
 	}
 	public void setPeriod(String period) {
-		this.period = period;
+		this.periodo = period;
 	}
 	//----------------------------------------------
 	@Column(nullable = false)
@@ -150,9 +150,9 @@ public class Aluno {
 	//----------------------------------------------
 	@Override
 	public String toString() {
-		return "Usuario [idAluno=" + idAluno + ", name=" + name + ", gender=" + gender + ", age=" + age
-				+ ", adress=" + adress + ", number=" + number + ", neighborhood=" + neighborhood +", city=" + city +
-				", telephone=" + telephone +", postal_code=" + postal_code + ", period=" + period +", activity=" + activity +"]";
+		return "Usuario [idAluno=" + idAluno + ", name=" + nome + ", gender=" + genero + ", age=" + idade
+				+ ", adress=" + endereco + ", number=" + numero + ", neighborhood=" + bairro +", city=" + cidade +
+				", telephone=" + telefone +", postal_code=" + codigo_postal + ", period=" + periodo +", activity=" + activity +"]";
 	}
 	//----------------------------------------------
 }
