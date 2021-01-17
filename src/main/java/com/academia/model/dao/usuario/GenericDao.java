@@ -7,8 +7,6 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
-import com.sun.xml.bind.v2.model.core.ID;
-
 public abstract class GenericDao<T, Id extends Serializable>{
 	
 private EntityManager entityManager;
@@ -60,5 +58,11 @@ private EntityManager entityManager;
 
 	public Class<T> getClassePersistencia() {
 		return classePersistencia;
+	}	
+
+	public Integer countTotalRegister(Class<T> classe) {
+		Query query = this.getEntityManager().createNativeQuery("SELECT count(o) FROM "+classe.getSimpleName()+" o");		
+		Long total = (Long) query.getSingleResult();
+		return total.intValue();
 	}
 }
