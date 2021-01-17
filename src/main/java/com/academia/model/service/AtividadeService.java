@@ -113,7 +113,7 @@ public class AtividadeService extends ConexaoBancoService{
 		
 		public Integer validarDigitacao(Atividade atividade) {
 			if(VariaveisProjeto.digitacaoCampo(atividade.getNome())) {
-				return VariaveisProjeto.NOME_CAMPO_VAZIO;
+				return VariaveisProjeto.USUARIO_USER_NAME;
 			}		
 			return VariaveisProjeto.DIGITACAO_OK;
 		}	
