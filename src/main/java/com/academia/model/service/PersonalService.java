@@ -71,12 +71,14 @@ public class PersonalService extends ConexaoBancoService {
 				this.close();
 			}
 		} else {
-			toReturn = VariaveisProjeto.NOME_CAMPO_VAZIO;
+			toReturn = VariaveisProjeto.USUARIO_USER_NAME;
 		}
 		
 		return toReturn;
 	}
+	
 	//-------------------------------------------------------------------
+	
 	public Integer delete(Personal personal) {
 		
 		Integer toReturn =0;
@@ -102,7 +104,9 @@ public class PersonalService extends ConexaoBancoService {
 		
 		return toReturn;
 	}
+	
 	//-------------------------------------------------------------------
+	
 	public Personal findById(Integer idpersonal) {
 		return this.getPersonalDao().findById(idpersonal);
 	}
@@ -112,9 +116,41 @@ public class PersonalService extends ConexaoBancoService {
 	}
 	
 	public Integer validarDigitacao(Personal personal) {
-		if(VariaveisProjeto.digitacaoCampo(personal.getName())) {
-			return VariaveisProjeto.NOME_CAMPO_VAZIO;
-		}		
+		
+		if ( VariaveisProjeto.digitacaoCampo(personal.getName())) {
+			return VariaveisProjeto.NOME;
+		}	
+		if ( VariaveisProjeto.digitacaoCampo(personal.getGender())) {
+			return VariaveisProjeto.GENERO;
+		}	
+		if ( VariaveisProjeto.digitacaoCampo(personal.getAge())) {
+			return VariaveisProjeto.IDADE;
+		}
+		if ( VariaveisProjeto.digitacaoCampo(personal.getAdress())) {
+			return VariaveisProjeto.ENDERECO;
+		}
+		if ( VariaveisProjeto.digitacaoCampo(personal.getNumber())) {
+			return VariaveisProjeto.NUMERO;
+		}
+		if ( VariaveisProjeto.digitacaoCampo(personal.getNeighborhood())) {
+			return VariaveisProjeto.BAIRRO;
+		}
+		if ( VariaveisProjeto.digitacaoCampo(personal.getCity())) {
+			return VariaveisProjeto.CIDADE;
+		}
+		if ( VariaveisProjeto.digitacaoCampo(personal.getTelephone())) {
+			return VariaveisProjeto.TELEFONE;
+		}
+		if ( VariaveisProjeto.digitacaoCampo(personal.getCodeposte())) {
+			return VariaveisProjeto.CODIGO_POSTAL;
+		}
+		if ( VariaveisProjeto.digitacaoCampo(personal.getPeriod())) {
+			return VariaveisProjeto.PERIODO;
+		}
+		if ( VariaveisProjeto.digitacaoCampo(personal.getCref())) {
+			return VariaveisProjeto.CREF;
+		}	
+		
 		return VariaveisProjeto.DIGITACAO_OK;
 	}	
 
