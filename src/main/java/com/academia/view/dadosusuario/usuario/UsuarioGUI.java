@@ -391,21 +391,7 @@ public class UsuarioGUI extends JFrame {
 		
 		//-----------------------------------------------------------------//
 		
-		if( toReturn == VariaveisProjeto.USUARIO_USER_NAME ) {
-			status = false;
-			mudaStatusCheckNome();
-			showMensagem("Erro na Digitação, verifique!", "Erro", JOptionPane.ERROR_MESSAGE);
-		}				
-		if ( toReturn == VariaveisProjeto.USUARIO_EMAIL ) {
-			 status = false;
-			 mudaStatusCheckNome();
-			 showMensagem("Erro na digitação do E-mail, verifique!","Erro", JOptionPane.ERROR_MESSAGE);
-		}
-		if ( toReturn == VariaveisProjeto.USUARIO_PASSWORD ) {
-			 status = false;
-			 mudaStatusCheckNome();
-			 showMensagem("Erro na digitação da Senha, verifique!","Erro", JOptionPane.ERROR_MESSAGE);
-		}
+		erroDigitacao(toReturn);
 		
 		//-----------------------------------------------------------------//
 		
@@ -447,21 +433,7 @@ public class UsuarioGUI extends JFrame {
 		
 		//-----------------------------------------------------------------//
 		
-		if( toReturn == VariaveisProjeto.USUARIO_USER_NAME ) {
-			status = false;
-			mudaStatusCheckNome();
-			showMensagem("Erro na Digitação, verifique!", "Erro", JOptionPane.ERROR_MESSAGE);
-		}				
-		if ( toReturn == VariaveisProjeto.USUARIO_EMAIL ) {
-			 status = false;
-			 mudaStatusCheckNome();
-			 showMensagem("Erro na digitação do E-mail, verifique!","Erro", JOptionPane.ERROR_MESSAGE);
-		}
-		if ( toReturn == VariaveisProjeto.USUARIO_PASSWORD ) {
-			 status = false;
-			 mudaStatusCheckNome();
-			 showMensagem("Erro na digitação da Senha, verifique!","Erro", JOptionPane.ERROR_MESSAGE);
-		}
+		erroDigitacao(toReturn);
 		
 		//-----------------------------------------------------------------//
 		
@@ -507,6 +479,27 @@ public class UsuarioGUI extends JFrame {
 			limpaTextoCampo();
 			
 			usuario = new Usuario();
+		}
+	}	
+	
+	//-------------------------Erro Digitação---------------------------//
+	//-----------------------------------------------------------------//
+	
+	private void erroDigitacao(Integer toReturn) {
+		if( toReturn == VariaveisProjeto.USUARIO_USER_NAME ) {
+			status = false;
+			mudaStatusCheckNome();
+			showMensagem("Erro na Digitação, verifique!", "Erro", JOptionPane.ERROR_MESSAGE);
+		}				
+		if ( toReturn == VariaveisProjeto.USUARIO_EMAIL ) {
+			 status = false;
+			 mudaStatusCheckNome();
+			 showMensagem("Erro na digitação do E-mail, verifique!","Erro", JOptionPane.ERROR_MESSAGE);
+		}
+		if ( toReturn == VariaveisProjeto.USUARIO_PASSWORD ) {
+			 status = false;
+			 mudaStatusCheckNome();
+			 showMensagem("Erro na digitação da Senha, verifique!","Erro", JOptionPane.ERROR_MESSAGE);
 		}
 	}	
 	
