@@ -113,9 +113,38 @@ public class AlunoService extends ConexaoBancoService{
 	}
 	
 	public Integer validarDigitacao(Aluno aluno) {
-		if(VariaveisProjeto.digitacaoCampo(aluno.getName())) {
-			return VariaveisProjeto.NOME_CAMPO_VAZIO;
-		}		
+		
+		if ( VariaveisProjeto.digitacaoCampo(aluno.getName())) {
+			return VariaveisProjeto.NOME;
+		}	
+		if ( VariaveisProjeto.digitacaoCampo(aluno.getGender())) {
+			return VariaveisProjeto.GENERO;
+		}	
+		if ( VariaveisProjeto.digitacaoCampo(aluno.getAge())) {
+			return VariaveisProjeto.IDADE;
+		}
+		if ( VariaveisProjeto.digitacaoCampo(aluno.getAdress())) {
+			return VariaveisProjeto.ENDERECO;
+		}
+		if ( VariaveisProjeto.digitacaoCampo(aluno.getNumber())) {
+			return VariaveisProjeto.NUMERO;
+		}
+		if ( VariaveisProjeto.digitacaoCampo(aluno.getNeighborhood())) {
+			return VariaveisProjeto.BAIRRO;
+		}
+		if ( VariaveisProjeto.digitacaoCampo(aluno.getCity())) {
+			return VariaveisProjeto.CIDADE;
+		}
+		if ( VariaveisProjeto.digitacaoCampo(aluno.getTelephone())) {
+			return VariaveisProjeto.TELEFONE;
+		}
+		if ( VariaveisProjeto.digitacaoCampo(aluno.getPostal_code())) {
+			return VariaveisProjeto.CODIGO_POSTAL;
+		}
+		if ( VariaveisProjeto.digitacaoCampo(aluno.getPeriod())) {
+			return VariaveisProjeto.PERIODO;
+		}
+		
 		return VariaveisProjeto.DIGITACAO_OK;
 	}	
 
