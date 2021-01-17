@@ -7,6 +7,8 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
+import com.academia.model.models.Aluno;
+
 public abstract class AlunoGenericDao <Aluno, Id extends Serializable>{
 	
 	private EntityManager entityManager;	
@@ -62,8 +64,16 @@ public abstract class AlunoGenericDao <Aluno, Id extends Serializable>{
 		this.entityManager = entityManager;
 	}
 	
+	//-----------------------------------------------------------------//
+	
 	public Class<Aluno> getClassePersistencia() {
 		return classePersistencia;
+	}
+	
+	public Integer countTotalRegister(Class<Aluno> classe) {
+		Query query = this.getEntityManager().createNativeQuery("SELECT count(o) FROM "+classe.getSimpleName()+" o");		
+		Long total = (Long) query.getSingleResult();
+		return total.intValue();
 	}
 
 }
