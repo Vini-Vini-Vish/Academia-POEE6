@@ -2,6 +2,7 @@ package com.academia.view.aluno;
 
 import java.awt.EventQueue;
 import javax.swing.JFrame;
+import javax.swing.JInternalFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.TableRowSorter;
@@ -27,7 +28,7 @@ import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
-public class TabelaAluno extends JFrame {
+public class TabelaAluno extends JInternalFrame {
 
 	private static final long serialVersionUID = 1871536401235088878L;
 	
@@ -88,6 +89,7 @@ public class TabelaAluno extends JFrame {
 	}
 
 	public TabelaAluno() {
+		setTitle("Cadastro de Aluno");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 846, 525);
 		contentPane = new JPanel();
@@ -100,6 +102,8 @@ public class TabelaAluno extends JFrame {
 		
 		textField = new JTextField();
 		textField.setColumns(10);
+		
+		//-----------------------------------------------------------------//
 		
 		btnPesquisar = new JButton("Pesquisar");
 		btnPesquisar.setIcon(new ImageIcon(TabelaAluno.class.getResource("/com/academia/estrutura/imagens/search.png")));
@@ -248,6 +252,12 @@ public class TabelaAluno extends JFrame {
 		//-----------------------------------------------------------------//		
 		
 		btnSair = new JButton("Sair");
+		btnSair.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+			}
+		});
+		
 		btnSair.setIcon(new ImageIcon(TabelaAluno.class.getResource("/com/academia/estrutura/imagens/iconFechar.png")));
 		btnSair.setMnemonic(KeyEvent.VK_S);
 		
