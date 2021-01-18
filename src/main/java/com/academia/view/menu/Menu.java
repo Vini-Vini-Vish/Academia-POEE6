@@ -4,6 +4,10 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import com.academia.main.Login;
+import com.academia.view.aluno.TabelaAluno;
+import com.academia.view.atividade.TabelaAtividade;
+import com.academia.view.dadosusuario.usuario.TabelaUsuario;
+import com.academia.view.personal.TabelaPersonal;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JMenuBar;
@@ -20,11 +24,13 @@ public class Menu extends JFrame {
 	private JMenuBar menuBar;
 	private JMenu arquivo;
 	private JMenuItem usuario;
+	private JMenuItem aluno;
 	private JMenuItem personal;
 	
 	private Login login;
 	private JMenu sair;
 	private JMenuItem sair_sistema;
+	private JMenuItem atividade;
 
 	/*
 	public static void main(String[] args) {
@@ -51,8 +57,12 @@ public class Menu extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 866, 532);
 		
+		//-----------------------------------------------------------------//
+		
 		menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
+		
+		//-----------------------------------------------------------------//
 		
 		arquivo = new JMenu("Arquivo");
 		menuBar.add(arquivo);
@@ -62,8 +72,12 @@ public class Menu extends JFrame {
 		usuario = new JMenuItem("Usuario");
 		usuario.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				TabelaUsuario tabelaUsuario = new TabelaUsuario();
+				contentPane.add(tabelaUsuario);
+				tabelaUsuario.setVisible(true);
 			}
 		});
+		
 		arquivo.add(usuario);
 		
 		//-----------------------------------------------------------------//
@@ -71,18 +85,39 @@ public class Menu extends JFrame {
 		personal = new JMenuItem("Personal");
 		personal.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				TabelaPersonal tabelaPersonal = new TabelaPersonal();
+				contentPane.add(tabelaPersonal);
+				tabelaPersonal.setVisible(true);
 			}
 		});
+		
 		arquivo.add(personal);
 		
 		//-----------------------------------------------------------------//
 		
-		JMenuItem aluno = new JMenuItem("Aluno");
+		aluno = new JMenuItem("Aluno");
 		aluno.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				TabelaAluno tabelaAluno = new TabelaAluno();
+				contentPane.add(tabelaAluno);
+				tabelaAluno.setVisible(true);
 			}
 		});
+		
 		arquivo.add(aluno);
+		
+		//-----------------------------------------------------------------//
+		
+		atividade = new JMenuItem("Atividade");
+		atividade.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				TabelaAtividade tabelaAtividade = new TabelaAtividade();
+				contentPane.add(tabelaAtividade);
+				tabelaAtividade.setVisible(true);
+			}
+		});
+		
+		arquivo.add(atividade);
 		
 		//-----------------------------------------------------------------//
 		
@@ -94,10 +129,15 @@ public class Menu extends JFrame {
 				login.setLocationRelativeTo(null);
 			}
 		});
+		
 		arquivo.add(logout);
+		
+		//-----------------------------------------------------------------//
 		
 		sair = new JMenu("Sair ");
 		menuBar.add(sair);
+		
+		//-----------------------------------------------------------------//
 		
 		sair_sistema = new JMenuItem("Sair");
 		sair_sistema.addActionListener(new ActionListener() {
