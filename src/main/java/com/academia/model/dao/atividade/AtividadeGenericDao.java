@@ -57,11 +57,23 @@ public abstract class AtividadeGenericDao <Atividade, IdAtividade extends Serial
 		return entityManager;
 	}
 	
+	//-----------------------------------------------------------------//
+	
 	public void setEntityManager(EntityManager entityManager) {
 		this.entityManager = entityManager;
 	}
 	
+	//-----------------------------------------------------------------//
+		
 	public Class<Atividade> getClassePersistencia() {
 		return classePersistencia;
+	}
+	
+	//-----------------------------------------------------------------//
+	
+	public Integer countTotalRegister(Class<Atividade> classe) {
+		Query query = this.getEntityManager().createNativeQuery("SELECT count(o) FROM "+classe.getSimpleName()+" o");		
+		Long total = (Long) query.getSingleResult();
+		return total.intValue();
 	}
 }
