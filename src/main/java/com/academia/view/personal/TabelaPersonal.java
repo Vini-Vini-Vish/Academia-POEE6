@@ -1,27 +1,27 @@
 package com.academia.view.personal;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import javax.swing.JFrame;
+import javax.swing.JInternalFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.TableRowSorter;
-
-import com.academia.model.models.Aluno;
 import com.academia.model.models.Personal;
-import com.academia.model.service.AlunoService;
 import com.academia.model.service.PersonalService;
-import com.academia.view.aluno.TabelaAlunoModel;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.JButton;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.swing.ImageIcon;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -29,7 +29,7 @@ import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
-public class TabelaPersonal extends JFrame {
+public class TabelaPersonal extends JInternalFrame {
 
 	private static final long serialVersionUID = 7127097297692857692L;
 	
@@ -94,6 +94,7 @@ public class TabelaPersonal extends JFrame {
 	 * Create the frame.
 	 */
 	public TabelaPersonal() {
+		setTitle("Cadastro de Personal");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 856, 546);
 		contentPane = new JPanel();
@@ -123,7 +124,15 @@ public class TabelaPersonal extends JFrame {
 		lblPaginabox = new JLabel("Paginas:");
 		lblPaginabox.setToolTipText("Total de Usuarios mostradas por Pagina");
 		
+		//-----------------------------------------------------------------//		
+		
 		comboBox = new JComboBox<String>();
+		comboBox.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				iniciaPaginacao();
+			}
+		});
+		
 		comboBox.setModel(new DefaultComboBoxModel<String>(new String[] {"5", "10", "15", "20"}));
 		comboBox.setToolTipText("");
 		
@@ -134,24 +143,56 @@ public class TabelaPersonal extends JFrame {
 		//-----------------------------------------------------------------//		
 		
 		btnPrimeiro = new JButton("");
+		btnPrimeiro.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				numeroPagina = 1;
+				iniciaPaginacao();
+			}
+		});
+		
 		btnPrimeiro.setIcon(new ImageIcon(TabelaPersonal.class.getResource("/com/academia/estrutura/imagens/go-first.png")));
 		btnPrimeiro.setToolTipText("Primeira Pagina\r\n");
 		
 		//-----------------------------------------------------------------//		
 		
 		btnAnterior = new JButton("");
+		btnAnterior.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (numeroPagina > 1) {
+					numeroPagina = numeroPagina - 1;
+					iniciaPaginacao();
+				}
+			}
+		});
+		
 		btnAnterior.setIcon(new ImageIcon(TabelaPersonal.class.getResource("/com/academia/estrutura/imagens/go-previous.png")));
 		btnAnterior.setToolTipText("Pagina Anterior\r\n");
 		
 		//-----------------------------------------------------------------//		
 		
 		btnProximo = new JButton("");
+		btnProximo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if ( numeroPagina < totalPagina ) {
+					numeroPagina = numeroPagina + 1;
+					iniciaPaginacao();
+				}
+			}
+		});
+		
 		btnProximo.setIcon(new ImageIcon(TabelaPersonal.class.getResource("/com/academia/estrutura/imagens/go-next.png")));
 		btnProximo.setToolTipText("Proxima Pagina\r\n");
 		
 		//-----------------------------------------------------------------//		
 		
 		btnUltimo = new JButton("");
+		btnUltimo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				numeroPagina = totalPagina;
+				iniciaPaginacao();
+			}
+		});
+		
 		btnUltimo.setIcon(new ImageIcon(TabelaPersonal.class.getResource("/com/academia/estrutura/imagens/go-last.png")));
 		btnUltimo.setToolTipText("Ultima Pagina\r\n");
 		
@@ -218,6 +259,11 @@ public class TabelaPersonal extends JFrame {
 		//-----------------------------------------------------------------//		
 		
 		btnSair = new JButton("Sair");
+		btnSair.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+			}
+		});
 		btnSair.setIcon(new ImageIcon(TabelaPersonal.class.getResource("/com/academia/estrutura/imagens/saida.png")));
 		btnSair.setMnemonic(KeyEvent.VK_S);
 		
@@ -230,36 +276,36 @@ public class TabelaPersonal extends JFrame {
 					.addGap(28)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_contentPane.createSequentialGroup()
-							.addComponent(lblPaginabox, GroupLayout.PREFERRED_SIZE, 41, GroupLayout.PREFERRED_SIZE)
-							.addGap(18)
+							.addComponent(lblPaginabox, GroupLayout.PREFERRED_SIZE, 55, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, 38, GroupLayout.PREFERRED_SIZE)
 							.addGap(157)
 							.addComponent(panel, GroupLayout.PREFERRED_SIZE, 234, GroupLayout.PREFERRED_SIZE)
-							.addGap(135)
-							.addComponent(lblPagina, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE)
+							.addGap(124)
+							.addComponent(lblPagina, GroupLayout.PREFERRED_SIZE, 51, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(lblInicio, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(lblInicio, GroupLayout.PREFERRED_SIZE, 12, GroupLayout.PREFERRED_SIZE)
-							.addGap(18)
-							.addComponent(lblDe, GroupLayout.PREFERRED_SIZE, 12, GroupLayout.PREFERRED_SIZE)
-							.addGap(18)
-							.addComponent(lblFinal, GroupLayout.PREFERRED_SIZE, 12, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING, false)
-							.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
-								.addComponent(btnIcluir, GroupLayout.PREFERRED_SIZE, 81, GroupLayout.PREFERRED_SIZE)
-								.addGap(18)
-								.addComponent(btnAlterar, GroupLayout.PREFERRED_SIZE, 85, GroupLayout.PREFERRED_SIZE)
-								.addGap(18)
-								.addComponent(btnExcluir, GroupLayout.PREFERRED_SIZE, 83, GroupLayout.PREFERRED_SIZE)
+							.addComponent(lblDe, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(lblFinal))
+						.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
+							.addGroup(gl_contentPane.createSequentialGroup()
+								.addComponent(btnIcluir, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE)
+								.addPreferredGap(ComponentPlacement.UNRELATED)
+								.addComponent(btnAlterar, GroupLayout.PREFERRED_SIZE, 93, GroupLayout.PREFERRED_SIZE)
+								.addPreferredGap(ComponentPlacement.UNRELATED)
+								.addComponent(btnExcluir, GroupLayout.PREFERRED_SIZE, 93, GroupLayout.PREFERRED_SIZE)
 								.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(btnSair, GroupLayout.PREFERRED_SIZE, 71, GroupLayout.PREFERRED_SIZE))
-							.addGroup(Alignment.LEADING, gl_contentPane.createParallelGroup(Alignment.TRAILING)
+								.addComponent(btnSair, GroupLayout.PREFERRED_SIZE, 83, GroupLayout.PREFERRED_SIZE))
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
 								.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 773, GroupLayout.PREFERRED_SIZE)
 								.addGroup(gl_contentPane.createSequentialGroup()
-									.addComponent(lblPesquisar, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
-									.addGap(18)
-									.addComponent(textField, GroupLayout.PREFERRED_SIZE, 588, GroupLayout.PREFERRED_SIZE)
-									.addGap(18)
-									.addComponent(btnPesquisar, GroupLayout.PREFERRED_SIZE, 99, GroupLayout.PREFERRED_SIZE)))))
+									.addComponent(lblPesquisar, GroupLayout.PREFERRED_SIZE, 72, GroupLayout.PREFERRED_SIZE)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(textField, GroupLayout.PREFERRED_SIZE, 572, GroupLayout.PREFERRED_SIZE)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(btnPesquisar, GroupLayout.PREFERRED_SIZE, 119, GroupLayout.PREFERRED_SIZE)))))
 					.addContainerGap(29, Short.MAX_VALUE))
 		);
 		gl_contentPane.setVerticalGroup(
@@ -274,14 +320,14 @@ public class TabelaPersonal extends JFrame {
 					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 318, GroupLayout.PREFERRED_SIZE)
 					.addGap(18)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addComponent(lblPaginabox)
 						.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
 						.addComponent(panel, GroupLayout.PREFERRED_SIZE, 47, GroupLayout.PREFERRED_SIZE)
 						.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 							.addComponent(lblPagina)
 							.addComponent(lblInicio)
 							.addComponent(lblDe)
-							.addComponent(lblFinal)))
+							.addComponent(lblFinal))
+						.addComponent(lblPaginabox))
 					.addPreferredGap(ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 						.addComponent(btnIcluir, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
