@@ -7,8 +7,6 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
-import com.academia.model.models.Aluno;
-
 public abstract class AlunoGenericDao <Aluno, Id extends Serializable>{
 	
 	private EntityManager entityManager;	
