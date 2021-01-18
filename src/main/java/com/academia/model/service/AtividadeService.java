@@ -121,5 +121,13 @@ public class AtividadeService extends ConexaoBancoService{
 		public AtividadeDao getAtividadeDao() {
 			return atividadeDao;
 		}
+
+		public Integer countTotalRegister() {
+			return atividadeDao.countTotalRegister(Atividade.class);
+		}
+
+		public List<Atividade> listAtividadePaginacao(int numeroPagina, Integer defaultPagina) {
+			return atividadeDao.listAtividadePaginacao(numeroPagina,defaultPagina);
+		}
 	
 }
