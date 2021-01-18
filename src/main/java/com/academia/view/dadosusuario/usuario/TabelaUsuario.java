@@ -2,6 +2,7 @@ package com.academia.view.dadosusuario.usuario;
 
 import java.awt.EventQueue;
 import javax.swing.JFrame;
+import javax.swing.JInternalFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.TableRowSorter;
@@ -30,7 +31,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.ItemEvent;
 
-public class TabelaUsuario extends JFrame {
+public class TabelaUsuario extends JInternalFrame {
 
 	private static final long serialVersionUID = 1960507399838165929L;
 		
@@ -115,6 +116,12 @@ public class TabelaUsuario extends JFrame {
 		//-----------------------------------------------------------------//		
 
 		btnSair = new JButton("Sair");
+		btnSair.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+			}
+		});
+		
 		btnSair.setMnemonic(KeyEvent.VK_S);
 		btnSair.setIcon(new ImageIcon(TabelaUsuario.class.getResource("/com/academia/estrutura/imagens/saida.png")));
 		
