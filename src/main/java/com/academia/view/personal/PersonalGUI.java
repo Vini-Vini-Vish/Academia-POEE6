@@ -7,6 +7,8 @@ import javax.swing.border.EmptyBorder;
 import com.academia.estrutura.util.VariaveisProjeto;
 import com.academia.model.models.Personal;
 import com.academia.model.service.PersonalService;
+import com.academia.view.dadosusuario.usuario.TabelaUsuarioModel;
+
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
@@ -14,16 +16,20 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JButton;
+import javax.swing.JDialog;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JRadioButton;
+import javax.swing.JTable;
+
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import javax.swing.ImageIcon;
 
-public class PersonalGUI extends JFrame {
+public class PersonalGUI extends JDialog {
 
 	private static final long serialVersionUID = 2190619453341927627L;
 	
@@ -61,24 +67,71 @@ public class PersonalGUI extends JFrame {
 	private JLabel checkPeriodo;
 		
 	private boolean status = true; 
+	
+	private JTable tabelaPersonal;
+    private TabelaPersonalModel tabelaPersonalModel;
+    private int linha=0;
+    private int acao = 0;
 
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					PersonalGUI frame = new PersonalGUI();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+//	public static void main(String[] args) {
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					PersonalGUI frame = new PersonalGUI();
+//					frame.setVisible(true);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+//	}
 
 	/**
 	 * Create the frame.
 	 */
-	public PersonalGUI() {
+	public PersonalGUI(JFrame frame, boolean modal, JTable tabelaPersonal, TabelaPersonalModel tabelaPersonalModel, int linha, int acao) {
+		
+		super(frame, modal);
+
+		initComponents();
+		
+		this.tabelaPersonal = tabelaPersonal;
+		this.tabelaPersonalModel = tabelaPersonalModel;
+		this.linha = linha;
+        this.acao = acao;
+        
+        limpaTextoCampo();
+		
+		desabilitaCheckCampo();
+		
+		configuraAcaoPersonal();		
+	}
+	
+	//-----------------------------------------------------------------//	
+    
+    private void configuraAcaoPersonal() {
+		
+		if (this.acao == VariaveisProjeto.INCLUSAO) {
+			btnIncluir.setVisible(true);
+			btnAlterar.setVisible(false);
+			btnExcluir.setVisible(false);
+		}
+		if (this.acao == VariaveisProjeto.ALTERACAO) {
+			btnAlterar.setVisible(true);
+			btnExcluir.setVisible(false);
+			btnIncluir.setVisible(false);
+			BuscarPersonal();
+		}
+		if (this.acao == VariaveisProjeto.EXCLUSAO) {
+			btnExcluir.setVisible(true);
+			btnIncluir.setVisible(false);
+			btnAlterar.setVisible(false);
+			BuscarPersonal();
+		}
+	}
+	
+	private void initComponents() {
+		
 		setTitle("Cadastro Personal");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 836, 453);
@@ -1317,16 +1370,19 @@ public class PersonalGUI extends JFrame {
 	private void BuscarPersonal(){
 		
 		Personal personal = new Personal();
-		PersonalService personalservice = new PersonalService();
 		
-		if(VariaveisProjeto.digitacaoCampo(textFieldCodigo.getText())) {
-			textFieldCodigo.requestFocus();
-			return;
-		}
+//		PersonalService personalservice = new PersonalService();
+//		
+//		if(VariaveisProjeto.digitacaoCampo(textFieldCodigo.getText())) {
+//			textFieldCodigo.requestFocus();
+//			return;
+//		}
+//		
+//		Integer id = Integer.valueOf(textFieldCodigo.getText()); 
+//		
+//		personal = personalservice.findById(id);		
 		
-		Integer id = Integer.valueOf(textFieldCodigo.getText()); 
-		
-		personal = personalservice.findById(id);		
+		personal = tabelaPersonalModel.getPersonal(this.linha);
 		
 		personal.setName(textFieldName.getText());
 		personal.setAge(textFieldAge.getColumns());
