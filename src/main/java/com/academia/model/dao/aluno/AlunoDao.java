@@ -20,7 +20,9 @@ public class AlunoDao extends AlunoGenericDao <Aluno, Integer> {
 		boolean ativo = true;
 		
 		
-		Query query = this.getEntityManager().createQuery("SELECT u FROM Usuario u WHERE u.ativo =:ativo")
+		Query query = this.getEntityManager().createQuery("SELECT u FROM Usuario u "
+											+ "LEFT JOIN FETCH u.atividade "
+											+ "WHERE u.ativo =:ativo")
 											 .setParameter("ativo", ativo)
 											 .setFirstResult(numeroPagina)
 											 .setMaxResults(defaultPagina);
@@ -28,5 +30,4 @@ public class AlunoDao extends AlunoGenericDao <Aluno, Integer> {
 		
 		return listaAluno;
 	}
-
 }
