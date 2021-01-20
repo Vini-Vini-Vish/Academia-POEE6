@@ -48,6 +48,7 @@ public class Login extends JFrame {
 	public Login() {
 		initComponents();
 	}
+	
 	private void initComponents() {
 		setTitle("Controle de Acesso");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
