@@ -6,22 +6,31 @@ import javax.swing.JInternalFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.TableRowSorter;
+
+import com.academia.estrutura.util.VariaveisProjeto;
 import com.academia.model.models.Aluno;
 import com.academia.model.service.AlunoService;
+import com.academia.view.dadosusuario.usuario.TabelaUsuarioModel;
+import com.academia.view.dadosusuario.usuario.UsuarioGUI;
+
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
+import javax.swing.RowFilter;
 import javax.swing.JButton;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.PatternSyntaxException;
+
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JComboBox;
@@ -34,7 +43,7 @@ public class TabelaAluno extends JInternalFrame {
 	
 	private JPanel contentPane;
 	private JLabel lblPesquisar;
-	private JTextField textField;
+	private JTextField textFieldNome;
 	private JTable tabelaAluno;
 	private JButton btnPesquisar;
 	private JScrollPane scrollPane;
@@ -49,7 +58,7 @@ public class TabelaAluno extends JInternalFrame {
 	private JLabel lblInicio;
 	private JLabel lblDe;
 	private JLabel lblFinal;
-	private JButton btnIcluir;
+	private JButton btnIncluir;
 	private JButton btnAlterar;
 	private JButton btnExcluir;
 	private JButton btnSair;
@@ -87,8 +96,13 @@ public class TabelaAluno extends JInternalFrame {
 			}
 		});
 	}
-
+	
 	public TabelaAluno() {
+		initComponents();
+	   // iniciaPaginacao(); 		
+	}
+
+	public void initComponents() {
 		setTitle("Cadastro de Aluno");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 846, 525);
@@ -98,14 +112,26 @@ public class TabelaAluno extends JInternalFrame {
 		
 		//-----------------------------------------------------------------//		
 		
-		lblPesquisar = new JLabel("Pesquisar:");
+		lblPesquisar = new JLabel("Pesquisar:");	
 		
-		textField = new JTextField();
-		textField.setColumns(10);
+		textFieldNome = new JTextField();
+		textFieldNome.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+	             String filtro = textFieldNome.getText();
+	             filtraNomeAluno(filtro); 			
+			}
+		});		
+		
+		textFieldNome.setColumns(10);
 		
 		//-----------------------------------------------------------------//
 		
 		btnPesquisar = new JButton("Pesquisar");
+		btnPesquisar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		btnPesquisar.setIcon(new ImageIcon(TabelaAluno.class.getResource("/com/academia/estrutura/imagens/search.png")));
 		btnPesquisar.setToolTipText("Pesquisar Usuario");
 		btnPesquisar.setMnemonic(KeyEvent.VK_P);
@@ -121,6 +147,8 @@ public class TabelaAluno extends JInternalFrame {
 		
 		//-----------------------------------------------------------------//		
 		
+		panel = new JPanel();
+		
 		comboBox = new JComboBox<String>();
 		comboBox.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
@@ -131,10 +159,7 @@ public class TabelaAluno extends JInternalFrame {
 		comboBox.setModel(new DefaultComboBoxModel<String>(new String[] {"5", "10", "15", "20"}));
 		comboBox.setToolTipText("");
 		
-		//-----------------------------------------------------------------//		
-		
-		panel = new JPanel();
-		
+			
 		//-----------------------------------------------------------------//		
 		
 		btnPrimeiro = new JButton("");
@@ -233,13 +258,28 @@ public class TabelaAluno extends JInternalFrame {
 		
 		//-----------------------------------------------------------------//		
 		
-		btnIcluir = new JButton("Incluir");
-		btnIcluir.setIcon(new ImageIcon(TabelaAluno.class.getResource("/com/academia/estrutura/imagens/book_previous.png")));
-		btnIcluir.setMnemonic(KeyEvent.VK_I);
+		btnIncluir = new JButton("Incluir");
+		btnIncluir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				incluirAluno();
+				iniciaPaginacao();
+			}
+			
+		});
+		
+		btnIncluir.setIcon(new ImageIcon(TabelaAluno.class.getResource("/com/academia/estrutura/imagens/book_previous.png")));
+		btnIncluir.setMnemonic(KeyEvent.VK_I);
 		
 		//-----------------------------------------------------------------//		
 		
 		btnAlterar = new JButton("Alterar");
+		btnAlterar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				alterarAluno();
+				iniciaPaginacao();
+			}
+		});
+		
 		btnAlterar.setIcon(new ImageIcon(TabelaAluno.class.getResource("/com/academia/estrutura/imagens/book_next.png")));
 		btnAlterar.setMnemonic(KeyEvent.VK_A);
 		
@@ -285,7 +325,7 @@ public class TabelaAluno extends JInternalFrame {
 							.addComponent(lblFinal, GroupLayout.PREFERRED_SIZE, 12, GroupLayout.PREFERRED_SIZE))
 						.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING, false)
 							.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
-								.addComponent(btnIcluir, GroupLayout.PREFERRED_SIZE, 81, GroupLayout.PREFERRED_SIZE)
+								.addComponent(btnIncluir, GroupLayout.PREFERRED_SIZE, 81, GroupLayout.PREFERRED_SIZE)
 								.addGap(18)
 								.addComponent(btnAlterar, GroupLayout.PREFERRED_SIZE, 85, GroupLayout.PREFERRED_SIZE)
 								.addGap(18)
@@ -297,7 +337,7 @@ public class TabelaAluno extends JInternalFrame {
 								.addGroup(gl_contentPane.createSequentialGroup()
 									.addComponent(lblPesquisar, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
 									.addGap(18)
-									.addComponent(textField, GroupLayout.PREFERRED_SIZE, 588, GroupLayout.PREFERRED_SIZE)
+									.addComponent(textFieldNome, GroupLayout.PREFERRED_SIZE, 588, GroupLayout.PREFERRED_SIZE)
 									.addGap(18)
 									.addComponent(btnPesquisar, GroupLayout.PREFERRED_SIZE, 99, GroupLayout.PREFERRED_SIZE)))))
 					.addContainerGap(14, Short.MAX_VALUE))
@@ -307,7 +347,7 @@ public class TabelaAluno extends JInternalFrame {
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-						.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(textFieldNome, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnPesquisar, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lblPesquisar))
 					.addGap(18)
@@ -324,7 +364,7 @@ public class TabelaAluno extends JInternalFrame {
 							.addComponent(lblFinal)))
 					.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-						.addComponent(btnIcluir, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnIncluir, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnAlterar, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnExcluir, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnSair, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE))
@@ -337,8 +377,36 @@ public class TabelaAluno extends JInternalFrame {
 		contentPane.setLayout(gl_contentPane);		
 	}	
 	
-	public JTable getTable() {
-		return tabelaAluno;
+	//-----------------------------------------------------------------//		
+	
+	protected void filtraNomeAluno(String filtro) {
+		RowFilter<TabelaAlunoModel, Object> rowFilter = null;
+		try {
+			rowFilter = RowFilter.regexFilter(filtro);
+		} catch(PatternSyntaxException e) {
+			return;
+		}
+		sortTabelaAluno.setRowFilter(rowFilter);
+	}
+	
+	//-----------------------------------------------------------------//		
+
+	protected void alterarAluno() {
+		if ( tabelaAluno.getSelectedRow() != -1 && tabelaAluno.getSelectedRow() < tabelaAlunoModel.getRowCount()) {
+			int linha = tabelaAluno.getSelectedRow();
+			AlunoGUI aluno = new AlunoGUI(new JFrame(), true, tabelaAluno, tabelaAlunoModel, linha, VariaveisProjeto.ALTERACAO);
+			aluno.setLocationRelativeTo(null);
+			aluno.setVisible(true);
+		}		
+	}
+	
+	//-----------------------------------------------------------------//		
+
+	private void incluirAluno() {
+		AlunoGUI aluno = new AlunoGUI(new JFrame(), true, tabelaAluno, tabelaAlunoModel, 0, VariaveisProjeto.INCLUSAO);
+		aluno.setLocationRelativeTo(null);
+		aluno.setResizable(false);
+		aluno.setVisible(true);
 	}
 	
 	//-----------------------------------------------------------------//		
@@ -438,6 +506,12 @@ public class TabelaAluno extends JInternalFrame {
 		totalRegistro = alunoService.countTotalRegister();
 		
 		return totalRegistro;
+	}
+	
+	//-----------------------------------------------------------------//		
+	
+	public JTable getTable() {
+		return tabelaAluno;
 	}
 	
 }
