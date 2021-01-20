@@ -9,30 +9,35 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
 import com.academia.estrutura.util.VariaveisProjeto;
 import com.academia.model.models.Atividade;
 import com.academia.model.service.AtividadeService;
+import com.academia.view.dadosusuario.usuario.TabelaUsuarioModel;
 import com.academia.view.dadosusuario.usuario.UsuarioGUI;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.ImageIcon;
 
-public class AtividadeGUI extends JFrame {
+public class AtividadeGUI extends JDialog {
 
 	private static final long serialVersionUID = 5753282394509450001L;
 	
 	private JPanel contentPane;
+	private JTextField textFieldCodigo;
 	private JTextField textFieldNome;
 	private JTextField textFieldDescricao;
 	
+	private JLabel lblCodigo;
 	private JLabel lblNome;
-	private JLabel lblDescricao;
+	private JLabel lblDescricao;	
 	
 	private JButton CheckNome;
 	private JButton CheckDescricao;
@@ -43,27 +48,73 @@ public class AtividadeGUI extends JFrame {
 	private JButton btnSair;
 
 	private boolean status = true;  
-	private JLabel lblCodigo;
-	private JTextField textFieldCodigo;
+
+	private JTable tabelaAtividade;
+    private TabelaAtividadeModel tabelaAtividadeModel;
+    private int linha=0;
+    private int acao = 0;
 	
 	//-----------------------------------------------------------------//
 	
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					AtividadeGUI frame = new AtividadeGUI();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+//	public static void main(String[] args) {
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					AtividadeGUI frame = new AtividadeGUI();
+//					frame.setVisible(true);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+//	}
 
 	//-----------------------------------------------------------------//
 	
-	public AtividadeGUI() {
+	public AtividadeGUI(JFrame frame, boolean modal, JTable tabelaAtividade, TabelaAtividadeModel tabelaAtividadeModel, int linha, int acao) {
+		
+		super(frame, modal);
+
+		initComponents();
+		
+		this.tabelaAtividade = tabelaAtividade;
+		this.tabelaAtividadeModel = tabelaAtividadeModel;
+		this.linha = linha;
+        this.acao = acao;
+		
+		limpaTextoCampo();
+		
+		desabilitaCheckCampo();
+		
+		configuraAcaoAtividade();	
+	
+	}
+	
+	//-----------------------------------------------------------------//	
+    
+    private void configuraAcaoAtividade() {
+		
+		if (this.acao == VariaveisProjeto.INCLUSAO) {
+			btnIncluir.setVisible(true);
+			btnAlterar.setVisible(false);
+			btnExcluir.setVisible(false);
+		}
+		if (this.acao == VariaveisProjeto.ALTERACAO) {
+			btnAlterar.setVisible(true);
+			btnExcluir.setVisible(false);
+			btnIncluir.setVisible(false);
+			BuscarAtividade();
+		}
+		if (this.acao == VariaveisProjeto.EXCLUSAO) {
+			btnExcluir.setVisible(true);
+			btnIncluir.setVisible(false);
+			btnAlterar.setVisible(false);
+			BuscarAtividade();
+		}
+	}
+	
+	private void initComponents() {
+		
 		setTitle("Cadastro de Atividades");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 665, 412);
@@ -264,10 +315,7 @@ public class AtividadeGUI extends JFrame {
 					.addContainerGap())
 		);
 		contentPane.setLayout(gl_contentPane);
-		createEvents();
-		
-		limpaTextoCampo();
-		desabilitaCheckCampo();
+		createEvents();	
 	}
 	
 	
@@ -475,16 +523,19 @@ public class AtividadeGUI extends JFrame {
 	private void BuscarAtividade(){
 		
 		Atividade atividade = new Atividade();
-		AtividadeService ativiadadeservice = new AtividadeService();
 		
-		if(VariaveisProjeto.digitacaoCampo(textFieldCodigo.getText())) {
-			textFieldCodigo.requestFocus();
-			return;
-		}
+		//AtividadeService ativiadadeservice = new AtividadeService();
 		
-		Integer id = Integer.valueOf(textFieldCodigo.getText()); 
+//		if(VariaveisProjeto.digitacaoCampo(textFieldCodigo.getText())) {
+//			textFieldCodigo.requestFocus();
+//			return;
+//		}
 		
-		atividade = ativiadadeservice.findById(id);		
+//		Integer id = Integer.valueOf(textFieldCodigo.getText()); 
+		
+//		atividade = ativiadadeservice.findById(id);		
+		
+		atividade = tabelaAtividadeModel.getAtividade(this.linha);
 		
 		textFieldNome.setText(atividade.getNome());
 		textFieldDescricao.setText(atividade.getDescricao());
