@@ -1,9 +1,7 @@
 package com.academia.view.dadosusuario.usuario;
 
 import java.util.List;
-
 import javax.swing.table.AbstractTableModel;
-
 import com.academia.model.models.user.Usuario;
 
 public class TabelaUsuarioModel extends AbstractTableModel {
