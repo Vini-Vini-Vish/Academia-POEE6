@@ -17,62 +17,49 @@ public class Role {
 	private String nome;
 	
 	private List<Usuario> usuarios;
-	
-	//-----------------------------------------------------------------//
 		
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "ROLE_ID", nullable = false)
-	public Long getId() {
-		return id;
-	}
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	//-----------------------------------------------------------------//
-	
-	@Column(name = "ROLE_NOME", length = 50, nullable = false)
-	public String getNome() {
-		return nome;
-	}
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-
-	//-----------------------------------------------------------------//
-
 	public Role() {
 		super();
 	}
 
-	//-----------------------------------------------------------------//
-	
 	public Role(Long id, String nome) {
 		super();
 		this.id = id;
 		this.nome = nome;
 	}
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="ROLE_ID",nullable = false)
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+    @Column(name="role_nome",length = 50, nullable = false)
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
 	
-	//-----------------------------------------------------------------//
+	// MUITOS PARA MUITOS 
 	
-	@ManyToMany(mappedBy = "roles")
+    @ManyToMany(mappedBy = "roles")
 	public List<Usuario> getUsuarios() {
 		return usuarios;
 	}
+
+
 	public void setUsuarios(List<Usuario> usuarios) {
 		this.usuarios = usuarios;
 	}
-	
-	//-----------------------------------------------------------------//
-	
-	@Override
-	public String toString() {
-		return "Role [id=" + id + ", nome=" + nome + "]";
-	}
 
-	//-----------------------------------------------------------------//
-	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -96,5 +83,10 @@ public class Role {
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "Role [id=" + id + ", nome=" + nome + "]";
 	}
 }
