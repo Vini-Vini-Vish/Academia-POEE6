@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -33,48 +34,52 @@ public class Usuario {
 	
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "USUARIO_ID")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "USUARIO_ID")
 	public Integer getId() {
 		return id;
 	}
+	
 	public void setId(Integer id) {
-		this.id = id;		
+		this.id = id;
 	}
 	
 	//---------------------------------------------------//
 	
-	@Column(name = "USUARIO_USERNAME", length = 60, nullable = false)
+	@Column(name = "USUARIO_USERNAME", length = 60, nullable = false )
 	public String getUsername() {
 		return username;
 	}
+	
 	public void setUsername(String username) {
 		this.username = username;
 	}
 	
 	//---------------------------------------------------//
 	
-	@Column(name = "USUARIO_EMAIL", length = 100, nullable = false, unique = true)
+	@Column(name = "USUARIO_EMAIL", length = 100, nullable = false )
 	public String getEmail() {
-		return email;
+			return email;
 	}
+	    
 	public void setEmail(String email) {
 		this.email = email;
 	}
 	
 	//---------------------------------------------------//
 	
-	@Column(name = "USUARIO_PASSWORD", length = 100, nullable = false)
+	@Column(name = "USUARIO_PASSWORD", length = 100, nullable = false )
 	public String getPassword() {
 		return password;
-	}
+	}	
+	
 	public void setPassword(String password) {
 		this.password = password;
 	}
 	
 	//---------------------------------------------------//
 	
-	@Column(nullable = false)
+	@Column(nullable = false )
 	public boolean isAtivo() {
 		return ativo;
 	}
@@ -84,34 +89,40 @@ public class Usuario {
 	
 	//---------------------------------------------------//
 	
-	@Column(nullable = false)
+	@Column(nullable = false )
 	public boolean isAdmin() {
 		return admin;
-	}
+	}	
 	public void setAdmin(boolean admin) {
 		this.admin = admin;
 	}
 	
 	//---------------------------------------------------//
 	
-	@ManyToOne
+	// muitos para um 
+	
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "DEPARTAMENTO_ID", nullable = false)
-	public Departamento getDepartamento() {
+    public Departamento getDepartamento() {
 		return departamento;
 	}
+
 	public void setDepartamento(Departamento departamento) {
 		this.departamento = departamento;
 	}
 	
 	//---------------------------------------------------// 
 	
-	@ManyToMany
+	// MUITOS PARA MUITOS
+	   
+	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "TAB_USUARIO_ROLE",
-		joinColumns = @JoinColumn(name = "USUARIO_ID"),
-		inverseJoinColumns = @JoinColumn(name = "ROLE_ID"))
+		joinColumns = @JoinColumn(name="USUARIO_ID"),
+		inverseJoinColumns = @JoinColumn(name="ROLE_ID"))
 	public List<Role> getRoles() {
 		return roles;
 	}
+
 	public void setRoles(List<Role> roles) {
 		this.roles = roles;
 	}
@@ -124,7 +135,7 @@ public class Usuario {
 		int result = 1;
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
-	}
+	}	
 	
 	//---------------------------------------------------//
 	
@@ -143,7 +154,7 @@ public class Usuario {
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
-	}		
+	}	
 	
 	//---------------------------------------------------//
 	
