@@ -18,8 +18,8 @@ public class TabelaUsuarioModel extends AbstractTableModel {
 	
 	//-----------------------------------------------------------------//	
 	
-	private List<Usuario> listaUsuario;
-			
+	private List<Usuario> listaUsuario;	
+	
 	public List<Usuario> getListaUsuario() {
 		return listaUsuario;
 	}
@@ -53,14 +53,14 @@ public class TabelaUsuarioModel extends AbstractTableModel {
 	public void removeUsuario(int rowIndex) {
 		getListaUsuario().remove(rowIndex);
 		fireTableRowsInserted(rowIndex, rowIndex);
-	}	
+	}
 	
 	//-----------------------------------------------------------------//	
 	
 	public void removeAll() {
 		getListaUsuario().clear();
 		fireTableDataChanged();
-	}	
+	}
 	
 	//-----------------------------------------------------------------//	
 	
@@ -72,7 +72,7 @@ public class TabelaUsuarioModel extends AbstractTableModel {
 	@Override
 	public int getColumnCount() {
 		return getColunas().length;
-	}	
+	}
 	
 	//-----------------------------------------------------------------//	
 	
@@ -84,9 +84,7 @@ public class TabelaUsuarioModel extends AbstractTableModel {
 	
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
-		
 		Usuario usuario = getListaUsuario().get(rowIndex);
-		
 		switch(columnIndex) {
 		case CODIGO:
 			return  usuario.getId();
@@ -97,7 +95,7 @@ public class TabelaUsuarioModel extends AbstractTableModel {
 		default:
 			return usuario;
 		}
-	}	
+	}
 	
 	//-----------------------------------------------------------------//	
 	
@@ -112,7 +110,7 @@ public class TabelaUsuarioModel extends AbstractTableModel {
 		default:
 			return null;
 		}		
-	}	
+	}
 	
 	//-----------------------------------------------------------------//	
 
