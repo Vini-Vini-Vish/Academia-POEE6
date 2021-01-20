@@ -2,9 +2,12 @@ package com.academia.model.models;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -25,6 +28,8 @@ public class Aluno {
 	private String 	periodo;
 	
 	private boolean activity = false;
+		
+	private Atividade atividade;
 	
 	//----------------------------------------------
 	@Id
@@ -124,6 +129,18 @@ public class Aluno {
 	public void setActivity(boolean activity) {
 		this.activity = activity;
 	}
+	
+	//----------------------------------------------
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "DEPARTAMENTO_ID", nullable = false)
+	public Atividade getAtividade() {
+		return atividade;
+	}
+	public void setAtividade(Atividade atividade) {
+		this.atividade = atividade;
+	}
+	
 	//----------------------------------------------
 	@Override
 	public int hashCode() {
