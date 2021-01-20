@@ -7,9 +7,9 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
-public abstract class GenericDao<T, Id extends Serializable>{
+public abstract class GenericDao<T, ID extends Serializable>{
 	
-private EntityManager entityManager;
+	private EntityManager entityManager;
 	
 	private final Class<T> classePersistencia;
 	    
@@ -34,35 +34,35 @@ private EntityManager entityManager;
     }
     
     
-    public T findById(Id id) {
+    public T findById(ID id) {
     	return this.getEntityManager().find(getClassePersistencia(), id);
     }
    
     
     @SuppressWarnings("unchecked")
-	public List<T> findAll(Class<T> classe){
+   	public List<T> findAll(Class<T> classe){
+       
+       	List<T> lista = new ArrayList<T>();
+       	
+       	Query query = this.getEntityManager()            
+       					  .createQuery("SELECT o FROM "+classe.getSimpleName()+" o");
+       	
+       	lista = query.getResultList();
+       	return lista;
+        	
+    }  
     
-    	List<T> lista = new ArrayList<T>();
-    	
-    	Query query = this.getEntityManager()            
-    					  .createQuery("SELECT o FROM "+classe.getSimpleName()+" o");
-    	
-    	lista = query.getResultList();
-    	return lista;
-     	
-    }   
-    
+    public Integer countTotalRegister(Class<T> classe) {
+		Query query = this.getEntityManager().createQuery("SELECT count(o) FROM "+classe.getSimpleName()+" o");
+		Long total = (Long) query.getSingleResult();
+		return total.intValue();
+	}
+        
 	public EntityManager getEntityManager() {
 		return entityManager;
 	}
 
 	public Class<T> getClassePersistencia() {
 		return classePersistencia;
-	}	
-
-	public Integer countTotalRegister(Class<T> classe) {
-		Query query = this.getEntityManager().createNativeQuery("SELECT count(o) FROM "+classe.getSimpleName()+" o");		
-		Long total = (Long) query.getSingleResult();
-		return total.intValue();
 	}
 }
