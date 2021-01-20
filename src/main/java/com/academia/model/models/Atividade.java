@@ -1,10 +1,13 @@
 package com.academia.model.models;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -15,8 +18,10 @@ public class Atividade {
 	private String nome;
 	private String descricao;
 	
-	//-----------------------------------------------------------------//
+	private List<Aluno> aluno;
 	
+	//-----------------------------------------------------------------//
+		
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ATIVIDADE_ID")
@@ -45,6 +50,16 @@ public class Atividade {
 	}
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
+	}
+	
+	//-----------------------------------------------------------------//
+	
+	@OneToMany(mappedBy = "departamento")
+	public List<Aluno> getAluno() {
+		return aluno;
+	}
+	public void setAluno(List<Aluno> aluno) {
+		this.aluno = aluno;
 	}
 	
 	//-----------------------------------------------------------------//
