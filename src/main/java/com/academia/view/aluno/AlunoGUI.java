@@ -7,6 +7,8 @@ import javax.swing.border.EmptyBorder;
 import com.academia.estrutura.util.VariaveisProjeto;
 import com.academia.model.models.Aluno;
 import com.academia.model.service.AlunoService;
+import com.academia.view.dadosusuario.usuario.TabelaUsuarioModel;
+
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
@@ -14,7 +16,10 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JRadioButton;
+import javax.swing.JTable;
 import javax.swing.JButton;
+import javax.swing.JDialog;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.FocusAdapter;
@@ -23,7 +28,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import javax.swing.ImageIcon;
 
-public class AlunoGUI extends JFrame {
+public class AlunoGUI extends JDialog {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -68,23 +73,72 @@ public class AlunoGUI extends JFrame {
 
 	private boolean status = true; 
 	
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					AlunoGUI frame = new AlunoGUI();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+	private JTable tabelaAluno;
+    private TabelaAlunoModel tabelaAlunoModel;
+    private int linha=0;
+    private int acao = 0;   
+	
+//	public static void main(String[] args) {
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					AlunoGUI frame = new AlunoGUI();
+//					frame.setVisible(true);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+//	}
 
 	/**
 	 * Create the frame.
 	 */
-	public AlunoGUI() {
+	public AlunoGUI(JFrame frame, boolean modal, JTable tabelaAluno, TabelaAlunoModel tabelaAlunoModel, int linha, int acao) {
+		
+		super(frame, modal);
+
+		initComponents();
+		
+		this.tabelaAluno = tabelaAluno;
+		this.tabelaAlunoModel = tabelaAlunoModel;
+		this.linha = linha;
+        this.acao = acao;
+		
+		limpaTextoCampo();
+		
+		desabilitaCheckCampos();
+		
+		configuraAcaoAluno();		
+		
+	}
+	
+	//-----------------------------------------------------------------//	
+    
+    private void configuraAcaoAluno() {
+		
+		if (this.acao == VariaveisProjeto.INCLUSAO) {
+			btnIncluir.setVisible(true);
+			btnAlterar.setVisible(false);
+			btnExcluir.setVisible(false);
+		}
+		if (this.acao == VariaveisProjeto.ALTERACAO) {
+			btnAlterar.setVisible(true);
+			btnExcluir.setVisible(false);
+			btnIncluir.setVisible(false);
+			BuscarAluno();
+		}
+		if (this.acao == VariaveisProjeto.EXCLUSAO) {
+			btnExcluir.setVisible(true);
+			btnIncluir.setVisible(false);
+			btnAlterar.setVisible(false);
+			BuscarAluno();
+		}
+	}
+    
+    //-----------------------------------------------------------------//
+	
+	private void initComponents() {
 		setTitle("Cadastro Aluno");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 779, 445);
@@ -688,9 +742,6 @@ public class AlunoGUI extends JFrame {
 		contentPane.setLayout(gl_contentPane);
 		createEvents();
 		
-		limpaTextoCampo();
-		
-		desabilitaCheckCampo();
 	}
 
 	//-----------------------------------------------------------------//
@@ -1214,7 +1265,7 @@ public class AlunoGUI extends JFrame {
 	//-----------------------------------------------------------------//
 	//-----------------------------------------------------------------//
 	
-	private void desabilitaCheckCampo() {
+	private void desabilitaCheckCampos() {
 				
 		checkNome.setVisible(false);		
 		checkGenero.setVisible(false); 		
@@ -1234,16 +1285,18 @@ public class AlunoGUI extends JFrame {
 	private void BuscarAluno(){
 		
 		Aluno aluno = new Aluno();
-		AlunoService alunoservice = new AlunoService();
+//		AlunoService alunoservice = new AlunoService();
 		
-		if(VariaveisProjeto.digitacaoCampo(textFieldCodigo.getText())) {
-			textFieldCodigo.requestFocus();
-			return;
-		}
+//		if(VariaveisProjeto.digitacaoCampo(textFieldCodigo.getText())) {
+//			textFieldCodigo.requestFocus();
+//			return;
+//		}
 		
-		Integer id = Integer.valueOf(textFieldCodigo.getText()); 
+//		Integer id = Integer.valueOf(textFieldCodigo.getText()); 
 		
-		aluno = alunoservice.findById(id);		
+		aluno = tabelaAlunoModel.getAluno(this.linha);
+		
+//		aluno = alunoservice.findById(id);		
 		
 		aluno.setName(textFieldNome.getText());
 		aluno.setGender(textFieldGender.getText());	
