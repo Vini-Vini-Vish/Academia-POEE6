@@ -13,7 +13,7 @@ public class UsuarioDao extends GenericDao<Usuario, Integer>{
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Usuario> listUsuarioPaginacao(int numeroPagina, Integer defaultPagina) {
+	public List<Usuario> listUsuarioPaginacao(Integer numeroPagina, Integer defaultPagina) {
 		
 		List<Usuario> listaUsuario = new ArrayList<Usuario>();
 		
