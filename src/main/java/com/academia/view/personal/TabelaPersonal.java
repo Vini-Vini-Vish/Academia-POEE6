@@ -6,22 +6,31 @@ import javax.swing.JInternalFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.TableRowSorter;
+
+import com.academia.estrutura.util.VariaveisProjeto;
 import com.academia.model.models.Personal;
 import com.academia.model.service.PersonalService;
+import com.academia.view.dadosusuario.usuario.TabelaUsuarioModel;
+import com.academia.view.dadosusuario.usuario.UsuarioGUI;
+
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
+import javax.swing.RowFilter;
 import javax.swing.JButton;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.PatternSyntaxException;
+
 import javax.swing.ImageIcon;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -35,7 +44,7 @@ public class TabelaPersonal extends JInternalFrame {
 	
 	private JPanel contentPane;
 	private JLabel lblPesquisar;
-	private JTextField textField;
+	private JTextField textFieldNome;
 	private JButton btnPesquisar;
 	private JTable tabelaPersonal;
 	private JScrollPane scrollPane;
@@ -50,7 +59,7 @@ public class TabelaPersonal extends JInternalFrame {
 	private JLabel lblInicio;
 	private JLabel lblDe;
 	private JLabel lblFinal;
-	private JButton btnIcluir;
+	private JButton btnIncluir;
 	private JButton btnAlterar;
 	private JButton btnExcluir;
 	private JButton btnSair;
@@ -72,6 +81,7 @@ public class TabelaPersonal extends JInternalFrame {
 	private Integer defaultPagina = 5;
 	private Integer totalPagina = 1;
 	private Integer numeroPagina = 1;
+	private JLabel lblNewLabel_1;
 	private JLabel totalRegistros;
 	
 	private TabelaPersonalModel tabelaPersonalModel;
@@ -90,10 +100,13 @@ public class TabelaPersonal extends JInternalFrame {
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
 	public TabelaPersonal() {
+		initComponents();
+	   // iniciaPaginacao(); 		
+	}
+	
+	public void initComponents() {
+		
 		setTitle("Cadastro de Personal");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 856, 546);
@@ -105,12 +118,26 @@ public class TabelaPersonal extends JInternalFrame {
 		
 		lblPesquisar = new JLabel("Pesquisar:");
 		
-		textField = new JTextField();
-		textField.setColumns(10);
+		textFieldNome = new JTextField();
+		textFieldNome.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+	             String filtro = textFieldNome.getText();
+	             filtraNomePersonal(filtro);                
+				
+			}
+		});
+		
+		textFieldNome.setColumns(10);
 		
 		//-----------------------------------------------------------------//		
 		
 		btnPesquisar = new JButton("Pesquisar");
+		btnPesquisar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		
 		btnPesquisar.setIcon(new ImageIcon(TabelaPersonal.class.getResource("/com/academia/estrutura/imagens/search.png")));
 		btnPesquisar.setToolTipText("Pesquisar Usuario");
 		btnPesquisar.setMnemonic(KeyEvent.VK_P);
@@ -240,13 +267,28 @@ public class TabelaPersonal extends JInternalFrame {
 		
 		//-----------------------------------------------------------------//		
 		
-		btnIcluir = new JButton("Incluir");
-		btnIcluir.setIcon(new ImageIcon(TabelaPersonal.class.getResource("/com/academia/estrutura/imagens/book_previous.png")));
-		btnIcluir.setMnemonic(KeyEvent.VK_I);
+		btnIncluir = new JButton("Incluir");
+		btnIncluir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				incluirPersonal();
+				iniciaPaginacao();
+			}
+			
+		});
+		
+		btnIncluir.setIcon(new ImageIcon(TabelaPersonal.class.getResource("/com/academia/estrutura/imagens/book_previous.png")));
+		btnIncluir.setMnemonic(KeyEvent.VK_I);
 		
 		//-----------------------------------------------------------------//		
 		
 		btnAlterar = new JButton("Alterar");
+		btnAlterar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				alterarPersonal();
+				iniciaPaginacao();
+			}
+		});
+		
 		btnAlterar.setIcon(new ImageIcon(TabelaPersonal.class.getResource("/com/academia/estrutura/imagens/book_next.png")));
 		btnAlterar.setMnemonic(KeyEvent.VK_A);
 		
@@ -291,7 +333,7 @@ public class TabelaPersonal extends JInternalFrame {
 							.addComponent(lblFinal))
 						.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
 							.addGroup(gl_contentPane.createSequentialGroup()
-								.addComponent(btnIcluir, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE)
+								.addComponent(btnIncluir, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE)
 								.addPreferredGap(ComponentPlacement.UNRELATED)
 								.addComponent(btnAlterar, GroupLayout.PREFERRED_SIZE, 93, GroupLayout.PREFERRED_SIZE)
 								.addPreferredGap(ComponentPlacement.UNRELATED)
@@ -303,7 +345,7 @@ public class TabelaPersonal extends JInternalFrame {
 								.addGroup(gl_contentPane.createSequentialGroup()
 									.addComponent(lblPesquisar, GroupLayout.PREFERRED_SIZE, 72, GroupLayout.PREFERRED_SIZE)
 									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(textField, GroupLayout.PREFERRED_SIZE, 572, GroupLayout.PREFERRED_SIZE)
+									.addComponent(textFieldNome, GroupLayout.PREFERRED_SIZE, 572, GroupLayout.PREFERRED_SIZE)
 									.addPreferredGap(ComponentPlacement.RELATED)
 									.addComponent(btnPesquisar, GroupLayout.PREFERRED_SIZE, 119, GroupLayout.PREFERRED_SIZE)))))
 					.addContainerGap(29, Short.MAX_VALUE))
@@ -314,7 +356,7 @@ public class TabelaPersonal extends JInternalFrame {
 					.addContainerGap()
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblPesquisar)
-						.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(textFieldNome, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnPesquisar, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE))
 					.addGap(18)
 					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 318, GroupLayout.PREFERRED_SIZE)
@@ -330,7 +372,7 @@ public class TabelaPersonal extends JInternalFrame {
 						.addComponent(lblPaginabox))
 					.addPreferredGap(ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-						.addComponent(btnIcluir, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnIncluir, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnAlterar, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnExcluir, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnSair, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE))
@@ -342,6 +384,41 @@ public class TabelaPersonal extends JInternalFrame {
 		tabelaPersonal = new JTable();
 		scrollPane.setViewportView(tabelaPersonal);		
 	}
+	
+	//-----------------------------------------------------------------//		
+	
+	protected void filtraNomePersonal(String filtro) {
+		RowFilter<TabelaPersonalModel, Object> rowFilter = null;
+		try {
+			rowFilter = RowFilter.regexFilter(filtro);
+		} catch(PatternSyntaxException e) {
+			return;
+		}
+		sortTabelaPersonal.setRowFilter(rowFilter);
+	}
+	
+	//-----------------------------------------------------------------//		
+
+	protected void alterarPersonal() {
+		if ( tabelaPersonal.getSelectedRow() != -1 && tabelaPersonal.getSelectedRow() < tabelaPersonalModel.getRowCount()) {
+			int linha = tabelaPersonal.getSelectedRow();
+			PersonalGUI personal = new PersonalGUI(new JFrame(), true, tabelaPersonal, tabelaPersonalModel, linha, VariaveisProjeto.ALTERACAO);
+			personal.setLocationRelativeTo(null);
+			personal.setVisible(true);
+		}
+		
+	}
+	
+	//-----------------------------------------------------------------//		
+
+	private void incluirPersonal() {
+		PersonalGUI personal = new PersonalGUI(new JFrame(), true, tabelaPersonal, tabelaPersonalModel, 0, VariaveisProjeto.INCLUSAO);
+		personal.setLocationRelativeTo(null);
+		personal.setResizable(false);
+		personal.setVisible(true);
+	}
+
+	//-----------------------------------------------------------------//
 	
 	public JTable getTable() {
 		return tabelaPersonal;
