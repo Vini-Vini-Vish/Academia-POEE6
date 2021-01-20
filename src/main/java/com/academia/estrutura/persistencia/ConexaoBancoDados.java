@@ -37,16 +37,16 @@ public class ConexaoBancoDados {
 		
 		Map<String, String> properties = new HashMap<String, String>();
 		
-		properties.put("javax.persistence.schema-generation.database.action", "update");
-		properties.put("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
-		properties.put("hibernate.connection.driver_class", "com.mysql.jdbc.Driver");
-		properties.put("hibernate.connection.url", "jdbc:mysql://localhost:3306/projeto?createDatabaseIfNotExist=true&useSSL=false");
+		properties.put("javax.persistence.schema-generation.database.action","update");
+		properties.put("hibernate.dialect","org.hibernate.dialect.MySQL5Dialect");
+		properties.put("hibernate.connection.driver_class","com.mysql.jdbc.Driver");
+		properties.put("hibernate.connection.url", "jdbc:mysql://localhost:3306/projeto_pooe?createDatabaseIfNotExist=true&useSSL=false");
 		properties.put("hibernate.connection.username", "root");
 		//properties.put("hibernate.connection.password", "root");
 		properties.put("hibernate.c3p0.min_size", "10");
 		properties.put("hibernate.c3p0.max_size" ,"20" );
 		properties.put("hibernate.c3p0.acquire_increment","1");
-		properties.put("hibernate.c3p0.idle_test_period" ,"3000");
+		properties.put("hibernate.c3p0.idle_test_period" ,"30000");
 		properties.put("hibernate.c3p0.max_statements","50" );
 		properties.put("hibernate.c3p0.timeout","1800" );
 		properties.put("hibernate.show_sql", "true");
