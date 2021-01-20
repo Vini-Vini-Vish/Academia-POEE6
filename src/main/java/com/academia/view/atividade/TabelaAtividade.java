@@ -6,21 +6,30 @@ import javax.swing.JInternalFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.TableRowSorter;
+
+import com.academia.estrutura.util.VariaveisProjeto;
 import com.academia.model.models.Atividade;
 import com.academia.model.service.AtividadeService;
+import com.academia.view.dadosusuario.usuario.TabelaUsuarioModel;
+import com.academia.view.dadosusuario.usuario.UsuarioGUI;
+
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
+import javax.swing.RowFilter;
 import javax.swing.JButton;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.PatternSyntaxException;
+
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JComboBox;
@@ -34,7 +43,7 @@ public class TabelaAtividade extends JInternalFrame {
 	
 	private JPanel contentPane;
 	private JLabel lblPesquisar;
-	private JTextField textField;
+	private JTextField textFieldNome;
 	private JButton btnPesquisar;
 	private JTable tabelaAtividade;
 	private JScrollPane scrollPane;
@@ -49,7 +58,7 @@ public class TabelaAtividade extends JInternalFrame {
 	private JLabel lblInicio;
 	private JLabel lblDe;
 	private JLabel lblFinal;
-	private JButton btnIcluir;
+	private JButton btnIncluir;
 	private JButton btnAlterar;
 	private JButton btnExcluir;
 	private JButton btnSair;
@@ -62,6 +71,7 @@ public class TabelaAtividade extends JInternalFrame {
 	private Integer defaultPagina = 5;
 	private Integer totalPagina = 1;
 	private Integer numeroPagina = 1;
+	private JLabel lblNewLabel_1;
 	private JLabel totalRegistros;
 	
 	private TabelaAtividadeModel tabelaAtividadeModel;
@@ -79,8 +89,14 @@ public class TabelaAtividade extends JInternalFrame {
 			}
 		});
 	}
-
+	
 	public TabelaAtividade() {
+		initComponents();
+	   // iniciaPaginacao(); 		
+	}
+
+	public void initComponents() {
+		
 		setTitle("Cadastro de Atividade");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 870, 564);
@@ -92,12 +108,25 @@ public class TabelaAtividade extends JInternalFrame {
 		
 		lblPesquisar = new JLabel("Pesquisar:");
 		
-		textField = new JTextField();
-		textField.setColumns(10);
+		textFieldNome = new JTextField();
+		textFieldNome.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+	             String filtro = textFieldNome.getText();
+	             filtraNomeAtividade(filtro);                
+				
+			}
+		});
+		
+		textFieldNome.setColumns(10);
 		
 		//-----------------------------------------------------------------//
 		
 		btnPesquisar = new JButton("Pesquisar");
+		btnPesquisar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		btnPesquisar.setToolTipText("Pesquisar Usuario");
 		btnPesquisar.setMnemonic(KeyEvent.VK_P);
 		
@@ -225,13 +254,27 @@ public class TabelaAtividade extends JInternalFrame {
 		
 		//-----------------------------------------------------------------//
 		
-		btnIcluir = new JButton("Incluir");
-		btnIcluir.setIcon(new ImageIcon(TabelaAtividade.class.getResource("/com/academia/estrutura/imagens/book_previous.png")));
-		btnIcluir.setMnemonic(KeyEvent.VK_I);
+		btnIncluir = new JButton("Incluir");
+		btnIncluir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				incluirAtividade();
+				iniciaPaginacao();
+			}			
+		});
+		
+		btnIncluir.setIcon(new ImageIcon(TabelaAtividade.class.getResource("/com/academia/estrutura/imagens/book_previous.png")));
+		btnIncluir.setMnemonic(KeyEvent.VK_I);
 		
 		//-----------------------------------------------------------------//
 		
 		btnAlterar = new JButton("Alterar");
+		btnAlterar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				alterarAtividade();
+				iniciaPaginacao();
+			}
+		});
+		
 		btnAlterar.setIcon(new ImageIcon(TabelaAtividade.class.getResource("/com/academia/estrutura/imagens/book_next.png")));
 		btnAlterar.setMnemonic(KeyEvent.VK_A);
 		
@@ -277,7 +320,7 @@ public class TabelaAtividade extends JInternalFrame {
 							.addComponent(lblFinal, GroupLayout.PREFERRED_SIZE, 12, GroupLayout.PREFERRED_SIZE))
 						.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING, false)
 							.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
-								.addComponent(btnIcluir, GroupLayout.PREFERRED_SIZE, 81, GroupLayout.PREFERRED_SIZE)
+								.addComponent(btnIncluir, GroupLayout.PREFERRED_SIZE, 81, GroupLayout.PREFERRED_SIZE)
 								.addGap(18)
 								.addComponent(btnAlterar, GroupLayout.PREFERRED_SIZE, 85, GroupLayout.PREFERRED_SIZE)
 								.addGap(18)
@@ -289,7 +332,7 @@ public class TabelaAtividade extends JInternalFrame {
 								.addGroup(gl_contentPane.createSequentialGroup()
 									.addComponent(lblPesquisar, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
 									.addGap(18)
-									.addComponent(textField, GroupLayout.PREFERRED_SIZE, 588, GroupLayout.PREFERRED_SIZE)
+									.addComponent(textFieldNome, GroupLayout.PREFERRED_SIZE, 588, GroupLayout.PREFERRED_SIZE)
 									.addGap(18)
 									.addComponent(btnPesquisar, GroupLayout.PREFERRED_SIZE, 99, GroupLayout.PREFERRED_SIZE)))))
 					.addContainerGap(42, Short.MAX_VALUE))
@@ -300,7 +343,7 @@ public class TabelaAtividade extends JInternalFrame {
 					.addContainerGap()
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-							.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addComponent(textFieldNome, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 							.addComponent(btnPesquisar, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE))
 						.addComponent(lblPesquisar))
 					.addGap(33)
@@ -317,7 +360,7 @@ public class TabelaAtividade extends JInternalFrame {
 							.addComponent(lblFinal)))
 					.addPreferredGap(ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-						.addComponent(btnIcluir, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnIncluir, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnAlterar, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnExcluir, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnSair, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE))
@@ -330,10 +373,43 @@ public class TabelaAtividade extends JInternalFrame {
 		contentPane.setLayout(gl_contentPane);
 	}
 	
+	//-----------------------------------------------------------------//		
+	
+	protected void filtraNomeAtividade(String filtro) {
+		RowFilter<TabelaAtividadeModel, Object> rowFilter = null;
+		try {
+			rowFilter = RowFilter.regexFilter(filtro);
+		} catch(PatternSyntaxException e) {
+			return;
+		}
+		sortTabelaAtividade.setRowFilter(rowFilter);
+	}
+	
 	public JTable getTable() {
 		return tabelaAtividade;
 	}
 	
+	//-----------------------------------------------------------------//		
+
+	protected void alterarAtividade() {
+		if ( tabelaAtividade.getSelectedRow() != -1 && tabelaAtividade.getSelectedRow() < tabelaAtividadeModel.getRowCount()) {
+			int linha = tabelaAtividade.getSelectedRow();
+			AtividadeGUI atividade = new AtividadeGUI(new JFrame(), true, tabelaAtividade, tabelaAtividadeModel, linha, VariaveisProjeto.ALTERACAO);
+			atividade.setLocationRelativeTo(null);
+			atividade.setVisible(true);
+		}
+		
+	}
+	
+	//-----------------------------------------------------------------//		
+
+	private void incluirAtividade() {
+		AtividadeGUI atividade = new AtividadeGUI(new JFrame(), true, tabelaAtividade, tabelaAtividadeModel, 0, VariaveisProjeto.INCLUSAO);
+		atividade.setLocationRelativeTo(null);
+		atividade.setResizable(false);
+		atividade.setVisible(true);
+	}
+		
 	//-----------------------------------------------------------------//		
 	
 	private void iniciaPaginacao() {
