@@ -1,7 +1,9 @@
 package com.academia.view.menu;
 
 import javax.swing.JFrame;
+import javax.swing.JInternalFrame;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.border.EmptyBorder;
 import com.academia.main.Login;
 import com.academia.view.aluno.TabelaAluno;
@@ -14,6 +16,10 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 
 public class Menu extends JFrame {
@@ -73,6 +79,7 @@ public class Menu extends JFrame {
 		usuario.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				TabelaUsuario tabelaUsuario = new TabelaUsuario();
+				centralizaForm(tabelaUsuario);
 				contentPane.add(tabelaUsuario);
 				tabelaUsuario.setVisible(true);
 			}
@@ -86,6 +93,7 @@ public class Menu extends JFrame {
 		personal.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				TabelaPersonal tabelaPersonal = new TabelaPersonal();
+				centralizaForm(tabelaPersonal);
 				contentPane.add(tabelaPersonal);
 				tabelaPersonal.setVisible(true);
 			}
@@ -99,6 +107,7 @@ public class Menu extends JFrame {
 		aluno.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				TabelaAluno tabelaAluno = new TabelaAluno();
+				centralizaForm(tabelaAluno);
 				contentPane.add(tabelaAluno);
 				tabelaAluno.setVisible(true);
 			}
@@ -112,6 +121,7 @@ public class Menu extends JFrame {
 		atividade.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				TabelaAtividade tabelaAtividade = new TabelaAtividade();
+				centralizaForm(tabelaAtividade);
 				contentPane.add(tabelaAtividade);
 				tabelaAtividade.setVisible(true);
 			}
@@ -162,6 +172,30 @@ public class Menu extends JFrame {
 				.addGap(0, 483, Short.MAX_VALUE)
 		);
 		contentPane.setLayout(gl_contentPane);
+	}
+	
+	private void centralizaForm(JInternalFrame frame) {
+		Dimension desktopSize = this.getSize();
+		Dimension internalFrameSize = frame.getSize();
+		frame.setLocation((desktopSize.width - internalFrameSize.width) / 2, (desktopSize.height - internalFrameSize.height) /2 );
+	}
+	
+	private static void addPopup(Component component, final JPopupMenu popup) {
+		component.addMouseListener(new MouseAdapter() {
+			public void mousePressed(MouseEvent e) {
+				if (e.isPopupTrigger()) {
+					showMenu(e);
+				}
+			}
+			public void mouseReleased(MouseEvent e) {
+				if (e.isPopupTrigger()) {
+					showMenu(e);
+				}
+			}
+			private void showMenu(MouseEvent e) {
+				popup.show(e.getComponent(), e.getX(), e.getY());
+			}
+		});
 	}
 
 }
