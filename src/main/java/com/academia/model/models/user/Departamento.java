@@ -14,59 +14,57 @@ import javax.persistence.Table;
 @Table(name = "TAB_DEPARTAMENTO")
 public class Departamento {
 	
-	private Long id;
+	private Integer id;
 	private String nome;
 	
 	private List<Usuario> usuario;
 	
-	//---------------------------------------------------//
-
-	public Departamento() {
 	
+	public Departamento() {
 	}
 
-	//---------------------------------------------------//
-	
-	public Departamento(Long id, String nome) {		
+
+	public Departamento(Integer id, String nome) {
 		this.id = id;
 		this.nome = nome;
 	}
-	
-	//---------------------------------------------------//
+
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id", nullable = false)
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
-	public void setId(Long id) {
+
+
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
-	//---------------------------------------------------//
-	
-	@Column(name = "departamento_nome", nullable = false, length = 50)
+    @Column(name = "departamento_nome", nullable = false, length = 50)
 	public String getNome() {
 		return nome;
 	}
+
+
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
 	
-	//---------------------------------------------------//
+	//um para muitos 
 	
 	@OneToMany(mappedBy = "departamento")
 	public List<Usuario> getUsuario() {
 		return usuario;
 	}
 
-	public void setUsuario( List<Usuario> usuario) {
+
+	public void setUsuario(List<Usuario> usuario) {
 		this.usuario = usuario;
 	}
-		
-	//---------------------------------------------------//
-		
+
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -74,6 +72,7 @@ public class Departamento {
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
 	}
+
 
 	@Override
 	public boolean equals(Object obj) {
@@ -92,11 +91,10 @@ public class Departamento {
 		return true;
 	}
 
-	//---------------------------------------------------//
-		
+
 	@Override
 	public String toString() {
-		return "Departamento [id=" + id + ", nome=" + nome + "]";
+		return nome;
 	}
 	
 	//---------------------------------------------------//		
