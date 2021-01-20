@@ -2,7 +2,6 @@ package com.academia.model.service;
 
 import java.util.List;
 import javax.persistence.EntityTransaction;
-
 import com.academia.estrutura.util.VariaveisProjeto;
 import com.academia.model.dao.usuario.UsuarioDao;
 import com.academia.model.models.user.Usuario;
@@ -20,7 +19,7 @@ public class UsuarioService extends ConexaoBancoService {
 	//-------------------------------------------------------------------
 	
 	public Integer save(Usuario usuario) {
-		
+
 		Integer toReturn = 0;
 
 		EntityTransaction trx = this.getTransaction();
@@ -30,17 +29,16 @@ public class UsuarioService extends ConexaoBancoService {
 		if ( toReturn == VariaveisProjeto.DIGITACAO_OK) {
 
 			try {
+
 				trx.begin();
 				this.getUsuarioDao().save(usuario);
 				trx.commit();
                 toReturn = VariaveisProjeto.INCLUSAO_REALIZADA;
-                
 			} catch (Exception ex) {
 				ex.printStackTrace();
 				if ( trx.isActive() ) {
 					trx.rollback();
 				}
-				
 				toReturn = VariaveisProjeto.ERRO_INCLUSAO;
 
 			} finally {
@@ -53,64 +51,61 @@ public class UsuarioService extends ConexaoBancoService {
 	//-------------------------------------------------------------------
 	
 	public Integer update(Usuario usuario) {
-		
-		Integer toReturn =0;
-		
+
+		Integer toReturn = 0;
+
 		EntityTransaction trx = this.getTransaction();
-		
+
 		toReturn = validarDigitacao(usuario);
 		
-		if(toReturn == VariaveisProjeto.DIGITACAO_OK) {
-		
+		if  ( toReturn == VariaveisProjeto.DIGITACAO_OK) {
+
 			try {
+
 				trx.begin();
 				this.getUsuarioDao().update(usuario);
 				trx.commit();
 				toReturn = VariaveisProjeto.ALTERACAO_REALIZADA;
-				
-			}catch(Exception ex) {
+
+			} catch (Exception ex) {
 				ex.printStackTrace();
-				if(trx.isActive()) {
+				if ( trx.isActive() ) {
 					trx.rollback();
 				}
 				toReturn = VariaveisProjeto.ERRO_ALTERACAO;
-			}finally {
+
+			} finally {
 				this.close();
 			}
-		} else {
-			toReturn = VariaveisProjeto.USUARIO_USER_NAME;
-		}
-		
-		return toReturn;
+		} 
+		return toReturn; 
 	}
 	
 	//-------------------------------------------------------------------
 	
 	public Integer delete(Usuario usuario) {
-		
-		Integer toReturn =0;
-		
+		Integer toReturn = 0;
 		EntityTransaction trx = this.getTransaction();
-		
-		
-			try {
-				trx.begin();
-				Usuario usuarioEncontrado = this.getUsuarioDao().findById(usuario.getId());
-				this.getUsuarioDao().remove(usuarioEncontrado);
-				trx.commit();
-				toReturn = VariaveisProjeto.EXCLUSAO_REALIZADA;
-				
-			}catch(Exception ex) {
-				ex.printStackTrace();
-				if(trx.isActive()) {
-					trx.rollback();
-				}
-				toReturn = VariaveisProjeto.ERRO_ALTERACAO;
-			}finally {
-				this.close();
+		try {
+
+			trx.begin();
+			Usuario usuarioEncontrado = this.getUsuarioDao().findById(usuario.getId());
+			this.getUsuarioDao().remove(usuarioEncontrado);
+			trx.commit();
+			toReturn = VariaveisProjeto.EXCLUSAO_REALIZADA;
+
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			if ( trx.isActive() ) {
+				trx.rollback();
 			}
-		
-		return toReturn;
+			toReturn = VariaveisProjeto.ERRO_EXCLUSAO;
+
+		} finally {
+			this.close();
+		}
+
+		return toReturn; 
 	}
 	
 	//-------------------------------------------------------------------
@@ -128,7 +123,7 @@ public class UsuarioService extends ConexaoBancoService {
 	//-------------------------------------------------------------------
 	
 	public Integer validarDigitacao(Usuario usuario) {
-		
+
 		if ( VariaveisProjeto.digitacaoCampo(usuario.getUsername())) {
 			return VariaveisProjeto.USUARIO_USER_NAME;
 		}
@@ -138,9 +133,7 @@ public class UsuarioService extends ConexaoBancoService {
 		if ( VariaveisProjeto.digitacaoCampo(usuario.getPassword())) {
 			return VariaveisProjeto.USUARIO_PASSWORD;
 		}
-		
 		return VariaveisProjeto.DIGITACAO_OK;
-		
 	}	
 
 	//-------------------------------------------------------------------
@@ -153,7 +146,8 @@ public class UsuarioService extends ConexaoBancoService {
 		return usuarioDao.countTotalRegister(Usuario.class);
 	}
 
-	public List<Usuario> listUsuarioPaginacao(int numeroPagina, Integer defaultPagina) {
+	public List<Usuario> listUsuarioPaginacao(Integer numeroPagina, Integer defaultPagina) {
+		
 		return usuarioDao.listUsuarioPaginacao(numeroPagina,defaultPagina);
-	}	
+	}
 }
