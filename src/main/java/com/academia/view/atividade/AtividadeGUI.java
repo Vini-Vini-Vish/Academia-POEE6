@@ -13,7 +13,11 @@ import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
 import com.academia.estrutura.util.VariaveisProjeto;
 import com.academia.model.models.Atividade;
+import com.academia.model.models.user.Departamento;
+import com.academia.model.models.user.Usuario;
 import com.academia.model.service.AtividadeService;
+import com.academia.model.service.DepartamentoService;
+import com.academia.view.dadosusuario.departamento.BuscarDepartamento;
 import com.academia.view.dadosusuario.usuario.TabelaUsuarioModel;
 import com.academia.view.dadosusuario.usuario.UsuarioGUI;
 import javax.swing.GroupLayout;
@@ -52,7 +56,7 @@ public class AtividadeGUI extends JDialog {
 	private JTable tabelaAtividade;
     private TabelaAtividadeModel tabelaAtividadeModel;
     private int linha=0;
-    private int acao = 0;
+    private int acao = 0;  
 	
 	//-----------------------------------------------------------------//
 	
@@ -288,7 +292,7 @@ public class AtividadeGUI extends JDialog {
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
-					.addContainerGap(14, Short.MAX_VALUE)
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
 						.addComponent(CheckNome)
 						.addGroup(gl_contentPane.createSequentialGroup()
@@ -301,24 +305,20 @@ public class AtividadeGUI extends JDialog {
 								.addComponent(textFieldNome, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
 					.addGap(45)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-								.addComponent(lblDescricao)
-								.addComponent(textFieldDescricao, GroupLayout.PREFERRED_SIZE, 130, GroupLayout.PREFERRED_SIZE))
-							.addPreferredGap(ComponentPlacement.RELATED, 86, Short.MAX_VALUE)
-							.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-								.addComponent(btnIncluir)
-								.addComponent(btnAlterar)
-								.addComponent(btnExcluir)
-								.addComponent(btnSair)))
+						.addComponent(lblDescricao)
+						.addComponent(textFieldDescricao, GroupLayout.PREFERRED_SIZE, 130, GroupLayout.PREFERRED_SIZE)
 						.addComponent(CheckDescricao))
+					.addGap(83)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+						.addComponent(btnIncluir)
+						.addComponent(btnAlterar)
+						.addComponent(btnExcluir)
+						.addComponent(btnSair))
 					.addContainerGap())
 		);
 		contentPane.setLayout(gl_contentPane);
 		createEvents();	
-	}
-	
-	
+	}	
 	
 	//----------------------------NOME---------------------------------//	
 	//-----------------------------------------------------------------//	
@@ -363,9 +363,8 @@ public class AtividadeGUI extends JDialog {
 		
 		Integer toReturn = 0;
 		
-		Atividade atividade = PegarDadosAtividade();
-		//System.out.println(usuario.toString());	
-
+		Atividade atividade = PegarDadosAtividade();		
+		
 		AtividadeService atividadeservice = new AtividadeService();
 		
 		toReturn = atividadeservice.save(atividade);
@@ -377,14 +376,15 @@ public class AtividadeGUI extends JDialog {
 		//-----------------------------------------------------------------//	
 		
 		if ( toReturn == VariaveisProjeto.ERRO_INCLUSAO ) {
-			showMensagem("Erro na Inclusão do Registro, verifique com seu administrador!", "Erro", JOptionPane.ERROR_MESSAGE);
+			showMensagem("Erro na Inclusão do Registro, verifique com seu administrador!",
+					   	 "Erro",JOptionPane.ERROR_MESSAGE);
 		}
-		
 		if ( toReturn == VariaveisProjeto.INCLUSAO_REALIZADA) {
-			showMensagem("Inclusão do Registro realizada com sucesso!", "OK", JOptionPane.OK_OPTION);
-			
+			showMensagem("Inclusão do Registro realizada com sucesso!",
+					     "OK",JOptionPane.OK_OPTION);
 			limpaTextoCampo();
 			
+			tabelaAtividadeModel.fireTableDataChanged();
 			atividade = new Atividade();
 		}
 		
@@ -397,7 +397,7 @@ public class AtividadeGUI extends JDialog {
 		
 		Integer toReturn = 0;
 		
-		Atividade atividade = PegarDadosAtividade();		
+		Atividade atividade = PegarDadosAtividade();				
 		
 		AtividadeService atividadeservice = new AtividadeService();
 		
@@ -410,14 +410,15 @@ public class AtividadeGUI extends JDialog {
 		//-----------------------------------------------------------------//	
 		
 		if ( toReturn == VariaveisProjeto.ERRO_ALTERACAO ) {
-			showMensagem("Erro na alteração do Registro, verifique com seu administrador!", "Erro", JOptionPane.ERROR_MESSAGE);
+			showMensagem("Erro na Alteração do Registro, verifique com seu administrador!",
+					   	 "Erro",JOptionPane.ERROR_MESSAGE);
 		}
-		
-		if ( toReturn == VariaveisProjeto.ERRO_ALTERACAO) {
-			showMensagem("alteração do Registro realizada com sucesso!", "OK", JOptionPane.OK_OPTION);
-			
+		if ( toReturn == VariaveisProjeto.ALTERACAO_REALIZADA) {
+			showMensagem("Alteração do Registro realizada com sucesso!",
+					     "OK",JOptionPane.OK_OPTION);				
 			limpaTextoCampo();
 			
+			tabelaAtividadeModel.fireTableDataChanged();
 			atividade = new Atividade();
 		}
 	}
@@ -445,6 +446,7 @@ public class AtividadeGUI extends JDialog {
 			
 			limpaTextoCampo();
 			
+			tabelaAtividadeModel.fireTableDataChanged();
 			atividade = new Atividade();
 		}
 	}
@@ -524,19 +526,9 @@ public class AtividadeGUI extends JDialog {
 		
 		Atividade atividade = new Atividade();
 		
-		//AtividadeService ativiadadeservice = new AtividadeService();
-		
-//		if(VariaveisProjeto.digitacaoCampo(textFieldCodigo.getText())) {
-//			textFieldCodigo.requestFocus();
-//			return;
-//		}
-		
-//		Integer id = Integer.valueOf(textFieldCodigo.getText()); 
-		
-//		atividade = ativiadadeservice.findById(id);		
-		
 		atividade = tabelaAtividadeModel.getAtividade(this.linha);
-		
+				
+		textFieldCodigo.setText(String.valueOf(atividade.getIdAtividade()));
 		textFieldNome.setText(atividade.getNome());
 		textFieldDescricao.setText(atividade.getDescricao());
 		
@@ -554,7 +546,8 @@ public class AtividadeGUI extends JDialog {
 		
 		atividade.setIdAtividade(VariaveisProjeto.convertToInteger(textFieldCodigo.getText()));
 		atividade.setNome(textFieldNome.getText());
-		atividade.setDescricao(textFieldDescricao.getText());								
+		atividade.setDescricao(textFieldDescricao.getText());
+	
 		
 		return atividade;			
 	}
@@ -572,7 +565,7 @@ public class AtividadeGUI extends JDialog {
 		
 		textFieldCodigo.setText(VariaveisProjeto.LIMPA_CAMPO);
 		textFieldNome.setText(VariaveisProjeto.LIMPA_CAMPO);
-		textFieldDescricao.setText(VariaveisProjeto.LIMPA_CAMPO);		
+		textFieldDescricao.setText(VariaveisProjeto.LIMPA_CAMPO);			
 		
 	}
 	
