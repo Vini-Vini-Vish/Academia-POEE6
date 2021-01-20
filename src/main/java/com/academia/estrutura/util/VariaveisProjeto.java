@@ -64,11 +64,12 @@ public class VariaveisProjeto {
 	//-------------------------------------------------------------------
 	
 	public static boolean digitacaoCampo(Integer texto) {
-		if(Objects.isNull(texto)) {
-			return true;
-		}		
 		
-		if("".equals(String.valueOf(texto))) {
+		if ( Objects.isNull(texto)) {
+			return true;
+		}
+		
+		if ("".equals(String.valueOf(texto))){
 			return true;
 		}
 		
@@ -78,14 +79,14 @@ public class VariaveisProjeto {
 	//-------------------------------------------------------------------
 	
 	public static boolean digitacaoCampo(String texto) {
-		if(Objects.isNull(texto)) {
+		
+		if ( Objects.isNull(texto)) {
 			return true;
 		}
 		
-		if("".equals(texto.trim())) {
+		if ("".equals(texto.trim())){
 			return true;
 		}
-		
 		return false;
 	}
 
