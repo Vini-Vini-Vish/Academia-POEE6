@@ -6,13 +6,9 @@ import javax.swing.JInternalFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.TableRowSorter;
-
 import com.academia.estrutura.util.VariaveisProjeto;
 import com.academia.model.models.Atividade;
 import com.academia.model.service.AtividadeService;
-import com.academia.view.dadosusuario.usuario.TabelaUsuarioModel;
-import com.academia.view.dadosusuario.usuario.UsuarioGUI;
-
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
@@ -29,7 +25,6 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.PatternSyntaxException;
-
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JComboBox;
@@ -71,11 +66,11 @@ public class TabelaAtividade extends JInternalFrame {
 	private Integer defaultPagina = 5;
 	private Integer totalPagina = 1;
 	private Integer numeroPagina = 1;
-	private JLabel lblNewLabel_1;
 	private JLabel totalRegistros;
 	
 	private TabelaAtividadeModel tabelaAtividadeModel;
 	private TableRowSorter<TabelaAtividadeModel> sortTabelaAtividade;	
+	private JButton btnRelatorio;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -92,13 +87,13 @@ public class TabelaAtividade extends JInternalFrame {
 	
 	public TabelaAtividade() {
 		initComponents();
-	   // iniciaPaginacao(); 		
+	    iniciaPaginacao(); 		
 	}
 
 	public void initComponents() {
 		
 		setTitle("Cadastro de Atividade");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 870, 564);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -296,6 +291,16 @@ public class TabelaAtividade extends JInternalFrame {
 		btnSair.setIcon(new ImageIcon(TabelaAtividade.class.getResource("/com/academia/estrutura/imagens/saida.png")));
 		btnSair.setMnemonic(KeyEvent.VK_S);
 		
+		btnRelatorio = new JButton("Gerar Relatorio");
+		btnRelatorio.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				RelAtividade relAtividade = new RelAtividade(new JFrame(), true);
+				relAtividade.setLocationRelativeTo(null);				
+				relAtividade.setVisible(true);
+			}
+		});
+		btnRelatorio.setIcon(new ImageIcon(TabelaAtividade.class.getResource("/com/academia/estrutura/imagens/book_open.png")));
+		
 		//-----------------------------------------------------------------//
 		
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
@@ -318,16 +323,18 @@ public class TabelaAtividade extends JInternalFrame {
 							.addComponent(lblDe, GroupLayout.PREFERRED_SIZE, 12, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.UNRELATED)
 							.addComponent(lblFinal, GroupLayout.PREFERRED_SIZE, 12, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING, false)
-							.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
+						.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
+							.addGroup(gl_contentPane.createSequentialGroup()
 								.addComponent(btnIncluir, GroupLayout.PREFERRED_SIZE, 81, GroupLayout.PREFERRED_SIZE)
 								.addGap(18)
 								.addComponent(btnAlterar, GroupLayout.PREFERRED_SIZE, 85, GroupLayout.PREFERRED_SIZE)
 								.addGap(18)
 								.addComponent(btnExcluir, GroupLayout.PREFERRED_SIZE, 83, GroupLayout.PREFERRED_SIZE)
+								.addGap(141)
+								.addComponent(btnRelatorio)
 								.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 								.addComponent(btnSair, GroupLayout.PREFERRED_SIZE, 71, GroupLayout.PREFERRED_SIZE))
-							.addGroup(Alignment.LEADING, gl_contentPane.createParallelGroup(Alignment.TRAILING)
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
 								.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 773, GroupLayout.PREFERRED_SIZE)
 								.addGroup(gl_contentPane.createSequentialGroup()
 									.addComponent(lblPesquisar, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
@@ -358,12 +365,13 @@ public class TabelaAtividade extends JInternalFrame {
 							.addComponent(lblInicio)
 							.addComponent(lblDe)
 							.addComponent(lblFinal)))
-					.addPreferredGap(ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+					.addPreferredGap(ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 						.addComponent(btnIncluir, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnAlterar, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnExcluir, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnSair, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE))
+						.addComponent(btnSair, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnRelatorio))
 					.addContainerGap())
 		);
 		panel.setLayout(gl_panel);
@@ -497,5 +505,4 @@ public class TabelaAtividade extends JInternalFrame {
 		
 		return listaAtividade;
 	}
-
 }
