@@ -60,7 +60,6 @@ public class UsuarioGUI extends JDialog{
     private JButton btnNewButton;
    
     private Departamento departamento;
-    private JButton btnRelatorio;
 
 	/*
 	public static void main(String[] args) {
@@ -305,18 +304,7 @@ public class UsuarioGUI extends JDialog{
 		
 		btnNewButton.setMnemonic(KeyEvent.VK_D);
 		btnNewButton.setToolTipText("Buscar Departamento");
-		btnNewButton.setIcon(new ImageIcon(UsuarioGUI.class.getResource("/com/academia/estrutura/imagens/search.png")));		
-		
-		btnRelatorio = new JButton("Gerar Relatorio");
-		btnRelatorio.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {				
-//				RelUsuario relUsuario = new RelUsuario(new JFrame(), true);
-//				relUsuario.setLocationRelativeTo(null);
-//				setVisible(false);
-//				relUsuario.setVisible(true);
-			}
-		});
-		btnRelatorio.setIcon(new ImageIcon(UsuarioGUI.class.getResource("/com/academia/estrutura/imagens/book_open.png")));
+		btnNewButton.setIcon(new ImageIcon(UsuarioGUI.class.getResource("/com/academia/estrutura/imagens/search.png")));
 		
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
@@ -332,12 +320,12 @@ public class UsuarioGUI extends JDialog{
 					.addGap(18)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 						.addComponent(textFieldCodigo, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(passwordFieldSenha, GroupLayout.DEFAULT_SIZE, 584, Short.MAX_VALUE)
-						.addComponent(textFieldEmail, GroupLayout.DEFAULT_SIZE, 584, Short.MAX_VALUE)
-						.addComponent(textFieldNome, GroupLayout.DEFAULT_SIZE, 584, Short.MAX_VALUE)
+						.addComponent(passwordFieldSenha, GroupLayout.DEFAULT_SIZE, 570, Short.MAX_VALUE)
+						.addComponent(textFieldEmail, GroupLayout.DEFAULT_SIZE, 570, Short.MAX_VALUE)
+						.addComponent(textFieldNome, GroupLayout.DEFAULT_SIZE, 570, Short.MAX_VALUE)
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
-								.addGroup(gl_contentPane.createSequentialGroup()
+								.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
 									.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 										.addComponent(btnIncluir)
 										.addComponent(rdbtnAtivo))
@@ -347,11 +335,9 @@ public class UsuarioGUI extends JDialog{
 										.addGroup(gl_contentPane.createSequentialGroup()
 											.addComponent(btnAlterar)
 											.addGap(18)
-											.addComponent(btnExcluir)))
-									.addPreferredGap(ComponentPlacement.RELATED, 160, Short.MAX_VALUE)
-									.addComponent(btnRelatorio))
+											.addComponent(btnExcluir))))
 								.addComponent(textFieldNomeDepartamento, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 440, GroupLayout.PREFERRED_SIZE))
-							.addPreferredGap(ComponentPlacement.RELATED)
+							.addPreferredGap(ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
 								.addComponent(btnNewButton)
 								.addComponent(btnSair))))
@@ -411,7 +397,6 @@ public class UsuarioGUI extends JDialog{
 										.addComponent(btnIncluir)
 										.addComponent(btnAlterar)
 										.addComponent(btnExcluir)
-										.addComponent(btnRelatorio)
 										.addComponent(btnSair)))
 								.addGroup(gl_contentPane.createSequentialGroup()
 									.addComponent(btnNewButton, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
