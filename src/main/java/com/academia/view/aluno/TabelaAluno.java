@@ -6,13 +6,9 @@ import javax.swing.JInternalFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.TableRowSorter;
-
 import com.academia.estrutura.util.VariaveisProjeto;
 import com.academia.model.models.Aluno;
 import com.academia.model.service.AlunoService;
-import com.academia.view.dadosusuario.usuario.TabelaUsuarioModel;
-import com.academia.view.dadosusuario.usuario.UsuarioGUI;
-
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
@@ -30,7 +26,6 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.PatternSyntaxException;
-
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JComboBox;
@@ -83,6 +78,12 @@ public class TabelaAluno extends JInternalFrame {
 	
 	private TabelaAlunoModel tabelaAlunoModel;
 	private TableRowSorter<TabelaAlunoModel> sortTabelaAluno;	
+	private JButton btnRelatorio;
+	private JLabel lblPagina_1;
+	private JLabel lblInicio_1;
+	private JLabel lblde;
+	private JLabel lblfinal;
+	private JLabel lblNewLabel;
 	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -99,12 +100,12 @@ public class TabelaAluno extends JInternalFrame {
 	
 	public TabelaAluno() {
 		initComponents();
-	   // iniciaPaginacao(); 		
+	    iniciaPaginacao(); 		
 	}
 
 	public void initComponents() {
 		setTitle("Cadastro de Aluno");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 846, 525);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -301,6 +302,26 @@ public class TabelaAluno extends JInternalFrame {
 		btnSair.setIcon(new ImageIcon(TabelaAluno.class.getResource("/com/academia/estrutura/imagens/iconFechar.png")));
 		btnSair.setMnemonic(KeyEvent.VK_S);
 		
+		btnRelatorio = new JButton("Imprimir Relatorio");
+		btnRelatorio.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {				
+				RelAluno relAluno = new RelAluno(new JFrame(), true);
+				relAluno.setLocationRelativeTo(null);				
+				relAluno.setVisible(true);
+			}
+		});
+		btnRelatorio.setIcon(new ImageIcon(TabelaAluno.class.getResource("/com/academia/estrutura/imagens/book_open.png")));
+		
+		lblPagina_1 = new JLabel("Página ");
+		
+		lblInicio_1 = new JLabel("10");
+		
+		lblde = new JLabel("de");
+		
+		lblfinal = new JLabel("50");
+		
+		lblNewLabel = new JLabel("total de Registros:");
+		
 		//-----------------------------------------------------------------//		
 		
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
@@ -315,14 +336,16 @@ public class TabelaAluno extends JInternalFrame {
 							.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, 38, GroupLayout.PREFERRED_SIZE)
 							.addGap(166)
 							.addComponent(panel, GroupLayout.PREFERRED_SIZE, 234, GroupLayout.PREFERRED_SIZE)
-							.addGap(79)
-							.addComponent(lblPagina, GroupLayout.PREFERRED_SIZE, 47, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(lblInicio, GroupLayout.PREFERRED_SIZE, 16, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(lblDe, GroupLayout.PREFERRED_SIZE, 16, GroupLayout.PREFERRED_SIZE)
+							.addGap(66)
+							.addComponent(lblPagina_1, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(lblFinal, GroupLayout.PREFERRED_SIZE, 22, GroupLayout.PREFERRED_SIZE))
+							.addComponent(lblInicio_1, GroupLayout.PREFERRED_SIZE, 12, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(lblde, GroupLayout.PREFERRED_SIZE, 12, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(lblfinal, GroupLayout.PREFERRED_SIZE, 12, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE))
 						.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
 							.addGroup(gl_contentPane.createSequentialGroup()
 								.addComponent(btnIncluir, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE)
@@ -330,6 +353,8 @@ public class TabelaAluno extends JInternalFrame {
 								.addComponent(btnAlterar, GroupLayout.PREFERRED_SIZE, 93, GroupLayout.PREFERRED_SIZE)
 								.addPreferredGap(ComponentPlacement.UNRELATED)
 								.addComponent(btnExcluir, GroupLayout.PREFERRED_SIZE, 93, GroupLayout.PREFERRED_SIZE)
+								.addGap(73)
+								.addComponent(btnRelatorio)
 								.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 								.addComponent(btnSair, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE))
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
@@ -340,7 +365,15 @@ public class TabelaAluno extends JInternalFrame {
 									.addComponent(textFieldNome, GroupLayout.PREFERRED_SIZE, 588, GroupLayout.PREFERRED_SIZE)
 									.addPreferredGap(ComponentPlacement.RELATED)
 									.addComponent(btnPesquisar, GroupLayout.PREFERRED_SIZE, 111, GroupLayout.PREFERRED_SIZE)))))
-					.addContainerGap(14, Short.MAX_VALUE))
+					.addGap(269)
+					.addComponent(lblPagina, GroupLayout.PREFERRED_SIZE, 47, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(lblInicio, GroupLayout.PREFERRED_SIZE, 16, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(lblDe, GroupLayout.PREFERRED_SIZE, 16, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(lblFinal, GroupLayout.PREFERRED_SIZE, 22, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -361,13 +394,19 @@ public class TabelaAluno extends JInternalFrame {
 							.addComponent(lblPagina)
 							.addComponent(lblInicio)
 							.addComponent(lblDe)
-							.addComponent(lblFinal)))
+							.addComponent(lblFinal)
+							.addComponent(lblPagina_1)
+							.addComponent(lblInicio_1)
+							.addComponent(lblde)
+							.addComponent(lblfinal)
+							.addComponent(lblNewLabel)))
 					.addPreferredGap(ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 						.addComponent(btnIncluir, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnAlterar, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnExcluir, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnSair, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE))
+						.addComponent(btnSair, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnRelatorio))
 					.addContainerGap())
 		);
 		panel.setLayout(gl_panel);
@@ -513,5 +552,4 @@ public class TabelaAluno extends JInternalFrame {
 	public JTable getTable() {
 		return tabelaAluno;
 	}
-	
 }
