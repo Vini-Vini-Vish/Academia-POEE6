@@ -133,7 +133,7 @@ public class Aluno {
 	//----------------------------------------------
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "DEPARTAMENTO_ID", nullable = false)
+	@JoinColumn(name = "ATIVIDADE_ID", nullable = false)
 	public Atividade getAtividade() {
 		return atividade;
 	}
