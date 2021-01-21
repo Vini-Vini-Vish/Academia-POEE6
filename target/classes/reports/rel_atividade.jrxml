@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.16.0.final using JasperReports Library version 6.16.0-48579d909b7943b64690c65c71e07e0b80981928  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rel_atividade" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="8ac2eb59-3857-4dc1-82da-a365eca1c7e5">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="idAtividade" class="java.lang.Integer">
+		<fieldDescription><![CDATA[idAtividade]]></fieldDescription>
+	</field>
+	<field name="nome" class="java.lang.String">
+		<fieldDescription><![CDATA[nome]]></fieldDescription>
+	</field>
+	<field name="descricao" class="java.lang.String">
+		<fieldDescription><![CDATA[descricao]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="42" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="550" height="42" uuid="5d1e8bdb-a373-4333-bff8-0066f53f11e2"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Relatorio Atividade]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="61" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="185" height="61" uuid="6dcd2ad2-a5e1-468d-ac06-38dd59127a40">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="fd316fdc-7139-4568-b810-1f9c46818ed9"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[idAtividade]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="185" y="0" width="185" height="61" uuid="38475a5d-c43f-4640-a71b-f5d3d8409fd1">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="d579b1c1-90b7-4ad8-a081-9a0980e825e6"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[nome]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="370" y="0" width="185" height="61" uuid="2bc03745-27b1-4ba8-ae4f-017958155288">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="3854c27a-1cbf-4815-93ea-aa6563f6f88a"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[descricao]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="52" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="185" height="52" uuid="35adc59d-16a4-470a-8a28-c059bc54e846">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="fd316fdc-7139-4568-b810-1f9c46818ed9"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{idAtividade}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="185" y="0" width="185" height="52" uuid="a02c0f77-335c-4819-8d9e-20032b4d9fda">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="d579b1c1-90b7-4ad8-a081-9a0980e825e6"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nome}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="370" y="0" width="185" height="52" uuid="1a6dc032-580d-417a-9754-5cfc5296616d">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="3854c27a-1cbf-4815-93ea-aa6563f6f88a"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{descricao}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="31" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="100" height="31" uuid="c259aaaa-d1f1-4e1b-b5bb-272e692a7c55"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Data da Emissão:]]></text>
+			</staticText>
+			<textField pattern="MMMMM dd, yyyy">
+				<reportElement x="100" y="0" width="100" height="31" uuid="70876533-f926-49e6-a476-187e841ed8fb"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>
