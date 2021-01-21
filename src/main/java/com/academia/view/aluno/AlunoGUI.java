@@ -1,6 +1,5 @@
 package com.academia.view.aluno;
 
-import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -10,8 +9,6 @@ import com.academia.model.models.Atividade;
 import com.academia.model.service.AlunoService;
 import com.academia.model.service.AtividadeService;
 import com.academia.view.atividade.BuscaAtividade;
-import com.academia.view.dadosusuario.usuario.TabelaUsuarioModel;
-
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
@@ -22,7 +19,6 @@ import javax.swing.JRadioButton;
 import javax.swing.JTable;
 import javax.swing.JButton;
 import javax.swing.JDialog;
-
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.FocusAdapter;
@@ -147,7 +143,7 @@ public class AlunoGUI extends JDialog {
 	
 	private void initComponents() {
 		setTitle("Cadastro Aluno");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	//	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 779, 445);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
