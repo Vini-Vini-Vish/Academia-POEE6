@@ -73,6 +73,7 @@ public class TabelaUsuario extends JInternalFrame {
 	
 	private TabelaUsuarioModel tabelaUsuarioModel;
 	private TableRowSorter<TabelaUsuarioModel> sortTabelaUsuario;
+	private JButton btnRelatorio;
 	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -199,6 +200,16 @@ public class TabelaUsuario extends JInternalFrame {
 		
 		totalRegistros = new JLabel("");
 		
+		btnRelatorio = new JButton("Imprime Relatorio");
+		btnRelatorio.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				RelUsuario relUsuario = new RelUsuario(new JFrame(), true);
+				relUsuario.setLocationRelativeTo(null);				
+				relUsuario.setVisible(true);
+			}
+		});
+		btnRelatorio.setIcon(new ImageIcon(TabelaUsuario.class.getResource("/com/academia/estrutura/imagens/book_open.png")));
+		
 		//-----------------------------------------------------------------//		
 
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
@@ -223,7 +234,9 @@ public class TabelaUsuario extends JInternalFrame {
 										.addComponent(btnAlterar)
 										.addGap(18)
 										.addComponent(brnExcluir)
-										.addGap(480)
+										.addGap(175)
+										.addComponent(btnRelatorio)
+										.addGap(252)
 										.addComponent(btnSair))
 									.addGroup(gl_contentPane.createSequentialGroup()
 										.addComponent(lblNewLabel)
@@ -244,7 +257,7 @@ public class TabelaUsuario extends JInternalFrame {
 								.addPreferredGap(ComponentPlacement.UNRELATED)
 								.addComponent(totalRegistros)
 								.addGap(2))))
-					.addContainerGap(68, Short.MAX_VALUE))
+					.addContainerGap(12, Short.MAX_VALUE))
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -272,7 +285,8 @@ public class TabelaUsuario extends JInternalFrame {
 								.addComponent(btnIncluir)
 								.addComponent(btnAlterar)
 								.addComponent(brnExcluir)
-								.addComponent(btnSair)))
+								.addComponent(btnSair)
+								.addComponent(btnRelatorio)))
 						.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 							.addComponent(lblPagina)
 							.addComponent(lblInicio)
