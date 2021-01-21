@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+
+import com.academia.model.dao.usuario.GenericDao;
 import com.academia.model.models.Aluno;
 
-public class AlunoDao extends AlunoGenericDao <Aluno, Integer> {
+public class AlunoDao extends GenericDao <Aluno, Integer> {
 	
 	public AlunoDao(EntityManager entityManager) {
 		super(entityManager);
@@ -20,9 +22,7 @@ public class AlunoDao extends AlunoGenericDao <Aluno, Integer> {
 		boolean ativo = true;
 		
 		
-		Query query = this.getEntityManager().createQuery("SELECT u FROM Usuario u "
-											+ "LEFT JOIN FETCH u.atividade "
-											+ "WHERE u.ativo =:ativo")
+		Query query = this.getEntityManager().createQuery("SELECT u FROM Atividade u WHERE u.ativo =:ativo")								
 											 .setParameter("ativo", ativo)
 											 .setFirstResult(numeroPagina)
 											 .setMaxResults(defaultPagina);
