@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+
+import com.academia.model.dao.usuario.GenericDao;
 import com.academia.model.models.Personal;
 
-public class PersonalDao extends PersonalGenericDao<Personal, Integer>{
+public class PersonalDao extends GenericDao<Personal, Integer>{
 	
 	public PersonalDao(EntityManager entityManager) {
 		super(entityManager);
