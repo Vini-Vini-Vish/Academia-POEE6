@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+
+import com.academia.model.dao.usuario.GenericDao;
 import com.academia.model.models.Atividade;
 
-public class AtividadeDao extends AtividadeGenericDao <Atividade, Integer> {
+public class AtividadeDao extends GenericDao <Atividade, Integer> {
 
 	public AtividadeDao(EntityManager entityManager) {
 		super(entityManager);		
@@ -19,8 +21,8 @@ public class AtividadeDao extends AtividadeGenericDao <Atividade, Integer> {
 		boolean ativo = true;
 		
 		
-		Query query = this.getEntityManager().createQuery("SELECT u FROM Usuario u WHERE u.ativo =:ativo")
-											 .setParameter("ativo", ativo)
+		Query query = this.getEntityManager().createQuery("SELECT u FROM Aluno u WHERE u.activity =: activity")
+											 .setParameter("activity", ativo)
 											 .setFirstResult(numeroPagina)
 											 .setMaxResults(defaultPagina);
 		listaAtividade = query.getResultList();
