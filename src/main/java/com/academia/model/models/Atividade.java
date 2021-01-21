@@ -54,7 +54,7 @@ public class Atividade {
 	
 	//-----------------------------------------------------------------//
 	
-	@OneToMany(mappedBy = "departamento")
+	@OneToMany(mappedBy = "atividade")
 	public List<Aluno> getAluno() {
 		return aluno;
 	}
