@@ -12,10 +12,10 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import com.academia.model.models.user.PrintJasperReport;
+import com.academia.model.models.PrintJasperReport;
 import com.academia.model.models.user.Usuario;
-import com.academia.model.service.JasperReportsService;
 import com.academia.model.service.UsuarioService;
+import com.academia.model.service.relatorios.JasperReportsService;
 
 public class RelUsuario extends JDialog {
 
@@ -37,12 +37,13 @@ public class RelUsuario extends JDialog {
 		
 		btnNewButton = new JButton("Relatório SQL");
 		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {				
+			public void actionPerformed(ActionEvent e) {	
+				
 				imprimeRelatorioPorSQL();
 			}
 		});
 		
-		btnNewButton.setBounds(10, 194, 97, 23);
+		btnNewButton.setBounds(10, 194, 132, 23);
 		btnNewButton.setActionCommand("");
 		contentPanel.add(btnNewButton);
 		{
