@@ -1,32 +1,49 @@
 package com.academia.view.dadosusuario.usuario;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import com.academia.estrutura.util.VariaveisProjeto;
-import com.academia.model.models.user.Departamento;
-import com.academia.model.models.user.Usuario;
-import com.academia.model.service.DepartamentoService;
-import com.academia.model.service.UsuarioService;
-import com.academia.view.dadosusuario.departamento.BuscarDepartamento;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JTextField;
-import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.JPasswordField;
-import javax.swing.JRadioButton;
-import javax.swing.JTable;
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import java.awt.event.ActionListener;
+import java.awt.Component;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Objects;
+import javax.imageio.ImageIO;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JRadioButton;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.SwingConstants;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.EmptyBorder;
+
+import com.academia.estrutura.util.VariaveisProjeto;
+import com.academia.estrutura.util.imagem.ImageFilter;
+import com.academia.estrutura.util.imagem.ImagePreview;
+import com.academia.model.models.user.Departamento;
+import com.academia.model.models.Foto;
+import com.academia.model.models.user.Usuario;
+import com.academia.model.service.DepartamentoService;
+import com.academia.model.service.LocalFotoStorageService;
+import com.academia.model.service.UsuarioService;
+import com.academia.view.dadosusuario.departamento.BuscarDepartamento;
 
 public class UsuarioGUI extends JDialog{
 
@@ -60,21 +77,11 @@ public class UsuarioGUI extends JDialog{
     private JButton btnNewButton;
    
     private Departamento departamento;
-
-	/*
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					UsuarioGUI frame = new UsuarioGUI();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-	*/
+    
+    private String nomeFoto;
+    private JLabel lblIconFoto;
+    private JButton btnAddFoto;
+    private JButton btnExcluirFoto;
 
     public UsuarioGUI(JFrame frame, boolean modal, JTable tabelaUsuario, TabelaUsuarioModel tabelaUsuarioModel, int linha, int acao) {
     		
@@ -306,6 +313,25 @@ public class UsuarioGUI extends JDialog{
 		btnNewButton.setToolTipText("Buscar Departamento");
 		btnNewButton.setIcon(new ImageIcon(UsuarioGUI.class.getResource("/com/academia/estrutura/imagens/search.png")));
 		
+		lblIconFoto = new JLabel("");
+		lblIconFoto.setBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null));
+		
+		btnAddFoto = new JButton("Add Foto");
+		btnAddFoto.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				carregarFoto();
+			}
+		});
+		btnAddFoto.setIcon(new ImageIcon(UsuarioGUI.class.getResource("/com/academia/estrutura/imagens/useravatar.png")));
+		
+		btnExcluirFoto = new JButton("Excluir Foto");
+		btnExcluirFoto.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				excluirFoto();
+			}
+		});
+		btnExcluirFoto.setIcon(new ImageIcon(UsuarioGUI.class.getResource("/com/academia/estrutura/imagens/useravatar.png")));
+		
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -319,13 +345,23 @@ public class UsuarioGUI extends JDialog{
 						.addComponent(lblNewLabel))
 					.addGap(18)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addComponent(textFieldCodigo, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(passwordFieldSenha, GroupLayout.DEFAULT_SIZE, 570, Short.MAX_VALUE)
-						.addComponent(textFieldEmail, GroupLayout.DEFAULT_SIZE, 570, Short.MAX_VALUE)
-						.addComponent(textFieldNome, GroupLayout.DEFAULT_SIZE, 570, Short.MAX_VALUE)
 						.addGroup(gl_contentPane.createSequentialGroup()
-							.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
-								.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_contentPane.createSequentialGroup()
+									.addComponent(textFieldCodigo, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+									.addPreferredGap(ComponentPlacement.RELATED, 239, Short.MAX_VALUE))
+								.addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
+									.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING, false)
+										.addComponent(btnAddFoto, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+										.addComponent(btnExcluirFoto, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+									.addGap(31)))
+							.addComponent(lblIconFoto, GroupLayout.PREFERRED_SIZE, 199, GroupLayout.PREFERRED_SIZE))
+						.addComponent(passwordFieldSenha, GroupLayout.DEFAULT_SIZE, 568, Short.MAX_VALUE)
+						.addComponent(textFieldEmail, GroupLayout.DEFAULT_SIZE, 568, Short.MAX_VALUE)
+						.addComponent(textFieldNome, GroupLayout.DEFAULT_SIZE, 568, Short.MAX_VALUE)
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_contentPane.createSequentialGroup()
 									.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 										.addComponent(btnIncluir)
 										.addComponent(rdbtnAtivo))
@@ -336,8 +372,8 @@ public class UsuarioGUI extends JDialog{
 											.addComponent(btnAlterar)
 											.addGap(18)
 											.addComponent(btnExcluir))))
-								.addComponent(textFieldNomeDepartamento, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 440, GroupLayout.PREFERRED_SIZE))
-							.addPreferredGap(ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
+								.addComponent(textFieldNomeDepartamento, GroupLayout.PREFERRED_SIZE, 440, GroupLayout.PREFERRED_SIZE))
+							.addPreferredGap(ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
 								.addComponent(btnNewButton)
 								.addComponent(btnSair))))
@@ -347,23 +383,32 @@ public class UsuarioGUI extends JDialog{
 							.addComponent(checkSenha, GroupLayout.PREFERRED_SIZE, 132, Short.MAX_VALUE)
 							.addContainerGap())
 						.addGroup(gl_contentPane.createSequentialGroup()
-							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-								.addComponent(checkNome, GroupLayout.PREFERRED_SIZE, 32, Short.MAX_VALUE)
-								.addComponent(checkEmail, 0, 0, Short.MAX_VALUE))
+							.addComponent(checkEmail, 0, 0, Short.MAX_VALUE)
 							.addGap(110))
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addComponent(checkSenha, GroupLayout.PREFERRED_SIZE, 132, Short.MAX_VALUE)
+							.addContainerGap())
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addComponent(checkNome, GroupLayout.PREFERRED_SIZE, 132, Short.MAX_VALUE)
 							.addContainerGap())))
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
-					.addGap(62)
+					.addContainerGap()
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
 						.addGroup(gl_contentPane.createSequentialGroup()
-							.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-								.addComponent(textFieldCodigo, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(lblNewLabel))
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
+									.addComponent(lblIconFoto, GroupLayout.PREFERRED_SIZE, 127, GroupLayout.PREFERRED_SIZE)
+									.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+										.addComponent(textFieldCodigo, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+										.addComponent(lblNewLabel)))
+								.addGroup(gl_contentPane.createSequentialGroup()
+									.addGap(21)
+									.addComponent(btnAddFoto)
+									.addGap(18)
+									.addComponent(btnExcluirFoto)))
 							.addGap(38)
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 								.addComponent(lblNome)
@@ -388,7 +433,7 @@ public class UsuarioGUI extends JDialog{
 									.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 										.addComponent(lblDepartamento)
 										.addComponent(textFieldNomeDepartamento, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE))
-									.addPreferredGap(ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
+									.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 									.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 										.addComponent(rdbtnAtivo)
 										.addComponent(rdbtnAdmin))
@@ -400,7 +445,7 @@ public class UsuarioGUI extends JDialog{
 										.addComponent(btnSair)))
 								.addGroup(gl_contentPane.createSequentialGroup()
 									.addComponent(btnNewButton, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
-									.addPreferredGap(ComponentPlacement.RELATED, 129, GroupLayout.PREFERRED_SIZE)))
+									.addPreferredGap(ComponentPlacement.RELATED, 90, GroupLayout.PREFERRED_SIZE)))
 							.addGap(38))
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addComponent(checkSenha)
@@ -413,26 +458,75 @@ public class UsuarioGUI extends JDialog{
 		 * btnExcluir.setEnabled(false);
 		 */
 	}
+	
+
+
+	
+
+	protected void excluirFoto() {
+		Usuario usuario = tabelaUsuarioModel.getUsuario(this.linha);
+		nomeFoto = usuario.getFoto();
+		LocalFotoStorageService localFotoStorageService = new LocalFotoStorageService();
+		localFotoStorageService.remover(nomeFoto);
+		lblIconFoto.setIcon(null);
+		lblIconFoto.revalidate();
+	}
+
+
+
+	protected void carregarFoto() {
+		
+		JFileChooser fc = new JFileChooser();
+		fc.addChoosableFileFilter(new ImageFilter());
+		fc.setAcceptAllFileFilterUsed(false);
+		fc.setAccessory(new ImagePreview(fc));
+		int returnVal = fc.showDialog(lblIconFoto, "Anexar");
+		
+		if (lblIconFoto.getIcon() != null) {
+			excluirFoto();
+		}
+		
+		if ( returnVal == JFileChooser.APPROVE_OPTION ) {
+			try {
+				File file = fc.getSelectedFile();
+				FileInputStream fin = new FileInputStream(file);
+				BufferedImage img = ImageIO.read(fin);
+				ImageIcon icon = new ImageIcon(img);
+				lblIconFoto.setIcon(icon);
+				lblIconFoto.setHorizontalAlignment(SwingConstants.CENTER);
+				LocalFotoStorageService localFotoStorageService = new LocalFotoStorageService();
+				Foto foto = new Foto();
+				foto.setNomeArquivo(file.getName());
+				foto.setInputStream(fin);
+				foto.setFile(file);
+				nomeFoto = localFotoStorageService.armazenar(foto);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+
+
+
+
 
 	protected void buscaDepartamento() {
 		
 		departamento = new Departamento();
 		
-		BuscarDepartamento buscarDepartamento = new BuscarDepartamento(new JFrame(), true);
-		
-		buscarDepartamento.setLocationRelativeTo(null);
-		buscarDepartamento.setVisible(true);
-		
-		if (buscarDepartamento.isSelectDepartamento()) {
-			DepartamentoService departamentoService = new DepartamentoService();
-			departamento = departamentoService.findById(buscarDepartamento.getCodigoDepartamento());
+		BuscarDepartamento buscaDepartamento = new BuscarDepartamento(new JFrame(), true);
+		buscaDepartamento.setLocationRelativeTo(null);
+		buscaDepartamento.setVisible(true);
+		if (buscaDepartamento.isSelectDepartamento()) {
+			departamento = buscaDepartamento.getDepartamento();
 			textFieldNomeDepartamento.setText(departamento.getNome());
 		}
 		
 	}
-	
-	//-----------------------------------------------------------------//
-	
+
+
+
 	private boolean verificaDigitacaoDoNome() {
 		if ( VariaveisProjeto.digitacaoCampo(textFieldNome.getText())) {
 		     status = false;
@@ -466,9 +560,8 @@ public class UsuarioGUI extends JDialog{
 	}
 	
 
-	@SuppressWarnings("deprecation")
 	private boolean verificaDigitacaoSenha() {
-		if ( VariaveisProjeto.digitacaoCampo(passwordFieldSenha.getText())) {
+		if ( VariaveisProjeto.digitacaoCampo(new String(passwordFieldSenha.getPassword()))) {
 		     status = false;
 			 mudaStatusCheckSenha();
 			 return true; 
@@ -524,10 +617,6 @@ public class UsuarioGUI extends JDialog{
 		
 		Usuario usuario = pegarDadosUsuario();
 		
-//		TabelaUsuarioModel tabelaUsuarioModel = new TabelaUsuarioModel();
-		
-		usuario.setDepartamento(departamento);
-		
 		UsuarioService usuarioService = new UsuarioService();
 		
 		toReturn = usuarioService.save(usuario);
@@ -535,13 +624,15 @@ public class UsuarioGUI extends JDialog{
 		erroDigitacao(toReturn);
 		
 		if ( toReturn == VariaveisProjeto.ERRO_INCLUSAO ) {
-			showMensagem("Erro na Inclusão do Registro, verifique com seu administrador!",
+			VariaveisProjeto.showMensagem(VariaveisProjeto.ERRO_INCLUSAO_REGISTRO,
 					   	 "Erro",JOptionPane.ERROR_MESSAGE);
 		}
 		if ( toReturn == VariaveisProjeto.INCLUSAO_REALIZADA) {
-			showMensagem("Inclusão do Registro realizada com sucesso!",
+			VariaveisProjeto.showMensagem(VariaveisProjeto.SUCESSO_INCLUSAO_REGISTRO,
 					     "OK",JOptionPane.OK_OPTION);
 			limpaTextoCampo();
+			tabelaUsuarioModel.saveUsuario(usuario);
+			tabelaUsuario.setModel(tabelaUsuarioModel);
 			tabelaUsuarioModel.fireTableDataChanged();
 			usuario = new Usuario();
 		}
@@ -552,24 +643,25 @@ public class UsuarioGUI extends JDialog{
 		Integer toReturn = 0;
 		
 	    Usuario usuario = pegarDadosUsuario();
-		
-		usuario.setDepartamento(departamento);
 	    
 	    UsuarioService usuarioService = new UsuarioService();
-		
+	    
 		toReturn = usuarioService.update(usuario);
 		
 		erroDigitacao(toReturn);
 		
 		if ( toReturn == VariaveisProjeto.ERRO_ALTERACAO ) {
-			showMensagem("Erro na Alteração do Registro, verifique com seu administrador!",
+			VariaveisProjeto.showMensagem(VariaveisProjeto.ERRO_ALTERACAO_REGISTRO,
 					   	 "Erro",JOptionPane.ERROR_MESSAGE);
 		}
 		if ( toReturn == VariaveisProjeto.ALTERACAO_REALIZADA) {
-			showMensagem("Alteração do Registro realizada com sucesso!",
+			VariaveisProjeto.showMensagem(VariaveisProjeto.SUCESSO_ALTERACAO_REGISTRO,
 					     "OK",JOptionPane.OK_OPTION);
 			
+			tabelaUsuarioModel.updateUsuario(usuario, this.linha);
+			tabelaUsuario.setModel(tabelaUsuarioModel);
 			tabelaUsuarioModel.fireTableDataChanged();
+		
 			
 			limpaTextoCampo();
 			usuario = new Usuario();
@@ -577,20 +669,21 @@ public class UsuarioGUI extends JDialog{
 	}
 
 	private void erroDigitacao(Integer toReturn) {
+		
 		if ( toReturn == VariaveisProjeto.USUARIO_USER_NAME ) {
 			 status = false;
 			 mudaStatusCheckNome();
-			 showMensagem("Erro na digitação do Nome, verifique!","Erro", JOptionPane.ERROR_MESSAGE);
+			 VariaveisProjeto.showMensagem("Erro na digitação do Nome, verifique!","Erro", JOptionPane.ERROR_MESSAGE);
 		}
 		if ( toReturn == VariaveisProjeto.USUARIO_EMAIL ) {
 			 status = false;
 			 mudaStatusCheckNome();
-			 showMensagem("Erro na digitação do E-mail, verifique!","Erro", JOptionPane.ERROR_MESSAGE);
+			 VariaveisProjeto.showMensagem("Erro na digitação do E-mail, verifique!","Erro", JOptionPane.ERROR_MESSAGE);
 		}
 		if ( toReturn == VariaveisProjeto.USUARIO_PASSWORD ) {
 			 status = false;
 			 mudaStatusCheckNome();
-			 showMensagem("Erro na digitação da Senha, verifique!","Erro", JOptionPane.ERROR_MESSAGE);
+			 VariaveisProjeto.showMensagem("Erro na digitação da Senha, verifique!","Erro", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 	
@@ -601,18 +694,17 @@ public class UsuarioGUI extends JDialog{
 		
 		Usuario usuario = pegarDadosUsuario();
 		
-//		TabelaUsuarioModel tabelaUsuarioModel = new TabelaUsuarioModel();
 		
 		UsuarioService usuarioService = new UsuarioService();
 		
 		toReturn = usuarioService.delete(usuario);
 		
 		if ( toReturn == VariaveisProjeto.ERRO_EXCLUSAO ) {
-			showMensagem("Erro na Exclusão do Registro, verifique com seu administrador!",
+			VariaveisProjeto.showMensagem(VariaveisProjeto.ERRO_EXCLUSAO_REGISTRO,
 					   	 "Erro",JOptionPane.ERROR_MESSAGE);
 		}
 		if ( toReturn == VariaveisProjeto.EXCLUSAO_REALIZADA) {
-			showMensagem("Exclusão do Registro realizada com sucesso!",
+			VariaveisProjeto.showMensagem(VariaveisProjeto.SUCESSO_EXCLUSAO_REGISTRO,
 					     "OK",JOptionPane.OK_OPTION);
 			limpaTextoCampo();
 			tabelaUsuarioModel.fireTableDataChanged();
@@ -626,20 +718,37 @@ public class UsuarioGUI extends JDialog{
 	}
 	
 	private void buscarUsuario() {
-		
+	
 		Usuario usuario = new Usuario();
 		
-//		TabelaUsuarioModel tabelaUsuarioModel = new TabelaUsuarioModel();
-		
 		usuario = tabelaUsuarioModel.getUsuario(this.linha);
-		
-		textFieldNomeDepartamento.setText(usuario.getDepartamento().getNome());
-		
+				
 		textFieldCodigo.setText(String.valueOf(usuario.getId()));
 		textFieldNome.setText(usuario.getUsername());
 		textFieldEmail.setText(usuario.getEmail());
 		passwordFieldSenha.setText(usuario.getPassword());
-		
+		textFieldNomeDepartamento.setText(usuario.getDepartamento().getNome());
+	    nomeFoto = usuario.getFoto();    
+	    departamento = new Departamento();
+	    departamento.setId(usuario.getDepartamento().getId());
+	    departamento.setNome(usuario.getDepartamento().getNome());
+	    
+	    if ( !Objects.isNull(nomeFoto) ) {
+	 	    LocalFotoStorageService localFotoStorageService = new LocalFotoStorageService();
+		    String fileInput = localFotoStorageService.recuperar(nomeFoto);
+		    File file = new File(fileInput);
+		    FileInputStream fis;
+			try {
+				fis = new FileInputStream(file);
+				BufferedImage img = ImageIO.read(fis);
+				ImageIcon imagem = new ImageIcon(img);
+				lblIconFoto.setIcon(imagem);
+				lblIconFoto.setHorizontalAlignment(SwingConstants.CENTER);
+			}  catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	    
 		if (usuario.isAdmin())
 			rdbtnAdmin.setSelected(true);
 		
@@ -648,7 +757,6 @@ public class UsuarioGUI extends JDialog{
 	}
 
 	
-	@SuppressWarnings("deprecation")
 	public Usuario pegarDadosUsuario() {
 		
 		Usuario usuario = new Usuario();
@@ -664,8 +772,10 @@ public class UsuarioGUI extends JDialog{
 	    
 		usuario.setUsername(textFieldNome.getText());
 		usuario.setEmail(textFieldEmail.getText());
-		usuario.setPassword(passwordFieldSenha.getText());
+		usuario.setPassword(new String(passwordFieldSenha.getPassword()));
 		usuario.setDepartamento(departamento);
+		usuario.setFoto(nomeFoto);
+		
 		
 		if (rdbtnAtivo.isSelected()) {
 			usuario.setAtivo(true);
@@ -684,16 +794,11 @@ public class UsuarioGUI extends JDialog{
 	}
 	
 	private void limpaTextoCampo() {
-		textFieldCodigo.setText(VariaveisProjeto.LIMPA_CAMPO);
 		textFieldNome.setText(VariaveisProjeto.LIMPA_CAMPO);
 		textFieldEmail.setText(VariaveisProjeto.LIMPA_CAMPO);
 		passwordFieldSenha.setText(VariaveisProjeto.LIMPA_CAMPO);
 		textFieldNomeDepartamento.setText(VariaveisProjeto.LIMPA_CAMPO);
 		rdbtnAdmin.setSelected(false);
 		rdbtnAtivo.setSelected(false);
-	}
-	
-	private void showMensagem(String mensagem, String status, int option ) {
-		JOptionPane.showMessageDialog(null, mensagem, status, option );
 	}
 }
