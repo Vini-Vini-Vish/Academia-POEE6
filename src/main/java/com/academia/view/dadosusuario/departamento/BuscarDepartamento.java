@@ -2,6 +2,8 @@ package com.academia.view.dadosusuario.departamento;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.Toolkit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.PatternSyntaxException;
@@ -10,9 +12,13 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.border.BevelBorder;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.table.TableRowSorter;
 
+import com.academia.estrutura.util.VariaveisProjeto;
 import com.academia.model.models.user.Departamento;
 import com.academia.model.service.DepartamentoService;
 
@@ -25,189 +31,274 @@ import javax.swing.JTable;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.ListSelectionModel;
 import javax.swing.RowFilter;
+import javax.swing.RowSorter;
+import javax.swing.SortOrder;
 import javax.swing.ImageIcon;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.ActionEvent;
 
 public class BuscarDepartamento extends JDialog {
 
-	private static final long serialVersionUID = -2707084845924067420L;
-
+	private static final long serialVersionUID = 4134652317042383925L;
+	
 	private static final int CODIGO = 0;
 	private static final int NOME = 1;
 
 	private final JPanel contentPanel = new JPanel();
 	private JLabel lblPesquisaDepartamento;
-	private JTextField textField;
+	private JTextField textFieldBuscaDepartamento;
 	private JScrollPane scrollPane;
 	private JTable tableDepartamento;
 
 	private TabelaDepartamentoModel tabelaDepartamentoModel;
 	private TableRowSorter<TabelaDepartamentoModel> sortTabelaDepartamento;
 	private List<Departamento> listaDepartamento;
-
-	private Integer codigoDepartamento;
-	private String nomeDepartamento;
+	private List<RowSorter.SortKey> sortKeys;
+	
+//	private Integer codigoDepartamento;
+//	private String nomeDepartamento;
+	
+	private Departamento departamento;
+	
 	private boolean selectDepartamento;
-
+	
 	private JButton btnInserirDepartamento;
-
-//	public static void main(String[] args) {
-//		try {
-//			BuscarDepartamento dialog = new BuscarDepartamento();
-//			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-//			dialog.setVisible(true);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//	}
-
+	
+	private int row=0;
+	private JPanel buttonPane;
+	private JPanel panel;
+	
+	
 	public BuscarDepartamento(JFrame frame, boolean modal) {
 		super(frame, modal);
 		initComponents();
-		setResizable(false);
 		iniciarDados();
+		
 	}
 	
 	private void iniciarDados(){
 		listaDepartamento = new ArrayList<Departamento>();
 	}
+	
 
 	private void initComponents() {
-		
+		setTitle("Busca Departamento");
+		setIconImage(Toolkit.getDefaultToolkit().getImage(BuscarDepartamento.class.getResource("/com/projeto/estrutura/imagens/search.png")));
+		setResizable(false);
+		setSelectDepartamento(false);
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 832, 523);
+		setBounds(100, 100, 818, 511);
 		getContentPane().setLayout(new BorderLayout());
-		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPanel.setBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
-		
-		JLabel lblPesquisaDepartamento = new JLabel("Pesquisar Departamento:");
-		
-		textField = new JTextField();
-		textField.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyPressed(KeyEvent e) {
-				 String filtro = textField.getText();
-	             filtraNomeDepartamento(filtro);
-			}			
-		});
-		
-		textField.setColumns(10);
 
-		JScrollPane scrollPane = new JScrollPane();
+		scrollPane = new JScrollPane();
+		scrollPane.setBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null));
+		scrollPane.setBounds(18, 71, 784, 283);
 
 		btnInserirDepartamento = new JButton("Cadastrar Departamento");
+		btnInserirDepartamento.setFont(new Font("Tahoma", Font.BOLD, 11));
+		btnInserirDepartamento.setBounds(43, 375, 174, 39);
+		btnInserirDepartamento.setBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null));
+		btnInserirDepartamento.setToolTipText(VariaveisProjeto.INCLUIR_CADASTRO);
+		btnInserirDepartamento.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_C ) {
+					inserirDepartamento();
+				}
+				
+			}
+		});
 		btnInserirDepartamento.setMnemonic(KeyEvent.VK_C);
-		btnInserirDepartamento.setIcon(new ImageIcon(BuscarDepartamento.class.getResource("/com/academia/estrutura/imagens/book_previous.png")));
-		
-		GroupLayout gl_contentPanel = new GroupLayout(contentPanel);
-		gl_contentPanel.setHorizontalGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_contentPanel.createSequentialGroup().addGap(26).addGroup(gl_contentPanel
-						.createParallelGroup(Alignment.LEADING).addComponent(btnInserirDepartamento)
-						.addGroup(gl_contentPanel.createSequentialGroup()
-								.addComponent(lblPesquisaDepartamento, GroupLayout.PREFERRED_SIZE, 122,
-										GroupLayout.PREFERRED_SIZE)
-								.addGap(18)
-								.addComponent(textField, GroupLayout.PREFERRED_SIZE, 613, GroupLayout.PREFERRED_SIZE))
-						.addComponent(scrollPane, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 753,
-								GroupLayout.PREFERRED_SIZE))
-						.addContainerGap(27, Short.MAX_VALUE)));
-		gl_contentPanel.setVerticalGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING).addGroup(gl_contentPanel
-				.createSequentialGroup().addGap(66)
-				.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE).addComponent(lblPesquisaDepartamento)
-						.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-								GroupLayout.PREFERRED_SIZE))
-				.addGap(18).addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 272, GroupLayout.PREFERRED_SIZE)
-				.addPreferredGap(ComponentPlacement.RELATED).addComponent(btnInserirDepartamento)
-				.addContainerGap(36, Short.MAX_VALUE)));
-
-		tableDepartamento = new JTable();		
-		tabelaDepartamentoModel = new TabelaDepartamentoModel();
-		
-		tabelaDepartamentoModel.setListaDepartamento(carregarListaDepartemento());
-		tableDepartamento.setModel(tabelaDepartamentoModel);
-		scrollPane.setViewportView(tableDepartamento);
-		
-		tableDepartamento.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		sortTabelaDepartamento = new TableRowSorter<TabelaDepartamentoModel>(tabelaDepartamentoModel);
-		tableDepartamento.setRowSorter(sortTabelaDepartamento);
-		tableDepartamento.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-		
-//		tableDepartamento.getColumnModel().getColumn(CODIGO).setWidth(11);
-//		tableDepartamento.getColumnModel().getColumn(NOME).setWidth(100);
-		
-		contentPanel.setLayout(gl_contentPanel);
+		btnInserirDepartamento.setIcon(new ImageIcon(
+				BuscarDepartamento.class.getResource("/com/projeto/estrutura/imagens/application_form_add.png")));
 		{
-			JPanel buttonPane = new JPanel();
-			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
-			getContentPane().add(buttonPane, BorderLayout.SOUTH);
+			buttonPane = new JPanel();
+			buttonPane.setBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null));
+			buttonPane.setBounds(0, 435, 812, 47);
 			{
 				JButton okButton = new JButton("OK");
+				okButton.setFont(new Font("Tahoma", Font.BOLD, 11));
+				okButton.setBounds(635, 5, 81, 39);
+				okButton.setBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null));
+				okButton.setToolTipText(VariaveisProjeto.SELECAO_CONFIRMADA);
+				okButton.setIcon(new ImageIcon(BuscarDepartamento.class.getResource("/com/projeto/estrutura/imagens/ok.png")));
+				okButton.setMnemonic(KeyEvent.VK_O);
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						selecionaDepartamento();
 					}
 				});
+				buttonPane.setLayout(null);
 				okButton.setActionCommand("OK");
 				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);
 			}
 			{
-				JButton cancelButton = new JButton("Cancel");
+				JButton cancelButton = new JButton("Cancelar");
+				cancelButton.setFont(new Font("Tahoma", Font.BOLD, 11));
+				cancelButton.setBounds(721, 5, 81, 39);
+				cancelButton.setBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null));
+				cancelButton.setToolTipText(VariaveisProjeto.CANCELA_SELECAO);
+				cancelButton.addKeyListener(new KeyAdapter() {
+					@Override
+					public void keyPressed(KeyEvent e) {
+						setSelectDepartamento(false);
+						dispose();
+					}
+				});
+				cancelButton.setMnemonic(KeyEvent.VK_A);
+				cancelButton.setIcon(new ImageIcon(BuscarDepartamento.class.getResource("/com/projeto/estrutura/imagens/iconFechar.png")));
 				cancelButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						setSelectDepartamento(false);
+						dispose();
 					}
 				});
 				cancelButton.setActionCommand("Cancel");
 				buttonPane.add(cancelButton);
 			}
 		}
-	}
+
+		tabelaDepartamentoModel = new TabelaDepartamentoModel();
+	    listaDepartamento = carregarListaDepartemento();
+		tabelaDepartamentoModel.setListaDepartamento(listaDepartamento);
+		tableDepartamento = new JTable();
+		tableDepartamento.setBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null));
+		tableDepartamento.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				selecionaDepartamento(e);
+			}
+		});
+		tableDepartamento.setModel(tabelaDepartamentoModel);
+		tableDepartamento.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		tableDepartamento.setFillsViewportHeight(true);
+		sortTabelaDepartamento = new TableRowSorter<TabelaDepartamentoModel>(tabelaDepartamentoModel);
+		tableDepartamento.setRowSorter(sortTabelaDepartamento);
+		
+		sortKeys = new ArrayList<RowSorter.SortKey>();
+		sortKeys.add(new RowSorter.SortKey(CODIGO, SortOrder.ASCENDING));
+		sortKeys.add(new RowSorter.SortKey(NOME, SortOrder.ASCENDING));	
+		
+		tableDepartamento.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+		
+		tableDepartamento.getColumnModel().getColumn(CODIGO).setPreferredWidth(11);
+		tableDepartamento.getColumnModel().getColumn(NOME).setPreferredWidth(100);
 	
+   		scrollPane.setViewportView(tableDepartamento);
+
+		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		contentPanel.setLayout(null);
+		contentPanel.add(buttonPane);
+		contentPanel.add(scrollPane);
+		contentPanel.add(btnInserirDepartamento);
+		
+		panel = new JPanel();
+		panel.setBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null));
+		panel.setBounds(19, 16, 781, 44);
+		contentPanel.add(panel);
+		panel.setLayout(null);
+		
+				lblPesquisaDepartamento = new JLabel("Pesquisar Departamento:");
+				lblPesquisaDepartamento.setBounds(14, 15, 129, 14);
+				panel.add(lblPesquisaDepartamento);
+				lblPesquisaDepartamento.addKeyListener(new KeyAdapter() {
+					@Override
+					public void keyPressed(KeyEvent e) {
+						if (e.getKeyCode() == KeyEvent.VK_P) {
+							textFieldBuscaDepartamento.requestFocus();
+						}
+					}
+				});
+				lblPesquisaDepartamento.setDisplayedMnemonic(KeyEvent.VK_P);
+				
+						textFieldBuscaDepartamento = new JTextField();
+						textFieldBuscaDepartamento.setBounds(146, 12, 608, 20);
+						panel.add(textFieldBuscaDepartamento);
+						textFieldBuscaDepartamento.setToolTipText(VariaveisProjeto.PESQUISAR_REGISTRO);
+						textFieldBuscaDepartamento.getDocument().addDocumentListener(new DocumentListener() {
+							
+							@Override
+							public void removeUpdate(DocumentEvent e) {
+								filtraNomeDepartamento();
+								
+							}
+							
+							@Override
+							public void insertUpdate(DocumentEvent e) {
+								filtraNomeDepartamento();
+							}
+							
+							@Override
+							public void changedUpdate(DocumentEvent e) {
+								filtraNomeDepartamento();
+							}
+						});
+						
+						textFieldBuscaDepartamento.setColumns(15);
+						lblPesquisaDepartamento.setLabelFor(textFieldBuscaDepartamento);
+
+	}
+
+	protected void inserirDepartamento() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	protected void selecionaDepartamento(MouseEvent e) {
+		row = tableDepartamento.getSelectedRow();
+		
+		 if ( tableDepartamento.getRowSorter() != null ) {
+			row =  tableDepartamento.getRowSorter().convertRowIndexToModel(row);
+		 }
+		
+	}
+
 	protected void selecionaDepartamento() {
 		if ( tableDepartamento.getSelectedRow() != -1 && 
 			 tableDepartamento.getSelectedRow() < tabelaDepartamentoModel.getRowCount() ) {
-			 setCodigoDepartamento(Integer.valueOf(tableDepartamento.getValueAt(tableDepartamento.getSelectedRow(), CODIGO).toString()));
-			 setNomeDepartamento(tableDepartamento.getValueAt(tableDepartamento.getSelectedRow(), NOME).toString());
+			 //setCodigoDepartamento(Integer.valueOf(tableDepartamento.getValueAt(tableDepartamento.getSelectedRow(), CODIGO).toString()));
+			 //setNomeDepartamento(tableDepartamento.getValueAt(tableDepartamento.getSelectedRow(), NOME).toString());
+			
+//			 row = tableDepartamento.getSelectedRow();
+//		
+//			 if ( tableDepartamento.getRowSorter() != null ) {
+//				row =  tableDepartamento.getRowSorter().convertRowIndexToModel(row);
+//			 }
+		
+			 departamento = tabelaDepartamentoModel.getDepartamento(row);
+			 
 			 setSelectDepartamento(true);
 			 dispose();
 		} else {
 			setSelectDepartamento(false);	
-		}		
+		}
+		
 	}
-	
+
 	private List<Departamento> carregarListaDepartemento() {
 		DepartamentoService departamentoService = new DepartamentoService();
-		return departamentoService.findAll();
+		listaDepartamento = departamentoService.findAll();
+		return listaDepartamento;
 	}
 	
-	private void filtraNomeDepartamento(String filtro) {
+	
+	private void filtraNomeDepartamento() {
 		RowFilter<TabelaDepartamentoModel, Object> rowFilter = null;
+		String filter = textFieldBuscaDepartamento.getText();
 		try {
-			rowFilter = RowFilter.regexFilter(filtro);
+			rowFilter = RowFilter.regexFilter(filter);
 		} catch(PatternSyntaxException e) {
 			return;
 		}
-		sortTabelaDepartamento.setRowFilter(rowFilter);		
-	}
-	
-	public Integer getCodigoDepartamento() {
-		return codigoDepartamento;
-	}
-
-	public void setCodigoDepartamento(Integer codigoDepartamento) {
-		this.codigoDepartamento = codigoDepartamento;
-	}
-
-	public String getNomeDepartamento() {
-		return nomeDepartamento;
-	}
-
-	public void setNomeDepartamento(String nomeDepartamento) {
-		this.nomeDepartamento = nomeDepartamento;
+		sortTabelaDepartamento.setRowFilter(rowFilter);
+		
 	}
 	
 	public boolean isSelectDepartamento() {
@@ -216,6 +307,14 @@ public class BuscarDepartamento extends JDialog {
 
 	public void setSelectDepartamento(boolean selectDepartamento) {
 		this.selectDepartamento = selectDepartamento;
+	}
+
+	public Departamento getDepartamento() {
+		return departamento;
+	}
+
+	public void setDepartamento(Departamento departamento) {
+		this.departamento = departamento;
 	}
 
 	
