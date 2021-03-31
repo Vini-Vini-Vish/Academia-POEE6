@@ -7,28 +7,43 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Objects;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
 import com.academia.estrutura.util.VariaveisProjeto;
+import com.academia.estrutura.util.imagem.ImageFilter;
+import com.academia.estrutura.util.imagem.ImagePreview;
 import com.academia.model.models.Atividade;
+import com.academia.model.models.Foto;
 import com.academia.model.models.user.Departamento;
 import com.academia.model.models.user.Usuario;
 import com.academia.model.service.AtividadeService;
 import com.academia.model.service.DepartamentoService;
+import com.academia.model.service.LocalFotoStorageService;
 import com.academia.view.dadosusuario.departamento.BuscarDepartamento;
 import com.academia.view.dadosusuario.usuario.TabelaUsuarioModel;
 import com.academia.view.dadosusuario.usuario.UsuarioGUI;
+
+import javax.imageio.ImageIO;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.ImageIcon;
+import javax.swing.border.BevelBorder;
 
 public class AtividadeGUI extends JDialog {
 
@@ -57,6 +72,11 @@ public class AtividadeGUI extends JDialog {
     private TabelaAtividadeModel tabelaAtividadeModel;
     private int linha=0;
     private int acao = 0;  
+    
+    private String nomeFoto;
+    private JLabel lblIconFoto;
+    private JButton btnAddFoto;
+    private JButton btnExcluirFoto;
 	
 	//-----------------------------------------------------------------//
 	
@@ -121,7 +141,7 @@ public class AtividadeGUI extends JDialog {
 		
 		setTitle("Cadastro de Atividades");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 665, 412);
+		setBounds(100, 100, 945, 412);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -253,6 +273,25 @@ public class AtividadeGUI extends JDialog {
 		
 		btnSair = new JButton("Sair");
 		btnSair.setIcon(new ImageIcon(AtividadeGUI.class.getResource("/com/academia/estrutura/imagens/iconFechar.png")));
+		
+		lblIconFoto = new JLabel("");
+		lblIconFoto.setBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null));
+		
+		btnAddFoto = new JButton("Add Foto");
+		btnAddFoto.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				carregarFoto();
+			}
+		});
+		btnAddFoto.setIcon(new ImageIcon(AtividadeGUI.class.getResource("/com/academia/estrutura/imagens/useravatar.png")));
+		
+		btnExcluirFoto = new JButton("Excluir Foto");
+		btnExcluirFoto.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				excluirFoto();
+			}
+		});
+		btnExcluirFoto.setIcon(new ImageIcon(AtividadeGUI.class.getResource("/com/academia/estrutura/imagens/useravatar.png")));
 				
 		//-----------------------------------------------------------------//
 		
@@ -262,32 +301,40 @@ public class AtividadeGUI extends JDialog {
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addGap(28)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
-							.addGroup(gl_contentPane.createSequentialGroup()
-								.addComponent(btnIncluir)
-								.addGap(18)
-								.addComponent(btnAlterar)
-								.addGap(18)
-								.addComponent(btnExcluir)
-								.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(btnSair))
-							.addGroup(gl_contentPane.createSequentialGroup()
-								.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-									.addComponent(lblDescricao)
-									.addComponent(lblNome))
-								.addGap(18)
-								.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
-									.addComponent(textFieldDescricao, GroupLayout.PREFERRED_SIZE, 466, GroupLayout.PREFERRED_SIZE)
-									.addComponent(textFieldNome, GroupLayout.PREFERRED_SIZE, 466, GroupLayout.PREFERRED_SIZE))))
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
+								.addGroup(gl_contentPane.createSequentialGroup()
+									.addComponent(btnIncluir)
+									.addGap(18)
+									.addComponent(btnAlterar)
+									.addGap(18)
+									.addComponent(btnExcluir)
+									.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+									.addComponent(btnSair))
+								.addGroup(gl_contentPane.createSequentialGroup()
+									.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+										.addComponent(lblDescricao)
+										.addComponent(lblNome))
+									.addGap(18)
+									.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
+										.addComponent(textFieldDescricao, GroupLayout.PREFERRED_SIZE, 466, GroupLayout.PREFERRED_SIZE)
+										.addComponent(textFieldNome, GroupLayout.PREFERRED_SIZE, 466, GroupLayout.PREFERRED_SIZE))))
+							.addGap(18)
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
+								.addComponent(CheckNome)
+								.addComponent(CheckDescricao))
+							.addGap(49)
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
+								.addGroup(gl_contentPane.createSequentialGroup()
+									.addComponent(btnAddFoto)
+									.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+									.addComponent(btnExcluirFoto))
+								.addComponent(lblIconFoto, GroupLayout.PREFERRED_SIZE, 211, GroupLayout.PREFERRED_SIZE)))
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addComponent(lblCodigo)
 							.addGap(35)
 							.addComponent(textFieldCodigo, GroupLayout.PREFERRED_SIZE, 94, GroupLayout.PREFERRED_SIZE)))
-					.addGap(18)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
-						.addComponent(CheckNome)
-						.addComponent(CheckDescricao))
-					.addContainerGap())
+					.addGap(30))
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -315,10 +362,61 @@ public class AtividadeGUI extends JDialog {
 						.addComponent(btnExcluir)
 						.addComponent(btnSair))
 					.addContainerGap())
+				.addGroup(gl_contentPane.createSequentialGroup()
+					.addGap(55)
+					.addComponent(lblIconFoto, GroupLayout.PREFERRED_SIZE, 148, GroupLayout.PREFERRED_SIZE)
+					.addGap(31)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+						.addComponent(btnAddFoto)
+						.addComponent(btnExcluirFoto))
+					.addContainerGap(106, Short.MAX_VALUE))
 		);
 		contentPane.setLayout(gl_contentPane);
 		createEvents();	
 	}	
+	
+	protected void excluirFoto() {
+		Atividade atividade = tabelaAtividadeModel.getAtividade(this.linha);
+		nomeFoto = atividade.getFoto();
+		LocalFotoStorageService localFotoStorageService = new LocalFotoStorageService();
+		localFotoStorageService.remover(nomeFoto);
+		lblIconFoto.setIcon(null);
+		lblIconFoto.revalidate();
+	}
+
+
+
+	protected void carregarFoto() {
+		
+		JFileChooser fc = new JFileChooser();
+		fc.addChoosableFileFilter(new ImageFilter());
+		fc.setAcceptAllFileFilterUsed(false);
+		fc.setAccessory(new ImagePreview(fc));
+		int returnVal = fc.showDialog(lblIconFoto, "Anexar");
+		
+		if (lblIconFoto.getIcon() != null) {
+			excluirFoto();
+		}
+		
+		if ( returnVal == JFileChooser.APPROVE_OPTION ) {
+			try {
+				File file = fc.getSelectedFile();
+				FileInputStream fin = new FileInputStream(file);
+				BufferedImage img = ImageIO.read(fin);
+				ImageIcon icon = new ImageIcon(img);
+				lblIconFoto.setIcon(icon);
+				lblIconFoto.setHorizontalAlignment(SwingConstants.CENTER);
+				LocalFotoStorageService localFotoStorageService = new LocalFotoStorageService();
+				Foto foto = new Foto();
+				foto.setNomeArquivo(file.getName());
+				foto.setInputStream(fin);
+				foto.setFile(file);
+				nomeFoto = localFotoStorageService.armazenar(foto);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 	
 	//----------------------------NOME---------------------------------//	
 	//-----------------------------------------------------------------//	
@@ -531,6 +629,23 @@ public class AtividadeGUI extends JDialog {
 		textFieldCodigo.setText(String.valueOf(atividade.getIdAtividade()));
 		textFieldNome.setText(atividade.getNome());
 		textFieldDescricao.setText(atividade.getDescricao());
+		nomeFoto = atividade.getFoto();  
+		
+		 if ( !Objects.isNull(nomeFoto) ) {
+		 	    LocalFotoStorageService localFotoStorageService = new LocalFotoStorageService();
+			    String fileInput = localFotoStorageService.recuperar(nomeFoto);
+			    File file = new File(fileInput);
+			    FileInputStream fis;
+				try {
+					fis = new FileInputStream(file);
+					BufferedImage img = ImageIO.read(fis);
+					ImageIcon imagem = new ImageIcon(img);
+					lblIconFoto.setIcon(imagem);
+					lblIconFoto.setHorizontalAlignment(SwingConstants.CENTER);
+				}  catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
 		
 	}
 	
@@ -547,6 +662,7 @@ public class AtividadeGUI extends JDialog {
 		atividade.setIdAtividade(VariaveisProjeto.convertToInteger(textFieldCodigo.getText()));
 		atividade.setNome(textFieldNome.getText());
 		atividade.setDescricao(textFieldDescricao.getText());
+		atividade.setFoto(nomeFoto);
 	
 		
 		return atividade;			
@@ -568,5 +684,4 @@ public class AtividadeGUI extends JDialog {
 		textFieldDescricao.setText(VariaveisProjeto.LIMPA_CAMPO);			
 		
 	}
-	
 }
