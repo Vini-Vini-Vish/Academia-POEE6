@@ -20,8 +20,10 @@ public class Atividade {
 	
 	private List<Aluno> aluno;
 	
+	private String foto;
+	
 	//-----------------------------------------------------------------//
-		
+			
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ATIVIDADE_ID")
@@ -60,6 +62,17 @@ public class Atividade {
 	}
 	public void setAluno(List<Aluno> aluno) {
 		this.aluno = aluno;
+	}
+	
+	//-----------------------------------------------------------------//
+	
+	@Column(name="USUARIO_FOTO", nullable = true)
+	public String getFoto() {
+		return foto;
+	}
+
+	public void setFoto(String foto) {
+		this.foto = foto;
 	}
 	
 	//-----------------------------------------------------------------//
